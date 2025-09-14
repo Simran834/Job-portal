@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employer Profile | JobConnect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --primary:#004080;
+      --primary-2:#0a66c2;
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --ring:rgba(10,102,194,0.18);
+      --success-bg:#e8f5e9;
+      --success:#1b5e20;
+      --chip:#eef2ff;
+      --chip-text:#3730a3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Ubuntu, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background:var(--bg);
+      color:var(--text);
+    }
+    /* Top bar */
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 22px;background:var(--card);border-bottom:1px solid #e5e7eb;
+      position:sticky;top:0;z-index:10;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--primary)}
+    .brand-badge{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+    .nav a{color:var(--muted);text-decoration:none;margin-left:16px;font-weight:500}
+    .nav a:hover{color:var(--primary)}
+    /* Hero cover */
+    .cover{
+      height:180px;background:linear-gradient(135deg,#0a66c2, #1fb6ff 55%, #6ee7f9);
+    }
+    /* Shell */
+    .container{max-width:1100px;margin:-70px auto 40px;padding:0 16px}
+    /* Profile head card */
+    .card{
+      background:var(--card);border:1px solid #e5e7eb;border-radius:14px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.06);
+    }
+    .head{
+      display:flex;gap:24px;padding:24px;align-items:flex-end;flex-wrap:wrap
+    }
+    .logo-wrap{
+      position:relative;width:120px;height:120px;flex:0 0 120px;border-radius:16px;overflow:hidden;border:3px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,0.15);margin-top:-60px;background:#fff;
+    }
+    .logo{width:100%;height:100%;object-fit:cover}
+    .title{
+      flex:1;min-width:260px
+    }
+    .company{
+      font-size:1.8rem;font-weight:800;letter-spacing:.2px;margin:0;color:#0f172a
+    }
+    .meta{
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;color:var(--muted);font-size:.95rem
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--success-bg);color:var(--success);
+      padding:6px 10px;border-radius:999px;font-weight:600;border:1px solid #c8e6c9
+    }
+    .actions{
+      display:flex;gap:12px;flex-wrap:wrap;margin-left:auto
+    }
+    .btn{
+      appearance:none;border:1px solid transparent;background:var(--primary);
+      color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;
+      box-shadow:0 6px 16px var(--ring);transition:transform .08s ease, background .2s ease
+    }
+    .btn:hover{background:#003269}
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{
+      background:#ffffff;color:var(--primary);border-color:#dbeafe;
+      box-shadow:0 4px 12px rgba(59,130,246,.15)
+    }
+    .btn.secondary:hover{background:#f1f5f9}
+    /* Body grid */
+    .body{
+      display:grid;grid-template-columns: 2fr 1fr;gap:24px;padding:0 24px 24px 24px
+    }
+    .section{
+      background:var(--card);border:1px solid #e5e7eb;border-radius:12px;padding:18px 18px 8px 18px;margin-top:16px
+    }
+    .section h3{
+      margin:8px 0 12px 0;font-size:1.1rem;color:#0f172a
+    }
+    .desc{
+      color:#374151;line-height:1.7;font-size:1rem;padding:6px 6px 14px 6px
+    }
+    .grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px
+    }
+    .info{
+      border:1px solid #e5e7eb;border-radius:10px;padding:12px;background:#fafbff
+    }
+    .info label{display:block;color:var(--muted);font-size:.82rem;margin-bottom:6px}
+    .info div, .info a{font-weight:600;color:#0f172a;text-decoration:none;word-break:break-word}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 12px}
+    .chip{background:var(--chip);color:var(--chip-text);padding:6px 10px;border-radius:999px;font-weight:600;border:1px solid #e0e7ff}
+    /* Social */
+    .social{
+      display:flex;flex-wrap:wrap;gap:10px;padding:2px 6px 16px
+    }
+    .social a{
+      text-decoration:none;padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;background:#ffffff;
+      color:#0f172a;font-weight:600
+    }
+    .social a:hover{background:#f8fafc}
+    /* Docs */
+    .doc{
+      display:flex;align-items:center;justify-content:space-between;
+      border:1px dashed #cbd5e1;border-radius:10px;padding:12px 12px;margin:8px 0;background:#fbfdff
+    }
+    .doc small{color:var(--muted)}
+    /* Jobs list (preview) */
+    .job{
+      border:1px solid #e5e7eb;border-radius:10px;padding:12px 12px;margin:8px 0;background:#ffffff
+    }
+    .job h4{margin:0 0 6px;font-size:1rem}
+    .job .sub{color:var(--muted);font-size:.9rem}
+    .job .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .tag{background:#eff6ff;color:#1d4ed8;border:1px solid #dbeafe;border-radius:999px;padding:4px 8px;font-weight:600;font-size:.82rem}
+    /* Responsive */
+    @media (max-width: 980px){
+      .body{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .actions{width:100%;justify-content:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand"><span class="brand-badge"></span> JobConnect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="post-job.html">Post a Job</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </nav>
+  </header>
+
+  <div class="cover"></div>
+
+  <main class="container">
+    <section class="card">
+      <div class="head">
+        <div class="logo-wrap">
+          <img class="logo" src="company-logo.jpg" alt="Company Logo" />
+        </div>
+
+        <div class="title">
+          <h1 class="company">TechNepal Pvt. Ltd.</h1>
+          <div class="meta">
+            <span class="badge">Verified Company</span>
+            <span>• Kathmandu, Nepal</span>
+            <span>• Software & IT Services</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Growing Team</span>
+            <span class="chip">Innovation Driven</span>
+            <span class="chip">Work-Life Balance</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" onclick="location.href='jobs.html?employer=TechNepal'">View Open Jobs</button>
+          <button class="btn secondary" onclick="location.href='https://technepal.com'">Visit Website</button>
+          <button class="btn secondary">Follow</button>
+        </div>
+      </div>
+
+      <div class="body">
+        <!-- Left column -->
+        <div>
+          <div class="section">
+            <h3>About the company</h3>
+            <p class="desc">
+              TechNepal is a leading software development company specializing in web and mobile solutions for clients across Nepal and abroad.
+              We focus on craftsmanship, performance, and delightful user experiences.
+            </p>
+          </div>
+
+          <div class="section">
+            <h3>Open positions</h3>
+            <div class="job">
+              <h4>Frontend Developer</h4>
+              <div class="sub">Full-time • Kathmandu • Apply by Oct 15, 2025</div>
+              <div class="tags">
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">UI/UX</span>
+              </div>
+            </div>
+            <div class="job">
+              <h4>QA Engineer</h4>
+              <div class="sub">Full-time • Hybrid • Apply by Oct 20, 2025</div>
+              <div class="tags">
+                <span class="tag">Automation</span>
+                <span class="tag">Cypress</span>
+                <span class="tag">API Testing</span>
+              </div>
+            </div>
+            <div class="job">
+              <h4>Project Manager</h4>
+              <div class="sub">Contract • Remote • Apply by Oct 30, 2025</div>
+              <div class="tags">
+                <span class="tag">Agile</span>
+                <span class="tag">Scrum</span>
+                <span class="tag">Jira</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <aside>
+          <div class="section">
+            <h3>Company details</h3>
+            <div class="grid">
+              <div class="info">
+                <label>Website</label>
+                <a href="https://technepal.com" target="_blank">technepal.com</a>
+              </div>
+              <div class="info">
+                <label>Phone</label>
+                <div>+977-9801234567</div>
+              </div>
+              <div class="info">
+                <label>Address</label>
+                <div>Kathmandu, Nepal</div>
+              </div>
+              <div class="info">
+                <label>Industry</label>
+                <div>Information Technology</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Social links</h3>
+            <div class="social">
+              <a href="https://linkedin.com/company/technepal" target="_blank">LinkedIn</a>
+              <a href="https://github.com/technepal" target="_blank">GitHub</a>
+              <a href="https://facebook.com/technepal" target="_blank">Facebook</a>
+              <a href="https://technepal.com" target="_blank">Website</a>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Documents</h3>
+            <div class="doc">
+              <div>
+                <strong>Registration Certificate</strong><br />
+                <small>PDF • Last updated Aug 2025</small>
+              </div>
+              <a class="btn secondary" href="certificate.pdf" target="_blank">View</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <script src="employerProfile.js"></script>
+  </main>
+</body>
+</html>

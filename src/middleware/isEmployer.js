@@ -1,11 +1,12 @@
-const IsJobSeeker = (req, res, next) =>{
+// check role
+const isEmployer = (req, res, next) =>{
     const userRole = req.user.role;
 
-    if(userRole !== 'isJobSeeker'){
+    if(userRole !== 'EMPLOYER'){
         return res.status(403).json({message: "forbidden"});
     }
 
     next();
 }
 
-export {IsJobSeeker}
+export {isEmployer}

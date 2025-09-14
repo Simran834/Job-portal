@@ -22,7 +22,7 @@ model User {
 
   email       String   @unique
   password    String
-  role        UserRole   //@default(job_seeker)
+  role        UserRole   @default(JOBSEEKER)
   is_verified Boolean  @default(false)
   createdAt   DateTime @default(now())
 }
@@ -34,6 +34,7 @@ model job_seeker {
   phone            String
   address          String
   bio              String
+  resume           String?
   profile_image    String?
   current_position String?
   current_salary   Float?

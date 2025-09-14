@@ -6,9 +6,9 @@ import {createUser, getUsers, updateUser, deleteUser} from "../controllers/user.
 const router = Router();
 
 router.post("/createusers", createUser);
-router.get("/getusers", auth, isAdmin, getUsers);
-router.put("/updateuser/:id", auth, isAdmin, updateUser);
-router.delete("/deleteuser/:id", auth, isAdmin, deleteUser);
+router.get("/getusers", auth, getUsers);
+router.put("/updateuser/:id", auth, updateUser);
+router.delete("/deleteuser/:id", auth, deleteUser);
 
 
 export default router;
