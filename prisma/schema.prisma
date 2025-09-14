@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+model User {
+  id Int @id @default(autoincrement())
+
+  email       String   @unique
+  password    String
+  role        UserRole   //@default(job_seeker)
+  is_verified Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model job_seeker {
+  seeker_id        Int           @id @default(autoincrement())
+  user_id          Int           @unique
+  seeker_name      String
+  phone            String
+  address          String
+  bio              String
+  profile_image    String?
+  current_position String?
+  current_salary   Float?
+  expected_salary  Float?
+  is_open_to_work  Boolean       @default(true)
+  experiences      Experience[]
+  educations       Education[]
+  skills           Skill[]
+  social_links     SocialLink[]
+  applications     Application[]
+}
+
+model employer {
+  employer_id              Int          @id @default(autoincrement())
+  user_id                  Int          @unique
+  company_name             String
+  website                  String?
+  phone                    String
+  address                  String
+  company_logo             String?
+  registration_certificate String?
+  description              String
+  verified                 Boolean      @default(false)
+  social_links             SocialLink[]
+  jobs                     Job[]
+}
+
+model Job {
+  job_id               Int           @id @default(autoincrement())
+  employer_id          Int
+  title                String
+  description          String
+  location             String
+  salary_min           Float?
+  salary_max           Float?
+  job_type             String //enum('full_time', 'part_time', 'contract', 'internship', 'temporary')
+  experience_level     String //enum('entry_level', 'mid_level', 'senior_level', 'director', 'executive')
+  work_mode            String //enum('remote', 'on_site', 'hybrid')
+  industry             String
+  posted_at            DateTime      @default(now())
+  application_deadline DateTime?
+  is_active            Boolean       @default(true)
+  employer             employer      @relation(fields: [employer_id], references: [employer_id])
+  applications         Application[]
+}
+
+model Application {
+  application_id Int        @id @default(autoincrement())
+  job_id         Int
+  seeker_id      Int
+  cover_letter   String?
+  resume         String?
+  applied_at     DateTime   @default(now())
+  status         String     @default("pending") //enum('pending', 'reviewed', 'interviewed', 'offered', 'rejected')
+  job            Job        @relation(fields: [job_id], references: [job_id])
+  job_seeker     job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+}
+
+model Experience {
+  experience_id Int        @id @default(autoincrement())
+  seeker_id     Int
+  job_title     String
+  company_name  String
+  start_date    DateTime
+  end_date      DateTime?
+  is_current    Boolean    @default(false)
+  description   String?
+  job_seeker    job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+}
+
+model Education {
+  education_id   Int        @id @default(autoincrement())
+  seeker_id      Int
+  institution    String
+  degree         String
+  field_of_study String
+  start_date     DateTime
+  end_date       DateTime?
+  is_current     Boolean    @default(false)
+  description    String?
+  job_seeker     job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+}
+
+model Skill {
+  skill_id    Int        @id @default(autoincrement())
+  seeker_id   Int
+  name        String
+  proficiency String? //enum('beginner', 'intermediate', 'advanced', 'expert')
+  job_seeker  job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+}
+
+model SocialLink {
+  link_id    Int         @id @default(autoincrement())
+  user_type  String //enum('job_seeker', 'employer')
+  user_id    Int
+  platform   String //enum('linkedin', 'github', 'twitter', 'facebook', 'personal_website', etc.)
+  url        String
+  job_seeker job_seeker? @relation(fields: [user_id], references: [seeker_id], map: "SocialLink_job_seeker_id_fkey")
+  employer   employer?   @relation(fields: [user_id], references: [employer_id], map: "SocialLink_employer_id_fkey")
+}
+// make enum
+enum UserRole{
+ ADMIN
+ JOBSEEKER
+ EMPLOYER
+}
+
+// role check garna ko lagi middleware banaunee..... job-seeker ra employer ani admin
+// ani tyo middleware chai routes ma halne eg : .........., auth, isadmin..... 
