@@ -6,12 +6,14 @@ const auth = async(req, res, next) => {
      const authHeader = req.headers.authorization;
      const token = authHeader && authHeader.split(" ")[1];
      if(!token){
-        return res.status(401).json({message:"Unauthorixed"});
+        return res.status(401).json({message:"Unauthorized"});
      }
 
      try{
+        console.log("Received token:", token);
         const payload = await verifyToken(token);
-       const user =await prisma.user.findUnique({
+        console.log("Decoded payload:", payload);
+        const user =await prisma.user.findUnique({
         where:{
             id:payload.id
         }
@@ -38,4 +40,3 @@ export{auth};
 
 // is admin vanera middle ware banauda,,, req, res, next.... hamlai req.user not equal to admin ho vane error faldine...
 // aarko role thapna ko lagi aarko middleware banaunee....
-// 

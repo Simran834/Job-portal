@@ -1,5 +1,6 @@
-import { create } from "domain";
+// import { create } from "domain";
 import { prisma } from "../utils/prisma-client.js";
+import { generateToken } from "../utils/json.js";
 import bcrypt from 'bcrypt';
 
 const createUser = async (req, res) => {
@@ -21,7 +22,6 @@ const createUser = async (req, res) => {
     // Create the user
     const newUser = await prisma.user.create({
       data: {
-        name,
         email,
         role: role || 'USER',
         password: hashedPassword,

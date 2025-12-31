@@ -29,7 +29,7 @@ model User {
 
 model job_seeker {
   seeker_id        Int           @id @default(autoincrement())
-  user_id          Int           @unique
+  user_id          Int          @unique
   seeker_name      String
   phone            String
   address          String

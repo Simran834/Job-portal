@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Available Jobs | JobConnect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 2rem;
+    }
+    h1 {
+      color: #004080;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .job-card {
+      background: #e0f2fe;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .job-title {
+      font-size: 1.2rem;
+      color: #0077b6;
+      font-weight: 600;
+      margin: 0;
+    }
+    .job-company {
+      color: #3730a3;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .job-location {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    .job-salary {
+      color: #1f2937;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0.5rem 0 0 0;
+    }
+    .apply-btn {
+      background: #0077b6;
+      color: #fff;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      align-self: flex-start;
+      margin-top: 0.5rem;
+      text-decoration: none;
+    }
+    .apply-btn:hover {
+      background: #005f8a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Available Jobs</h1>
+    <div class="job-list">
+      <div class="job-card">
+        <div class="job-title">Frontend Developer</div>
+        <div class="job-company">TechNepal Pvt. Ltd.</div>
+        <div class="job-location">Lalitpur, Nepal</div>
+        <div class="job-salary">Salary: NPR 60,000/month</div>
+        <a href="jobseeker.html" class="apply-btn">Apply Now</a>
+      </div>
+      <div class="job-card">
+        <div class="job-title">Backend Developer</div>
+        <div class="job-company">SoftVision</div>
+        <div class="job-location">Kathmandu, Nepal</div>
+        <div class="job-salary">Salary: NPR 70,000/month</div>
+        <a href="jobseeker.html" class="apply-btn">Apply Now</a>
+      </div>
+      <div class="job-card">
+        <div class="job-title">UI/UX Designer</div>
+        <div class="job-company">Code for Nepal</div>
+        <div class="job-location">Remote</div>
+        <div class="job-salary">Salary: NPR 50,000/month</div>
+        <a href="jobseeker.html" class="apply-btn">Apply Now</a>
+      </div>
+      <!-- Add more job cards as needed -->
+    </div>
+  </div>
+</body>
+</html>

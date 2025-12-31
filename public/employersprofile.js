@@ -1,71 +1,82 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Example: Fetch employer profile data from API
-    fetch('/api/employer/profile')
-        .then(response => response.json())
-        .then(data => {
-            displayProfile(data);
-        })
-        .catch(error => {
-            console.error('Error fetching profile:', error);
-            document.getElementById('profile-container').innerText = 'Failed to load profile.';
-        });
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("employerProfileForm");
+  const errorDiv = document.getElementById("errorMessages");
 
-    // Function to display profile data
-    function displayProfile(profile) {
-        const container = document.getElementById('profile-container');
-        if (!container) return;
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // stop submission until validated
+    let errors = [];
 
-        container.innerHTML = `
-            <h2>${profile.companyName}</h2>
-            <p><strong>Email:</strong> ${profile.email}</p>
-            <p><strong>Contact:</strong> ${profile.contact}</p>
-            <p><strong>Location:</strong> ${profile.location}</p>
-            <p><strong>Description:</strong> ${profile.description}</p>
-            <button id="edit-profile-btn">Edit Profile</button>
-        `;
+    // Collect values
+    const companyName = document.getElementById("company_name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const website = document.getElementById("website").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const logo = document.getElementById("company_logo").value.trim();
+    const certificate = document.getElementById("registration_certificate").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const socialLinks = document.getElementById("social_links").value.trim();
 
-        document.getElementById('edit-profile-btn').addEventListener('click', () => {
-            showEditForm(profile);
-        });
+    // Company Name
+    if (companyName.length < 2) {
+      errors.push("Company name must be at least 2 characters long.");
     }
 
-    // Function to show edit form
-    function showEditForm(profile) {
-        const container = document.getElementById('profile-container');
-        container.innerHTML = `
-            <h2>Edit Profile</h2>
-            <form id="edit-profile-form">
-                <label>Company Name: <input type="text" name="companyName" value="${profile.companyName}" required></label><br>
-                <label>Email: <input type="email" name="email" value="${profile.email}" required></label><br>
-                <label>Contact: <input type="text" name="contact" value="${profile.contact}" required></label><br>
-                <label>Location: <input type="text" name="location" value="${profile.location}" required></label><br>
-                <label>Description: <textarea name="description" required>${profile.description}</textarea></label><br>
-                <button type="submit">Save</button>
-                <button type="button" id="cancel-edit-btn">Cancel</button>
-            </form>
-        `;
-
-        document.getElementById('cancel-edit-btn').addEventListener('click', () => {
-            displayProfile(profile);
-        });
-
-        document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const updatedProfile = Object.fromEntries(formData.entries());
-
-            fetch('/api/employer/profile', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedProfile)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    displayProfile(data);
-                })
-                .catch(error => {
-                    alert('Failed to update profile.');
-                });
-        });
+    // Email validation
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    if (!email.match(emailPattern)) {
+      errors.push("Please enter a valid email address.");
     }
+
+    // Password validation (8+ chars, letters, numbers, special chars)
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/;
+    if (!password.match(passwordPattern)) {
+      errors.push("Password must be at least 8 characters long and include letters, numbers, and special characters.");
+    }
+
+    // Website validation
+    try { new URL(website); } catch { errors.push("Please enter a valid website URL."); }
+
+    // Phone validation (digits only, 7–15 length)
+    const phonePattern = /^[0-9]{7,15}$/;
+    if (!phone.match(phonePattern)) {
+      errors.push("Phone must contain only digits (7–15 characters).");
+    }
+
+    // Address
+    if (address.length < 5) {
+      errors.push("Address must be at least 5 characters long.");
+    }
+
+    // Logo URL
+    try { new URL(logo); } catch { errors.push("Please enter a valid company logo URL."); }
+
+    // Registration Certificate URL
+    try { new URL(certificate); } catch { errors.push("Please enter a valid registration certificate URL."); }
+
+    // Description
+    if (description.length < 20) {
+      errors.push("Company description must be at least 20 characters long.");
+    }
+
+    // Social Links (comma separated URLs)
+    if (socialLinks) {
+      const links = socialLinks.split(",");
+      links.forEach(link => {
+        try { new URL(link.trim()); } catch { errors.push("Invalid social link: " + link); }
+      });
+    }
+
+    // Show errors or success
+    if (errors.length > 0) {
+      errorDiv.innerHTML = errors.join("<br>");
+      errorDiv.style.color = "red";
+    } else {
+      errorDiv.innerHTML = "Profile submitted successfully!";
+      errorDiv.style.color = "green";
+      // Proceed with submission (AJAX or backend call)
+      // form.submit(); // uncomment if you want normal submission
+    }
+  });
 });
