@@ -1,0 +1,114 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #0a66c2;
+}
+.brand-logo {
+  width: 32px;
+  height: 32px;
+}
+.nav a {
+  color: #64748b;
+  text-decoration: none;
+  margin-left: 16px;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.nav a:hover,
+.nav a.active {
+  color: #0a66c2;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #0a66c2, #1fb6ff 55%, #6ee7f9);
+  color: #ffffff;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 16px;
+  margin: 20px 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.btn {
+  background: #ffffff;
+  color: #0a66c2;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+.btn:hover {
+  background: #e0f2fe;
+  transform: scale(1.05);
+}
+
+/* Category Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
+.chip {
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid #e0e7ff;
+  transition: transform 0.2s, background 0.3s;
+}
+.chip:hover {
+  background: #c7d2fe;
+  transform: translateY(-3px);
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  margin-top: 40px;
+}

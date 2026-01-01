@@ -2,156 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JobConnect | Home</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f6f8;
-      color: #333;
-    }
-
-    /* Navbar */
-    .navbar {
-      background-color: #004080;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .navbar nav a {
-      color: white;
-      margin-left: 1.5rem;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-    }
-    .navbar nav a:hover {
-      text-decoration: underline;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(to right, #0077b6, #00b4d8);
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 2.5rem;
-    }
-    .hero-buttons button {
-      margin: 0.75rem;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      border: none;
-      background-color: white;
-      color: #0077b6;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-    .hero-buttons button:hover {
-      background-color: #caf0f8;
-      transform: scale(1.05);
-    }
-
-    /* Categories */
-    .categories {
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-    .categories h2 {
-      margin-bottom: 2rem;
-      font-size: 2rem;
-    }
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1.5rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .category {
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 1.5rem;
-      font-size: 1.05rem;
-      font-weight: 500;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .category:hover {
-      background-color: #d0e4ff;
-      transform: scale(1.03);
-    }
-
-    /* Footer */
-    footer {
-      background-color: #004080;
-      color: white;
-      text-align: center;
-      padding: 1.5rem;
-      margin-top: 3rem;
-      font-size: 0.95rem;
-    }
-  </style>
+  <title>Job Portal | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Link to homepage-specific CSS -->
+  <link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
-  <header class="navbar">
-    <div class="logo"><strong>JobConnect</strong></div>
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Logo" class="brand-logo">
+      JobConnect
+    </div>
     <nav>
-      <a href="index.html">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="jobs.html">Jobs</a>
-      <a href="post-a-job.html">Post a Job</a>
+      <a href="post-job.html">Post a Job</a>
       <a href="login.html">Login</a>
       <a href="signup.html">Signup</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Find Your Dream Job in Nepal</h1>
-    <p>Explore opportunities by category, location, or company.</p>
-    <div class="hero-buttons">
-      <button onclick="location.href='jobs.html'">Browse Jobs</button>
-      <button onclick="location.href='post-a-job.html'">Post a Job</button>
-    </div>
-  </section>
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <h1>Find Your Dream Job</h1>
+      <p>Browse thousands of opportunities across IT, Medical, Education, and Administration.</p>
+      <button class="btn" onclick="location.href='jobs.html'">Browse Jobs</button>
+    </section>
 
-  <section class="categories">
-    <h2>Popular Categories</h2>
-    <div class="category-grid">
-      <div class="category" onclick="location.href='jobs.html?category=IT'">IT & Software</div>
-      <div class="category" onclick="location.href='jobs.html?category=Marketing'">Marketing</div>
-      <div class="category" onclick="location.href='jobs.html?category=Finance'">Finance</div>
-      <div class="category" onclick="location.href='jobs.html?category=Education'">Education</div>
-      <div class="category" onclick="location.href='jobs.html?category=Healthcare'">Healthcare</div>
-      <div class="category" onclick="location.href='jobs.html?category=Engineering'">Engineering</div>
-      <div class="category" onclick="location.href='jobs.html?category=Hospitality'">Hospitality</div>
-      <div class="category" onclick="location.href='jobs.html?category=Construction'">Construction</div>
-      <div class="category" onclick="location.href='jobs.html?category=Legal'">Legal</div>
-      <div class="category" onclick="location.href='jobs.html?category=NGO'">NGO/INGO</div>
-    </div>
-  </section>
+    <!-- Categories -->
+    <section>
+      <h2 style="text-align:center; margin-bottom:1rem;">Popular Categories</h2>
+      <div class="chips">
+        <span class="chip">Information Technology</span>
+        <span class="chip">Administration</span>
+        <span class="chip">Medical</span>
+        <span class="chip">Education</span>
+      </div>
+    </section>
+  </main>
 
-  <footer>
-    <p>&copy; 2025 JobConnect. Made in Nepal 🇳🇵</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <small>&copy; 2025 JobConnect. All rights reserved.</small>
   </footer>
-  <script src= "homepage.js"></script> </script>
 </body>
 </html>

@@ -2,214 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Job Seeker Profile | JobConnect</title>
+  <title>Job Seeker Profile | Job Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --primary: #004080;
-      --bg: #f4f6f8;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --highlight: #e0f2fe;
-      --accent: #0077b6;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 2rem;
-    }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      padding: 2rem;
-    }
-    .header {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      background: #fff;
-    }
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .info {
-      flex: 1;
-      min-width: 260px;
-    }
-    .info h1 {
-      font-size: 1.8rem;
-      margin: 0;
-      color: var(--primary);
-    }
-    .info p {
-      margin: 6px 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    .section {
-      margin-top: 2rem;
-    }
-    .section h2 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-    .section p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--text);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .card {
-      background: var(--highlight);
-      padding: 1rem;
-      border-radius: 8px;
-    }
-    .card h3 {
-      margin: 0 0 6px;
-      font-size: 1rem;
-      color: var(--accent);
-    }
-    .card p {
-      margin: 0;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 0.5rem;
-    }
-    .tag {
-      background: #e0e7ff;
-      color: #3730a3;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 500;
-      font-size: 0.85rem;
-    }
-    .links a {
-      display: inline-block;
-      margin-right: 12px;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .links a:hover {
-      text-decoration: underline;
-    }
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/jobseeker.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="avatar">
-        <img src="profile-image.jpg" alt="Profile Image" />
+  <div class="profile-card">
+    <h2>Complete Your Job Seeker Profile</h2>
+    <form id="jobseekerForm">
+      <!-- Personal Info -->
+      <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input id="full_name" name="full_name" type="text" required />
       </div>
-      <div class="info">
-        <h1>Ramesh Shrestha</h1>
-        <p>📞 +977-9801234567</p>
-        <p>📍 Lalitpur, Nepal</p>
-        <p>💼 Frontend Developer at TechNepal</p>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
       </div>
-    </div>
-
-    <div class="section">
-      <h2>Bio</h2>
-      <p>
-        Passionate frontend developer with 3+ years of experience building responsive web applications. Skilled in React, JavaScript, and UI/UX design. Open to new opportunities and collaborative teams.
-      </p>
-    </div>
-
-    <div class="section">
-      <h2>Salary Expectations</h2>
-      <p>Current Salary: NPR 60,000/month</p>
-      <p>Expected Salary: NPR 80,000/month</p>
-    </div>
-
-    <div class="section">
-      <h2>Skills</h2>
-      <div class="tags">
-        <span class="tag">JavaScript</span>
-        <span class="tag">React</span>
-        <span class="tag">HTML/CSS</span>
-        <span class="tag">Figma</span>
-        <span class="tag">Git</span>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="text" required />
       </div>
-    </div>
-
-    <div class="section">
-      <h2>Education</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Bachelor in Computer Engineering</h3>
-          <p>Tribhuvan University</p>
-          <p>2017 – 2021</p>
-        </div>
-        <div class="card">
-          <h3>Frontend Bootcamp</h3>
-          <p>Code for Nepal</p>
-          <p>2022</p>
-        </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" name="address" type="text" required />
       </div>
-    </div>
-
-    <div class="section">
-      <h2>Experience</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Frontend Developer</h3>
-          <p>TechNepal Pvt. Ltd.</p>
-          <p>2022 – Present</p>
-        </div>
-        <div class="card">
-          <h3>Intern Developer</h3>
-          <p>SoftVision</p>
-          <p>2021 – 2022</p>
-        </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" name="dob" type="date" required />
       </div>
-    </div>
 
-    <div class="section">
-      <h2>Social Links</h2>
-      <div class="links">
-        <a href="https://linkedin.com/in/rameshshrestha" target="_blank">LinkedIn</a>
-        <a href="https://github.com/rameshdev" target="_blank">GitHub</a>
-        <a href="https://rameshportfolio.com" target="_blank">Portfolio</a>
+      <!-- Qualification -->
+      <div class="form-group">
+        <label for="qualification">Qualification</label>
+        <input id="qualification" name="qualification" type="text" required />
       </div>
-    </div>
+
+      <!-- Career Objective -->
+      <div class="form-group">
+        <label for="about">About Me / Career Objective</label>
+        <textarea id="about" name="about" rows="4" required></textarea>
+      </div>
+
+      <!-- Job Preferences -->
+      <div class="form-group">
+        <label for="category">Preferred Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select</option>
+          <option value="IT">Information Technology</option>
+          <option value="Medical">Medical</option>
+          <option value="Education">Education</option>
+          <option value="Administration">Administration</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="location">Preferred Location</label>
+        <input id="location" name="location" type="text" required />
+      </div>
+      <div class="form-group">
+        <label for="salary">Expected Salary</label>
+        <input id="salary" name="salary" type="text" required />
+      </div>
+      <div class="form-group">
+        <label for="availability">Availability</label>
+        <select id="availability" name="availability" required>
+          <option value="">Select</option>
+          <option value="Immediate">Immediate</option>
+          <option value="1 Month">Within 1 Month</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+      </div>
+
+      <!-- Skills -->
+      <div class="form-group">
+        <label for="skills">Skills (comma separated)</label>
+        <input id="skills" name="skills" type="text" required />
+      </div>
+
+      <!-- Documents -->
+      <div class="form-group">
+        <label for="resume">Resume URL</label>
+        <input id="resume" name="resume" type="url" required />
+      </div>
+      <div class="form-group">
+        <label for="cover_letter">Cover Letter URL</label>
+        <input id="cover_letter" name="cover_letter" type="url" />
+      </div>
+      <div class="form-group">
+        <label for="certificate">Certificate URL</label>
+        <input id="certificate" name="certificate" type="url" />
+      </div>
+
+      <!-- Social Links -->
+      <div class="form-group">
+        <label for="social_links">Social Links (comma separated)</label>
+        <input id="social_links" name="social_links" type="text" />
+      </div>
+
+      <button type="submit" class="btn">Submit Profile</button>
+    </form>
+    <div id="jobseekerErrors" class="error"></div>
   </div>
-  <script src="jobSeekerProfile.js"></script>
+
+  <script src="js/jobseeker.js"></script>
 </body>
 </html>
