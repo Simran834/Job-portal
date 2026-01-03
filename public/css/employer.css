@@ -1,6 +1,6 @@
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #0a66c2, #1fb6ff 55%, #6ee7f9);
+  background: linear-gradient(135deg, #6ee7f9, #1fb6ff 55%, #0a66c2);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@ label {
   color: #374151;
 }
 
-input, select, textarea {
+input, textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #dbeafe;
@@ -44,7 +44,7 @@ input, select, textarea {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus, textarea:focus {
   border-color: #0a66c2;
   box-shadow: 0 0 0 3px rgba(10,102,194,0.2);
   outline: none;
@@ -77,27 +77,3 @@ input:focus, select:focus, textarea:focus {
   color: #166534;
   margin-top: 1rem;
 }
-
-.profile-view {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-}
-
-.profile-view h3 {
-  color: #0a66c2;
-  margin-bottom: 0.5rem;
-}
-
-.profile-view h4 {
-  margin-top: 1rem;
-  color: #1e3a8a;
-}
-
-.profile-view p, .profile-view li {
-  margin: 0.3rem 0;
-  color: #374151;
-}
-

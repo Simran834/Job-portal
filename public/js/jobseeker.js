@@ -41,17 +41,32 @@ document.addEventListener("DOMContentLoaded", () => {
     if (salary.length < 3) errors.push("Expected salary must be specified.");
     if (!availability) errors.push("Please select availability.");
     if (skills.length < 2) errors.push("Please enter at least one skill.");
+    
+    function validatePDF(fieldId, fieldName, required = false) {
+  const file = document.getElementById(fieldId).files[0];
+  if (!file && required) {
+    return `${fieldName} PDF is required.`;
+  }
+  if (file && file.type !== "application/pdf") {
+    return `${fieldName} must be a PDF file.`;
+  }
+  return null;
+}
 
-    // Validate URLs
-    try { new URL(resume); } catch { errors.push("Invalid Resume URL."); }
-    if (coverLetter) {
-      try { new URL(coverLetter); } catch { errors.push("Invalid Cover Letter URL."); }
-    }
-    if (certificate) {
-      try { new URL(certificate); } catch { errors.push("Invalid Certificate URL."); }
-    }
 
-    // Validate social links
+const resumeError = validatePDF("resume", "Resume", true);
+if (resumeError) errors.push(resumeError);
+
+const coverError = validatePDF("cover_letter", "Cover Letter");
+if (coverError) errors.push(coverError);
+
+const certError = validatePDF("certificate", "Certificate");
+if (certError) errors.push(certError);
+
+const appError = validatePDF("application", "Application");
+if (appError) errors.push(appError);
+
+
     if (socialLinks) {
       socialLinks.split(",").forEach(link => {
         const trimmed = link.trim();
@@ -61,38 +76,73 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Output results
     const out = document.getElementById("jobseekerErrors");
+
     if (errors.length) {
       out.innerHTML = errors.join("<br>");
       out.className = "error";
     } else {
-      out.innerHTML = "Job Seeker profile submitted successfully! (connect to backend API here)";
+      // ✅ Build structured profile object
+      const profile = {
+        full_name: name,
+        email,
+        phone,
+        address,
+        dob,
+        qualification,
+        about,
+        preferences: { category, location, expected_salary: salary, availability },
+        skills: skills.split(",").map(s => s.trim()),
+        documents: { resume, cover_letter: coverLetter, certificate },
+        social_links: socialLinks ? socialLinks.split(",").map(l => l.trim()) : []
+      };
+
+      // ✅ Render full profile view
+      const profileHTML = `
+        <div class="profile-view">
+          <h3>${profile.full_name}</h3>
+          <p><strong>Email:</strong> ${profile.email}</p>
+          <p><strong>Phone:</strong> ${profile.phone}</p>
+          <p><strong>Address:</strong> ${profile.address}</p>
+          <p><strong>Date of Birth:</strong> ${profile.dob}</p>
+
+          <h4>Qualification</h4>
+          <p>${profile.qualification}</p>
+
+          <h4>Career Objective</h4>
+          <p>${profile.about}</p>
+
+          <h4>Job Preferences</h4>
+          <ul>
+            <li><strong>Category:</strong> ${profile.preferences.category}</li>
+            <li><strong>Location:</strong> ${profile.preferences.location}</li>
+            <li><strong>Expected Salary:</strong> ${profile.preferences.expected_salary}</li>
+            <li><strong>Availability:</strong> ${profile.preferences.availability}</li>
+          </ul>
+
+          <h4>Skills</h4>
+          <p>${profile.skills.join(", ")}</p>
+
+          <h4>Documents</h4>
+          <ul>
+            <li><strong>Resume:</strong> <a href="${profile.documents.resume}" target="_blank">View</a></li>
+            <li><strong>Cover Letter:</strong> ${profile.documents.cover_letter ? `<a href="${profile.documents.cover_letter}" target="_blank">View</a>` : "N/A"}</li>
+            <li><strong>Certificate:</strong> ${profile.documents.certificate ? `<a href="${profile.documents.certificate}" target="_blank">View</a>` : "N/A"}</li>
+          </ul>
+
+          <h4>Social Links</h4>
+          <p>${profile.social_links.length ? profile.social_links.map(l => `<a href="${l}" target="_blank">${l}</a>`).join(", ") : "N/A"}</p>
+        </div>
+      `;
+
+      out.innerHTML = profileHTML;
       out.className = "success";
 
-      // TODO: send data to backend API
-      // Example:
+      // ✅ Later: send to backend API
       // fetch("/api/jobseeker-profile", {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     full_name: name,
-      //     email,
-      //     phone,
-      //     address,
-      //     dob,
-      //     qualification,
-      //     about,
-      //     category,
-      //     location,
-      //     salary,
-      //     availability,
-      //     skills,
-      //     resume,
-      //     cover_letter: coverLetter,
-      //     certificate,
-      //     social_links: socialLinks.split(",").map(l => l.trim())
-      //   })
+      //   body: JSON.stringify(profile)
       // }).then(res => res.json()).then(data => {
       //   console.log("Profile saved:", data);
       // });
