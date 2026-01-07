@@ -1,102 +1,130 @@
-import {prisma} from "../utils/prisma-client.js"
-import bcrypt from 'bcrypt';
-import path from "path";
-import {uploadFile} from "../utils/upload.js";
+const prisma = require('../config/prismaClient');
 
-const uploadDir = path.join(process.cwd(), 'upload');
+// CREATE employer profile
+const createProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      company_name,
+      website,
+      phone,
+      address,
+      company_logo,
+      registration_certificate,
+      description,
+      verified
+    } = req.body;
 
-const createEmployer = async(req, res) =>{
-    try{
-        const {name, email, password, companyName, companyWebsite} = req.body;
-        const userId = req.user.id;
+    // Check if employer profile already exists
+    const existing = await prisma.employer.findUnique({
+      where: { user_id: userId },
+    });
 
-        // Check if profile already exists for the user
-        const existingProfile = await prisma.employerProfile.findUnique({
-            where: {userId}
-        }); 
-        if(existingProfile){
-            return res.status(409).json({error: "Profile already exists for this user"});
-        }
-
-        const file = req.files?.companylogo;
-        const fileUri = await uploadFile(file, ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']);
-        console.log("Uploaded file URI:", fileUri);
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create the employer profile
-        const newProfile = await prisma.employerProfile.create({
-            data:{
-                userId,
-                name,
-                email,  
-                password : hashedPassword,
-                companylogo: fileUri,
-                companyName,
-                companyWebsite,
-                createdAt: new Date(),
-            },
-        });
-        res.status(201).json(newProfile);
-    } catch(error){
-        console.error(error);
-        res.status(500).json({error: "Internal Server Error"});
+    if (existing) {
+      return res.status(400).json({ message: 'Employer profile already exists' });
     }
-};
-const getEmployerProfile = async(req, res) =>{
-    try{
-        const userId = req.user.id;
-        const profile = await prisma.employerProfile.findUnique({
-            where: {userId}
-        });
-        if(!profile){
-            return res.status(404).json({error: "Profile not found"});
-        }
-        res.status(200).json(profile);
-    }
-    catch(error){
-        console.error(error);
-        res.status(500).json({error: "Internal Server Error"});
-    }
+
+    const profile = await prisma.employer.create({
+      data: {
+        user_id: userId,
+        company_name,
+        website,
+        phone,
+        address,
+        company_logo,
+        registration_certificate,
+        description,
+        verified: verified ?? false, // default false if not provided
+      },
+    });
+
+    return res.json({
+      message: 'Employer profile created successfully',
+      profile,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
 };
 
-//update profile
-const updateProfile = async(req, res) =>{
-    try{
-        const userId = req.user.id;
-        const {name, email, password, companyName, companyWebsite} = req.body;
-        const updatedProfile = await prisma.employerProfile.update({
-            where: {userId},
-            data: {
+// READ employer profile
+const getProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-                name,
-                email,
-                password,
-                companylogo,
-                companyName,
-                companyWebsite,
-            },
-        });
-        res.status(200).json(updatedProfile);
-    } catch(error){
-        console.error(error);
-        res.status(500).json({error: "Internal Server Error"});
+    const profile = await prisma.employer.findUnique({
+      where: { user_id: userId },
+    });
+
+    if (!profile) {
+      return res.status(404).json({ message: 'Employer profile not found' });
     }
+
+    return res.json({ profile });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
 };
 
-//delete profile
-const deleteProfile = async(req, res) =>{
-    try{
-        const userId = req.user.id;
-        const deletedProfile = await prisma.employerProfile.delete({
-            where: {userId},
-        });
-        res.status(200).json({message: "Profile deleted successfully"});
-    } catch(error){
-        console.error(error);
-        res.status(500).json({error: "Internal Server Error"});
-    }   
+// UPDATE employer profile
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      company_name,
+      website,
+      phone,
+      address,
+      company_logo,
+      registration_certificate,
+      description,
+      verified
+    } = req.body;
+
+    const updated = await prisma.employer.update({
+      where: { user_id: userId },
+      data: {
+        company_name,
+        website,
+        phone,
+        address,
+        company_logo,
+        registration_certificate,
+        description,
+        verified,
+      },
+    });
+
+    return res.json({
+      message: 'Profile updated successfully',
+      profile: updated,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
 };
 
+// DELETE employer profile
+const deleteProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-export {createEmployer, getEmployerProfile, updateProfile, deleteProfile};
+    await prisma.employer.delete({
+      where: { user_id: userId },
+    });
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return res.json({ message: 'Employer account and profile deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { createProfile, getProfile, updateProfile, deleteProfile };

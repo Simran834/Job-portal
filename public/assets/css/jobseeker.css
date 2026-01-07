@@ -1,0 +1,113 @@
+/* jobseeker.css */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jobseeker-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  width: 650px;
+}
+
+.jobseeker-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0b3d91;
+}
+
+.jobseeker-container h3 {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0b3d91;
+}
+
+.jobseeker-container label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.jobseeker-container input,
+.jobseeker-container select,
+.jobseeker-container textarea {
+  width: 100%;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.jobseeker-container input:focus,
+.jobseeker-container select:focus,
+.jobseeker-container textarea:focus {
+  border-color: #0b3d91;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11,61,145,0.15);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.jobseeker-container button {
+  width: 100%;
+  padding: 1.2rem;
+  background: #0b3d91;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.jobseeker-container button:hover {
+  background: #092d6e;
+  transform: translateY(-2px);
+}
+
+.extra-links {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.extra-links a {
+  color: #0b3d91;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}

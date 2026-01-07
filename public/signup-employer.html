@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employer Profile</title>
+  <link rel="stylesheet" href="assets/css/employer.css">
+</head>
+<body>
+  <div class="employer-container">
+    <h2>Create Your Employer Profile</h2>
+    <form id="employer-form" action="/api/employer-profile" method="POST" enctype="multipart/form-data">
+      
+      <!-- company_name -->
+      <label for="company_name">Company Name</label>
+      <input type="text" id="company_name" name="company_name" required>
+      <div class="error-message"></div>
+
+      <!-- website -->
+      <label for="website">Company Website</label>
+      <input type="url" id="website" name="website" placeholder="https://example.com">
+      <div class="error-message"></div>
+
+      <!-- phone -->
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="+977-98xxxxxxx" required>
+      <div class="error-message"></div>
+
+      <!-- address -->
+      <label for="address">Company Address</label>
+      <input type="text" id="address" name="address" required>
+      <div class="error-message"></div>
+
+      <!-- company_logo -->
+      <label for="company_logo">Upload Company Logo</label>
+      <input type="file" id="company_logo" name="company_logo" accept="image/*">
+      <div class="error-message"></div>
+
+      <!-- registration_certificate -->
+      <label for="registration_certificate">Upload Registration Certificate</label>
+      <input type="file" id="registration_certificate" name="registration_certificate" accept=".pdf,.doc,.docx,.jpg,.png">
+      <div class="error-message"></div>
+
+      <!-- description -->
+      <label for="description">Company Description</label>
+      <textarea id="description" name="description" rows="4" placeholder="Write a short description about your company..." required></textarea>
+      <div class="error-message"></div>
+
+      <!-- verified -->
+      <label class="checkbox">
+        <input type="checkbox" id="verified" name="verified">
+        <span>Verified Company</span>
+      </label>
+      <div class="error-message"></div>
+
+      <!-- Submit -->
+      <button type="submit">Save Employer Profile</button>
+    </form>
+
+    <div class="extra-links">
+      <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+  <script>
+  document.getElementById("employer-form").addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent default form submission
+
+    const data = {
+      company_name: document.getElementById("company_name").value.trim(),
+      website: document.getElementById("website").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      address: document.getElementById("address").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      verified: document.getElementById("verified").checked,
+    };
+
+    // Handle optional files (store object URLs for preview)
+    const logoFile = document.getElementById("company_logo").files[0];
+    const certFile = document.getElementById("registration_certificate").files[0];
+    data.company_logo = logoFile ? URL.createObjectURL(logoFile) : "";
+    data.registration_certificate = certFile ? URL.createObjectURL(certFile) : "";
+
+    localStorage.setItem("employerProfile", JSON.stringify(data));
+    window.location.href = "employer-profile.html";
+  });
+</script>
+</body>
+</html>

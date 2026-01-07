@@ -1,48 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Signup | Job Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/signup.css" />
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <link rel="stylesheet" href="assets/css/signup.css">
 </head>
 <body>
-  <div class="signup-card">
-    <h2>Create Your Account</h2>
-    <form id="signupForm">
-      <div class="form-group">
-        <label for="full_name">Full Name</label>
-        <input id="full_name" name="full_name" type="text" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" required />
-      </div>
-      <div class="form-group">
-        <label for="confirm_password">Confirm Password</label>
-        <input id="confirm_password" name="confirm_password" type="password" required />
-      </div>
-      <div class="form-group">
-        <label for="role">Role</label>
-        <select id="role" name="role" required>
-          <option value="">Select role</option>
-          <option value="job_seeker">Job Seeker</option>
-          <option value="employer">Employer</option>
-        </select>
-      </div>
-      <button type="submit" class="btn">Sign Up</button>
+  <div class="signup-container">
+    <h2>Signup</h2>
+    <form id="signup-form" action="#" method="POST">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+      <div class="error-message"></div>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <div class="error-message"></div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <div class="error-message"></div>
+
+      <!-- Role dropdown -->
+      <label for="role">Choose Your Role</label>
+      <select id="role" name="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="jobseeker">Jobseeker</option>
+        <option value="employer">Employer</option>
+      </select>
+      <div class="error-message"></div>
+
+      <button type="submit">Signup</button>
     </form>
-    <div id="signupErrors" class="error"></div>
-    <div class="footer">
-      <p>Already have an account? <a href="login.html">Login here</a></p>
-    </div>
   </div>
 
-  <!-- Link to signup.js -->
-  <script src="js/signup.js"></script>
+  <!-- Redirect script -->
+  <script>
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault(); // stop default submission
+      const role = document.getElementById("role").value;
+
+      if (role === "jobseeker") {
+        window.location.href = "signup-jobseeker.html";
+      } else if (role === "employer") {
+        window.location.href = "signup-employer.html";
+      } else {
+        alert("Please select a role.");
+      }
+    });
+  </script>
 </body>
 </html>

@@ -4,32 +4,115 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+//                 GENERATOR AND DATASOURCE
 generator client {
   provider = "prisma-client-js"
   // output   = "../generated/prisma"
 }
 
+
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
+//        ENUMS
+enum UserRole {
+  ADMIN
+  JOBSEEKER
+  EMPLOYER 
+}
 
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  TEMPORARY
+}
 
+enum ExperienceLevel {
+  ENTRY_LEVEL
+  MID_LEVEL
+  SENIOR_LEVEL
+  DIRECTOR
+  EXECUTIVE
+}
 
+enum WorkMode {
+  REMOTE
+  ON_SITE
+  HYBRID
+}
+
+enum JobCategory {
+  IT_SOFTWARE
+  HEALTH_MEDICAL
+  BANKING_FINANCE
+  GENERAL_MANAGEMENT
+  CONSULTING_AGENCY
+  TEACHING_EDUCATION
+  SALES_MARKETING
+  CUSTOMER_SUPPORT
+  ENGINEERING
+  OPERATIONS_LOGISTICS
+}
+
+enum SkillProficiency {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum SocialUserType {
+  JOB_SEEKER
+  EMPLOYER
+}
+
+enum SocialPlatform {
+  LINKEDIN
+  GITHUB
+  TWITTER
+  FACEBOOK
+  PERSONAL_WEBSITE
+  OTHER
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  INTERVIEWED
+  SHORTLISTED
+  OFFERED
+  REJECTED
+}
+
+enum ActivityAction {
+  VIEWED
+  DOWNLOADED
+  SHORTLISTED
+}
+
+//         MODELS 
 model User {
-  id Int @id @default(autoincrement())
-
-  email       String   @unique
-  password    String
-  role        UserRole   @default(JOBSEEKER)
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  role       UserRole  @default(JOBSEEKER)
   is_verified Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  createdAt  DateTime  @default(now())
+
+  // Relations
+  job_seeker job_seeker?
+  employer   employer?
+  passwordResetTokens PasswordResetToken[]
 }
 
+// Jobseeker profile
 model job_seeker {
   seeker_id        Int           @id @default(autoincrement())
-  user_id          Int          @unique
+  user_id          Int           @unique
   seeker_name      String
   phone            String
   address          String
@@ -40,13 +123,18 @@ model job_seeker {
   current_salary   Float?
   expected_salary  Float?
   is_open_to_work  Boolean       @default(true)
-  experiences      Experience[]
-  educations       Education[]
-  skills           Skill[]
-  social_links     SocialLink[]
-  applications     Application[]
+
+
+  // Relations
+  user          User        @relation(fields: [user_id], references: [id])
+  experiences   Experience[]
+  educations    Education[]
+  skills        Skill[]
+  social_links  SocialLink[]
+  applications  Application[]
 }
 
+// Employer profile
 model employer {
   employer_id              Int          @id @default(autoincrement())
   user_id                  Int          @unique
@@ -58,41 +146,53 @@ model employer {
   registration_certificate String?
   description              String
   verified                 Boolean      @default(false)
-  social_links             SocialLink[]
-  jobs                     Job[]
+
+  // Relations
+  user         User         @relation(fields: [user_id], references: [id])
+  social_links SocialLink[]
+  jobs         Job[]
 }
 
+// Job / Vacancy
 model Job {
-  job_id               Int           @id @default(autoincrement())
+  job_id               Int             @id @default(autoincrement())
   employer_id          Int
   title                String
   description          String
   location             String
   salary_min           Float?
   salary_max           Float?
-  job_type             String //enum('full_time', 'part_time', 'contract', 'internship', 'temporary')
-  experience_level     String //enum('entry_level', 'mid_level', 'senior_level', 'director', 'executive')
-  work_mode            String //enum('remote', 'on_site', 'hybrid')
-  industry             String
-  posted_at            DateTime      @default(now())
+  job_type             JobType
+  experience_level     ExperienceLevel
+  work_mode            WorkMode
+  category             JobCategory
+  posted_at            DateTime        @default(now())
   application_deadline DateTime?
-  is_active            Boolean       @default(true)
-  employer             employer      @relation(fields: [employer_id], references: [employer_id])
-  applications         Application[]
+  is_active            Boolean         @default(true)
+
+  // Relations
+  employer     employer      @relation(fields: [employer_id], references: [employer_id])
+  applications Application[]
 }
 
+
+// Application when jobseeker applies to a job
 model Application {
-  application_id Int        @id @default(autoincrement())
+  application_id Int              @id @default(autoincrement())
   job_id         Int
   seeker_id      Int
   cover_letter   String?
   resume         String?
-  applied_at     DateTime   @default(now())
-  status         String     @default("pending") //enum('pending', 'reviewed', 'interviewed', 'offered', 'rejected')
-  job            Job        @relation(fields: [job_id], references: [job_id])
-  job_seeker     job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+  applied_at     DateTime         @default(now())
+  status         ApplicationStatus @default(PENDING)
+
+  // Relations
+  job        Job        @relation(fields: [job_id], references: [job_id])
+  job_seeker job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+  activities ApplicationActivity[]
 }
 
+// Work experience entries
 model Experience {
   experience_id Int        @id @default(autoincrement())
   seeker_id     Int
@@ -102,9 +202,12 @@ model Experience {
   end_date      DateTime?
   is_current    Boolean    @default(false)
   description   String?
+
   job_seeker    job_seeker @relation(fields: [seeker_id], references: [seeker_id])
 }
 
+
+// Education entries
 model Education {
   education_id   Int        @id @default(autoincrement())
   seeker_id      Int
@@ -115,32 +218,52 @@ model Education {
   end_date       DateTime?
   is_current     Boolean    @default(false)
   description    String?
+
   job_seeker     job_seeker @relation(fields: [seeker_id], references: [seeker_id])
 }
 
+// Skills
 model Skill {
-  skill_id    Int        @id @default(autoincrement())
+  skill_id    Int             @id @default(autoincrement())
   seeker_id   Int
   name        String
-  proficiency String? //enum('beginner', 'intermediate', 'advanced', 'expert')
-  job_seeker  job_seeker @relation(fields: [seeker_id], references: [seeker_id])
+  proficiency SkillProficiency?
+
+  job_seeker  job_seeker      @relation(fields: [seeker_id], references: [seeker_id])
 }
 
+// Social links (for jobseeker & employer)
 model SocialLink {
-  link_id    Int         @id @default(autoincrement())
-  user_type  String //enum('job_seeker', 'employer')
-  user_id    Int
-  platform   String //enum('linkedin', 'github', 'twitter', 'facebook', 'personal_website', etc.)
-  url        String
-  job_seeker job_seeker? @relation(fields: [user_id], references: [seeker_id], map: "SocialLink_job_seeker_id_fkey")
-  employer   employer?   @relation(fields: [user_id], references: [employer_id], map: "SocialLink_employer_id_fkey")
-}
-// make enum
-enum UserRole{
- ADMIN
- JOBSEEKER
- EMPLOYER
+  link_id      Int             @id @default(autoincrement())
+  user_type    SocialUserType
+  platform     SocialPlatform
+  url          String
+
+  // Relations
+  seeker_id    Int?
+  employer_id  Int?
+
+  job_seeker   job_seeker?     @relation(fields: [seeker_id], references: [seeker_id])
+  employer     employer?       @relation(fields: [employer_id], references: [employer_id])
 }
 
-// role check garna ko lagi middleware banaunee..... job-seeker ra employer ani admin
-// ani tyo middleware chai routes ma halne eg : .........., auth, isadmin..... 
+// Track employer actions on applications
+model ApplicationActivity {
+  activity_id    Int             @id @default(autoincrement())
+  application_id Int
+  action         ActivityAction
+  timestamp      DateTime        @default(now())
+
+  application    Application     @relation(fields: [application_id], references: [application_id])
+}
+
+// (Optional, but useful if you want email-based reset later)
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  token      String   @unique
+  expires_at DateTime
+
+  user       User     @relation(fields: [user_id], references: [id])
+}
+

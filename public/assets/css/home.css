@@ -1,0 +1,23 @@
+.category-btn {
+  background: #ffffff;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.category-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.vacancy-display {
+  margin-top: 2rem;
+  background: rgba(255,255,255,0.08);
+  padding: 1.5rem;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+}

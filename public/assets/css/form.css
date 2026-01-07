@@ -1,0 +1,49 @@
+/* Warm blue background */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; padding: 2rem;
+}
+
+/* Form container */
+.form-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  width: 420px;
+  color: #1f2937;
+}
+
+.form-container h1 {
+  margin-bottom: 1.2rem;
+  color: #0f172a;
+}
+
+/* Fields */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #0f172a; }
+.form-group input, .form-group select {
+  width: 100%; padding: 0.7rem; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-group input:focus, .form-group select:focus {
+  border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79,172,254,0.2);
+}
+small { display: block; margin-top: 0.3rem; color: #64748b; }
+
+/* Inline errors */
+.error-message { display: block; font-size: 0.8rem; color: #e63946; margin-top: 0.3rem; }
+input.invalid, select.invalid { border-color: #e63946; }
+
+/* Button */
+.btn {
+  width: 100%; padding: 0.9rem; border: none; border-radius: 8px;
+  background: linear-gradient(45deg, #ff6b6b, #f8e473); color: #000; font-weight: 700;
+  cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+
+.redirect { margin-top: 1rem; font-size: 0.9rem; color: #334155; }
+.redirect a { color: #2563eb; text-decoration: none; }

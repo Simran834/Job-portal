@@ -1,0 +1,189 @@
+/* signup.css */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page background */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('../images/login.jpg') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Signup container */
+.signup-container {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  width: 420px;
+  max-height: 900px;          /* optional height limit */
+}
+
+/* Heading */
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0b3d91;
+}
+
+/* Labels */
+.signup-container label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Inputs */
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+  width: 100%;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  transition: border-color 0.3s ease;
+}
+
+.signup-container input:focus {
+  border-color: #0b3d91;
+  outline: none;
+}
+
+/* Role options */
+.role-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.role-options label {
+  flex: 1;
+  background: rgba(11, 61, 145, 0.1); /* light bluish tint */
+  padding: 1.2rem;
+  margin-right: 1rem;
+  border: 2px solid #0b3d91;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.role-options label:last-child {
+  margin-right: 0;
+}
+
+.role-options input {
+  display: none; /* hide default radio */
+}
+
+.role-options input:checked + span {
+  background: #0b3d91;
+  color: #fff;
+}
+
+/* Buttons */
+.signup-container button {
+  width: 100%;
+  padding: 1.2rem;
+  background: #0b3d91;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.signup-container button:hover {
+  background: #092d6e;
+  transform: translateY(-2px);
+}
+
+/* Role options container */
+.role-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+/* Role boxes */
+.role-box {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.8); /* whitish with transparency */
+  padding: 2rem;
+  margin-right: 1rem;
+  border: 2px solid #0b3d91;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0b3d91;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.role-box:last-child {
+  margin-right: 0;
+}
+
+.role-box:hover {
+  background: #0b3d91;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* Dropdown (Role selection) */
+.signup-container select {
+  width: 100%;
+  padding: 1.2rem;              /* same as input boxes */
+  margin-bottom: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-size: 1.2rem;            /* same font size */
+  background: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;             /* remove default arrow styling */
+  cursor: pointer;
+}
+
+/* Focus effect */
+.signup-container select:focus {
+  border-color: #0b3d91;        /* bluish accent */
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11,61,145,0.15);
+}
+
+/* Optional: style the dropdown arrow */
+.signup-container select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%230b3d91' height='24' viewBox='0 0 24 24' width='24'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}

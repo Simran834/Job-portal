@@ -1,13 +1,13 @@
-import {Router} from 'express';
-import {auth} from '../middleware/auth.js';
-import {isEmployer} from '../middleware/isEmployer.js';
+const express = require('express');
+const router = express.Router();
 
-import {createEmployer, getEmployerProfile, updateProfile, deleteProfile} from '../controllers/employer.controller.js';
-const router = Router();
-router.get("/createemployers", auth, isEmployer, createEmployer);
-router.get("/getemployer/:id", auth, isEmployer, getEmployerProfile);
-router.put("/updateemployer/:id", auth, isEmployer, updateProfile);
-router.delete("/deleteemployer/:id", auth, isEmployer, deleteProfile);
+const auth = require('../middlewares/auth.middleware');
+const requireRole = require('../middlewares/role.middleware');
+const { createProfile, getProfile, updateProfile, deleteProfile } = require('../controllers/employer.controller');
 
-export default router;
+router.post('/profile', auth, requireRole('EMPLOYER'), createProfile);
+router.get('/profile', auth, requireRole('EMPLOYER'), getProfile);
+router.put('/profile', auth, requireRole('EMPLOYER'), updateProfile);
+router.delete('/profile', auth, requireRole('EMPLOYER'), deleteProfile);
 
+module.exports = router;
