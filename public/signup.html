@@ -7,47 +7,33 @@
 </head>
 <body>
   <div class="signup-container">
-    <h2>Signup</h2>
-    <form id="signup-form" action="#" method="POST">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required>
-      <div class="error-message"></div>
+  <h2>Signup</h2>
+  <form id="signup-form">
+    <label for="name">Username</label>
+    <input type="text" id="name" name="name" required>
+    <!-- error will appear here -->
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-      <div class="error-message"></div>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+    <!-- error will appear here -->
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      <div class="error-message"></div>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+    <!-- error will appear here -->
 
-      <!-- Role dropdown -->
-      <label for="role">Choose Your Role</label>
-      <select id="role" name="role" required>
-        <option value="">-- Select Role --</option>
-        <option value="jobseeker">Jobseeker</option>
-        <option value="employer">Employer</option>
-      </select>
-      <div class="error-message"></div>
+    <label for="role">Role</label>
+    <select id="role" name="role" required>
+      <option value="">-- Select Role --</option>
+      <option value="jobseeker">Jobseeker</option>
+      <option value="employer">Employer</option>
+    </select>
 
-      <button type="submit">Signup</button>
-    </form>
+    <button type="submit">Continue</button>
+  </form>
   </div>
 
-  <!-- Redirect script -->
-  <script>
-    document.getElementById("signup-form").addEventListener("submit", function(e) {
-      e.preventDefault(); // stop default submission
-      const role = document.getElementById("role").value;
+  <!-- ✅ Link to signup.js -->
+  <script type="module" src="assets/js/signup.js"></script>
 
-      if (role === "jobseeker") {
-        window.location.href = "signup-jobseeker.html";
-      } else if (role === "employer") {
-        window.location.href = "signup-employer.html";
-      } else {
-        alert("Please select a role.");
-      }
-    });
-  </script>
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Applications</title>
+  <link rel="stylesheet" href="assets/css/applications.css">
+</head>
+<body>
+  <div class="applications-container">
+    <h2>My Job Applications</h2>
+    <table class="applications-table">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Company</th>
+          <th>Status</th>
+          <th>Applied On</th>
+        </tr>
+      </thead>
+      <tbody id="applications-list">
+        <tr>
+          <td colspan="4">No applications yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="extra-links">
+      <a href="jobseeker-profile.html">Back to Profile</a>
+    </div>
+  </div>
+
+  <script>
+    const appsRaw = localStorage.getItem("applications");
+    if (appsRaw) {
+      const applications = JSON.parse(appsRaw);
+      const list = document.getElementById("applications-list");
+      list.innerHTML = "";
+      applications.forEach(app => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${app.job_title}</td>
+          <td>${app.company_name}</td>
+          <td>${app.status}</td>
+          <td>${app.applied_on}</td>
+        `;
+        list.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>

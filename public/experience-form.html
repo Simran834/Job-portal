@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Experience</title>
+  <link rel="stylesheet" href="assets/css/experience.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Work Experience</h2>
+    <form id="experience-form" action="/api/jobseeker-experience" method="POST">
+      
+      <label for="company_name">Company Name</label>
+      <input type="text" id="company_name" name="company_name" required>
+      <div class="error-message"></div>
+
+      <label for="role">Role / Position</label>
+      <input type="text" id="role" name="role" required>
+      <div class="error-message"></div>
+
+      <label for="start_date">Start Date</label>
+      <input type="date" id="start_date" name="start_date" required>
+      <div class="error-message"></div>
+
+      <label for="end_date">End Date</label>
+      <input type="date" id="end_date" name="end_date">
+      <div class="error-message"></div>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4" placeholder="Describe your responsibilities and achievements..." required></textarea>
+      <div class="error-message"></div>
+
+      <button type="submit">Save Experience</button>
+    </form>
+
+    <div class="extra-links">
+      <a href="jobseeker-profile.html">Back to Profile</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("experience-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const exp = {
+        company_name: document.getElementById("company_name").value.trim(),
+        role: document.getElementById("role").value.trim(),
+        start_date: document.getElementById("start_date").value,
+        end_date: document.getElementById("end_date").value,
+        description: document.getElementById("description").value.trim()
+      };
+
+      // Save to localStorage for now (later replace with backend API)
+      let experiences = JSON.parse(localStorage.getItem("experiences")) || [];
+      experiences.push(exp);
+      localStorage.setItem("experiences", JSON.stringify(experiences));
+
+      window.location.href = "jobseeker-profile.html";
+    });
+  </script>
+</body>
+</html>

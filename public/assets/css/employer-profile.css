@@ -1,106 +1,70 @@
-/* employer-profile.css */
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+}
+
+.employer-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-}
-
-.profile-container {
+  padding: 16px;
   background: #fff;
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-  width: 700px;
+  border-bottom: 1px solid #ddd;
 }
 
-.profile-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.company-logo {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
+.logo-container img {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 3px solid #203a43;
+  object-fit: cover;
 }
 
-.profile-header h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #203a43;
+.post-job-container {
+  font-size: 32px;
 }
 
-.profile-header p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
-.profile-details {
-  margin-top: 2rem;
-}
-
-.detail {
-  margin-bottom: 1.5rem;
-}
-
-.detail h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #203a43;
-  margin-bottom: 0.5rem;
-}
-
-.detail p {
-  font-size: 1rem;
-  color: #333;
-}
-
-.detail a {
-  color: #203a43;
+.post-job-btn {
   text-decoration: none;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: bold;
+  color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  padding: 4px 12px;
+  transition: background 0.3s, color 0.3s;
 }
 
-.detail a:hover {
-  text-decoration: underline;
-}
-
-.profile-footer {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.btn {
-  display: inline-block;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  background: #203a43;
+.post-job-btn:hover {
+  background: #007bff;
   color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-  margin: 0 0.5rem;
-  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.btn:hover {
-  background: #16222a;
-  transform: translateY(-2px);
+.employer-main {
+  padding: 24px;
 }
 
-.btn.secondary {
-  background: #ccc;
-  color: #203a43;
+.company-details {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.btn.secondary:hover {
-  background: #bbb;
+.posted-jobs {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.posted-jobs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.posted-jobs li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
 }

@@ -1,83 +1,100 @@
 /* login.css — mirrored from signup.css */
 
 /* Reset */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: url("../images/sign.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+}
 
 /* Page background */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: url("../images/sign.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', sans-serif;
+
+  /* Centering */
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
 }
 
 /* Container — same as signup */
-.login-container {
-  background: rgba(255, 255, 255, 0.9); /* whitish card */
-  padding: 3rem;                        /* same padding */
-  border-radius: 20px;                  /* same radius */
-  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-  width: 500px;                         /* same width as signup */
+.login-container{
+  width: 480px; /* bigger box */
+  max-width: 95vw;
+  background: rgba(255, 255, 255, 0.82); /* more transparent */
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px); /* soft blur behind */
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* Heading — same as signup */
-.login-container h2 {
+/* Optional: center heading and add spacing */
+.login-container h2{
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #0b3d91;
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.4rem;          /* same size */
-  font-weight: 800;
-  color: #0b3d91;             /* dark bluish */
 }
 
-/* Labels — same as signup */
-.login-container label {
+/* Inputs spacing for a balanced layout */
+.login-container label{
   display: block;
-  margin-bottom: 0.8rem;
-  font-weight: 600;
-  font-size: 1.2rem;          /* bigger labels */
+  margin: 0.6rem 0 0.35rem;
   color: #333;
+  font-weight: 600;
 }
 
-/* Inputs — same as signup */
-.login-container input[type="email"],
-.login-container input[type="password"] {
+.login-container input,
+.login-container select{
   width: 100%;
-  padding: 1.2rem;            /* big input boxes */
-  margin-bottom: 1.5rem;
-  border: 2px solid #ccc;
-  border-radius: 12px;
-  font-size: 1.2rem;          /* larger text inside inputs */
-  transition: border-color 0.3s ease;
-}
-
-.login-container input:focus {
-  border-color: #0b3d91;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
   outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-/* Button — same as signup */
-.login-container button {
+.login-container input:focus,
+.login-container select:focus{
+  border-color: #0b3d91;
+  box-shadow: 0 0 0 3px rgba(11, 61, 145, 0.15);
+}
+
+/* Button styling */
+.login-container button{
   width: 100%;
-  padding: 1.2rem;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border: none;
+  border-radius: 10px;
   background: #0b3d91;
   color: #fff;
-  font-size: 1.3rem;          /* bigger button text */
   font-weight: 700;
-  border: none;
-  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
 .login-container button:hover {
-  background: #092d6e;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 
 /* Extra links — same style language */
@@ -136,4 +153,42 @@ body {
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1.2rem;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-top: 0.8rem;
+}
+
+.forgot-password a {
+  color: #0b3d91;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+.alert-box {
+  display: none; /* hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #4CAF50; /* green */
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -60%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
 }

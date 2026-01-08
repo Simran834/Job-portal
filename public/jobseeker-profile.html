@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jobseeker Profile</title>
+  <link rel="stylesheet" href="assets/css/jobseeker-profile.css">
+</head>
+<body>
+  <div class="profile-container">
+    <!-- Header -->
+    <div class="profile-header">
+      <img src="assets/images/default-avatar.png" alt="Profile Picture" class="profile-avatar">
+      <h1 id="seeker_name">Full Name</h1>
+      <p id="current_position">Current Position</p>
+    </div>
+
+    <!-- Details -->
+    <div class="profile-details">
+      <div class="detail">
+        <h3>Phone</h3>
+        <p id="phone">+977-98xxxxxxx</p>
+      </div>
+
+      <div class="detail">
+        <h3>Address</h3>
+        <p id="address">Kathmandu, Nepal</p>
+      </div>
+
+      <div class="detail">
+        <h3>Bio</h3>
+        <p id="bio">Dynamic professional bio will load here...</p>
+      </div>
+
+      <div class="detail">
+        <h3>Current Salary</h3>
+        <p id="current_salary">—</p>
+      </div>
+
+      <div class="detail">
+        <h3>Expected Salary</h3>
+        <p id="expected_salary">—</p>
+      </div>
+
+      <div class="detail">
+        <h3>Open to Work</h3>
+        <p id="is_open_to_work">—</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="profile-footer">
+      <a href="index.html" class="btn">Back to Home</a>
+      <a href="signup-jobseeker.html" class="btn secondary">Edit Profile</a>
+    </div>
+  </div>
+
+  <!-- Script to load data -->
+  <script type="module">
+  async function loadProfile() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login first");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const res = await fetch("http://localhost:5050/jobseeker/profile", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.profile) {
+      alert(data.message || "No profile found");
+      return;
+    }
+
+    // Render profile details
+    document.getElementById("seeker_name").textContent = data.profile.seeker_name || "—";
+    document.getElementById("phone").textContent = data.profile.phone || "—";
+    document.getElementById("address").textContent = data.profile.address || "—";
+    document.getElementById("bio").textContent = data.profile.bio || "—";
+    document.getElementById("current_position").textContent = data.profile.current_position || "—";
+    document.getElementById("current_salary").textContent = data.profile.current_salary || "—";
+    document.getElementById("expected_salary").textContent = data.profile.expected_salary || "—";
+    document.getElementById("is_open_to_work").textContent = data.profile.is_open_to_work ? "✅ Yes" : "❌ No";
+  }
+
+  loadProfile();
+</script>
+
+</body>
+</html>

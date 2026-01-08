@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Listings</title>
+  <link rel="stylesheet" href="assets/css/job-listings.css">
+</head>
+<body>
+  <div class="listings-container">
+    <h2>Available Jobs</h2>
+
+    <!-- Filters -->
+    <div class="filters">
+      <input type="text" id="keyword" placeholder="Search by keyword...">
+      <input type="text" id="location" placeholder="Location...">
+      <button onclick="filterJobs()">Filter</button>
+    </div>
+
+    <!-- Job Listings -->
+    <div id="job-listings">
+      <p>No jobs available yet.</p>
+    </div>
+
+    <div class="extra-links">
+      <a href="index.html">Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    function renderJobs(jobs) {
+      const container = document.getElementById("job-listings");
+      container.innerHTML = "";
+      if (jobs.length === 0) {
+        container.innerHTML = "<p>No jobs found.</p>";
+        return;
+      }
+      jobs.forEach(job => {
+        const card = document.createElement("div");
+        card.className = "job-card";
+        card.innerHTML = `
+          <h3>${job.title}</h3>
+          <p><strong>Company:</strong> ${job.company_name || "N/A"}</p>
+          <p><strong>Location:</strong> ${job.location}</p>
+          <p><strong>Salary:</strong> ${job.salary_range}</p>
+          <p><strong>Posted On:</strong> ${job.posted_on}</p>
+          <p>${job.description}</p>
+          <p><strong>Requirements:</strong> ${job.requirements}</p>
+          <button onclick="applyJob('${job.title}', '${job.company_name}')">Apply</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterJobs() {
+      const keyword = document.getElementById("keyword").value.toLowerCase();
+      const location = document.getElementById("location").value.toLowerCase();
+      const jobs = JSON.parse(localStorage.getItem("job_postings")) || [];
+      const filtered = jobs.filter(job =>
+        job.title.toLowerCase().includes(keyword) &&
+        job.location.toLowerCase().includes(location)
+      );
+      renderJobs(filtered);
+    }
+
+    function applyJob(title, company) {
+      const applications = JSON.parse(localStorage.getItem("applications")) || [];
+      applications.push({
+        job_title: title,
+        company_name: company,
+        status: "Pending",
+        applied_on: new Date().toLocaleDateString()
+      });
+      localStorage.setItem("applications", JSON.stringify(applications));
+      alert("Application submitted!");
+    }
+
+    // Initial render
+    const jobs = JSON.parse(localStorage.getItem("job_postings")) || [];
+    renderJobs(jobs);
+  </script>
+</body>
+</html>

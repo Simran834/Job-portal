@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Job Posting</title>
+  <link rel="stylesheet" href="assets/css/job-posting.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create Job Posting</h2>
+    <form id="job-posting-form" action="/api/employer-job-postings" method="POST">
+      
+      <label for="title">Job Title</label>
+      <input type="text" id="title" name="title" required>
+      <div class="error-message"></div>
+
+      <label for="description">Job Description</label>
+      <textarea id="description" name="description" rows="4" required></textarea>
+      <div class="error-message"></div>
+
+      <label for="requirements">Requirements</label>
+      <textarea id="requirements" name="requirements" rows="3" required></textarea>
+      <div class="error-message"></div>
+
+      <label for="salary_range">Salary Range</label>
+      <input type="text" id="salary_range" name="salary_range" placeholder="e.g., 50,000 - 70,000" required>
+      <div class="error-message"></div>
+
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" required>
+      <div class="error-message"></div>
+
+      <button type="submit">Save Job Posting</button>
+    </form>
+
+    <div class="extra-links">
+      <a href="employer-profile.html">Back to Employer Profile</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("job-posting-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const job = {
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        requirements: document.getElementById("requirements").value.trim(),
+        salary_range: document.getElementById("salary_range").value.trim(),
+        location: document.getElementById("location").value.trim(),
+        posted_on: new Date().toLocaleDateString()
+      };
+
+      let jobs = JSON.parse(localStorage.getItem("job_postings")) || [];
+      jobs.push(job);
+      localStorage.setItem("job_postings", JSON.stringify(jobs));
+
+      window.location.href = "employer-profile.html";
+    });
+  </script>
+  
+</body>
+</html>

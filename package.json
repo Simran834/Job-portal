@@ -2,25 +2,27 @@
   "name": "job_portal",
   "version": "1.0.0",
   "main": "main.js",
-"scripts": {
-  "start": "node src/server.js",
-  "dev": "node src/server.js",
-  "prisma:migrate": "npx prisma migrate dev",
-  "prisma:generate": "npx prisma generate",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
-"keywords": [],
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:generate": "npx prisma generate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
   "author": "Simran Dhital",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.19.1",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "node": "^22.18.0",
+    "pg": "^8.16.3",
     "prisma": "^6.15.0"
   },
   "repository": {

@@ -4,43 +4,47 @@
   <meta charset="UTF-8">
   <title>Login</title>
   <link rel="stylesheet" href="assets/css/login.css">
-<script src="assets/js/validation.js"></script>
+  <scipt>window.</scipt>
 </head>
 <body>
   <div class="login-container">
     <h2>Login</h2>
-    <form action="/api/login" method="POST">
+
+    <!-- Single clean form -->
+    <form id="login-form" action="/auth/login" method="POST">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required>
+      <div class="error-message"></div>
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required>
-<form id="login-form" action="/api/login" method="POST">
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" required>
-  <div class="error-message"></div>
+      <div class="error-message"></div>
 
-  <label for="password">Password</label>
-  <input type="password" id="password" name="password" required>
-  <div class="error-message"></div>
+      <!-- Role dropdown -->
+      <label for="role">Choose Your Role</label>
+      <select id="role" name="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="jobseeker">Jobseeker</option>
+        <option value="employer">Employer</option>
+      </select>
+      <div class="error-message"></div>
 
-  <!-- Role dropdown -->
-  <label for="role">Choose Your Role</label>
-  <select id="role" name="role" required>
-    <option value="">-- Select Role --</option>
-    <option value="jobseeker">Jobseeker</option>
-    <option value="employer">Employer</option>
-  </select>
-  <div class="error-message"></div>
-</form>
-<script src="assets/js/validation.js"></script>
       <button type="submit">Login</button>
     </form>
+<!-- Success Alert Box -->
+    <div id="success-alert" class="alert-box">
+      <p>Login successful!</p>
+    <!-- Load modular JS files -->
+    <script type="module" src="assets/js/api.js"></script>
+    <script type="module" src="assets/js/validators.js"></script>
+    <script type="module" src="assets/js/auth.js"></script>
 
     <div class="extra-links">
       <a href="signup.html">Create Account</a> |
+      <a href="forgot-password.html">Forgot Password?</a> |
       <a href="index.html">Back to Home</a>
     </div>
   </div>
+</div>
 </body>
 </html>

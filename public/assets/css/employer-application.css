@@ -1,0 +1,95 @@
+/* employer-applications.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.applications-container {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  width: 900px;
+}
+
+.applications-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #203a43;
+}
+
+.applications-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.applications-table th,
+.applications-table td {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  text-align: left;
+}
+
+.applications-table th {
+  background: #203a43;
+  color: #fff;
+  font-weight: 700;
+}
+
+.applications-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.applications-table tr:hover {
+  background: #eef;
+}
+
+.applications-table button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.applications-table button:first-child {
+  background: #28a745;
+  color: #fff;
+}
+
+.applications-table button:first-child:hover {
+  background: #218838;
+}
+
+.applications-table button:last-child {
+  background: #dc3545;
+  color: #fff;
+}
+
+.applications-table button:last-child:hover {
+  background: #c82333;
+}
+
+.extra-links {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.extra-links a {
+  color: #203a43;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Applications</title>
+  <link rel="stylesheet" href="assets/css/employer-applications.css">
+</head>
+<body>
+  <div class="applications-container">
+    <h2>Applications for Your Job Postings</h2>
+    <table class="applications-table">
+      <thead>
+        <tr>
+          <th>Applicant Name</th>
+          <th>Job Title</th>
+          <th>Status</th>
+          <th>Applied On</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="employer-applications-list">
+        <tr>
+          <td colspan="5">No applications yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="extra-links">
+      <a href="employer-profile.html">Back to Employer Profile</a>
+    </div>
+  </div>
+
+  <script>
+    const appsRaw = localStorage.getItem("applications");
+    if (appsRaw) {
+      const applications = JSON.parse(appsRaw);
+      const list = document.getElementById("employer-applications-list");
+      list.innerHTML = "";
+      applications.forEach((app, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${app.applicant_name || "Anonymous"}</td>
+          <td>${app.job_title}</td>
+          <td id="status-${index}">${app.status}</td>
+          <td>${app.applied_on}</td>
+          <td>
+            <button onclick="updateStatus(${index}, 'Accepted')">Accept</button>
+            <button onclick="updateStatus(${index}, 'Rejected')">Reject</button>
+          </td>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function updateStatus(index, newStatus) {
+      const applications = JSON.parse(localStorage.getItem("applications")) || [];
+      applications[index].status = newStatus;
+      localStorage.setItem("applications", JSON.stringify(applications));
+      document.getElementById(`status-${index}`).textContent = newStatus;
+    }
+  </script>
+</body>
+</html>
