@@ -1,7 +1,6 @@
-// import { create } from "domain";
-import { prisma } from "../utils/prisma-client.js";
-import { generateToken } from "../utils/json.js";
-import bcrypt from 'bcrypt';
+const { prisma } = require('../utils/prisma-client');
+const { generateToken } = require('../utils/jwt.util');
+const bcrypt = require('bcrypt');
 
 const createUser = async (req, res) => {
   try {
@@ -96,7 +95,7 @@ const loginUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        if(loggedInUser.role !== id ){
+        const loggedInUser = req.user;
         const userId = parseInt(req.params.id);
         const { name, email, role, is_verified } = req.body;        
         const updatedUser = await prisma.user.update({
@@ -111,12 +110,7 @@ const updateUser = async (req, res) => {
                 createdAt: true,
             }
         });
-        if(!loggedInUser){
-            return res.status(404).json({message: "user not found"});
-
-        }
         res.status(200).json(updatedUser);
-    }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -143,4 +137,4 @@ const deleteUser = async (req, res) => {
 
 
 
-export { createUser, getUsers, loginUser, updateUser, deleteUser };
+module.exports = { createUser, getUsers, loginUser, updateUser, deleteUser };

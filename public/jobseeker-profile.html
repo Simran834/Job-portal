@@ -64,7 +64,7 @@
       return;
     }
 
-    const res = await fetch("http://localhost:5050/jobseeker/profile", {
+    const res = await fetch("http://localhost:5050/api/jobseeker/profile", {
       headers: { "Authorization": `Bearer ${token}` }
     });
 

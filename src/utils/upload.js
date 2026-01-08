@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from'fs';
-const uploadDir = path. join(process.cwd(), 'upload');
+const path = require('path');
+const fs = require('fs');
+const uploadDir = path.join(process.cwd(), 'upload');
 
 const uploadFile = async(file,allowedMimeTypes) =>{
   if(!fs.existsSync(uploadDir)){
@@ -32,5 +32,5 @@ const uploadFile = async(file,allowedMimeTypes) =>{
     fs.writeFileSync(fullFilePath, file.data);
      return fileUri
 }
-export {uploadFile}
+module.exports = { uploadFile };
 

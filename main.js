@@ -1,20 +1,22 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import router from './src/routes/router.js';
-import cors from 'cors';
+const express = require('express');
+const dotenv = require('dotenv');
+const router = require('./src/routes/router.js');
+const cors = require('cors');
 
-import e from 'express';
-e 
 dotenv.config();
 
-
 const app = express();
-const PORT =process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/apii", router);
+app.use("/api", router);
 
-app.listen(PORT, () =>{
+//serve static files from public folders
+app.use(express.static('public'));
+//serve static files from uploads folder
+app.use('/uploads', express.static('uploads'));
+
+app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

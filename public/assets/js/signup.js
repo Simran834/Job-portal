@@ -140,15 +140,20 @@ form.addEventListener("submit", async (e) => {
     role: roleInput.value
   };
 
-    try {
-      // Call backend signup API via centralized routes helper
-      const result = await routes.auth.signup(payload);
+  try {
+    // Call backend signup API
+    const res = await fetch("http://localhost:5050/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-      if (!result.ok) {
-        const msg = (result.data && result.data.message) || 'Signup failed';
-        alert(msg);
-        return;
-      }
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Signup failed");
+      return;
+    }
 
       const data = result.data;
       // Store token

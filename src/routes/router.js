@@ -13,7 +13,9 @@ const skillRoutes = require('./skill.routes');
 const socialLinkRoutes = require('./socialLink.routes');
 const applicationActivityRoutes = require('./applicationActivity.routes');
 const passwordResetRoutes = require('./passwordReset.routes');
-const categoryRoutes = require('./category.routes');
+// const categoryRoutes = require('./category.routes');
+const userRoutes = require('./user.routes');
+const adminRoutes = require('./admin.routes');
 
 router.use('/auth', authRoutes);
 router.use('/jobseeker', jobseekerRoutes);
@@ -26,6 +28,8 @@ router.use('/skill', skillRoutes);
 router.use('/sociallink', socialLinkRoutes);
 router.use('/application-activity', applicationActivityRoutes);
 router.use('/password-reset', passwordResetRoutes);
-router.use('/category', categoryRoutes);
+// router.use('/category', categoryRoutes);
+router.use('/user', userRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;
