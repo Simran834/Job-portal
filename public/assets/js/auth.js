@@ -52,16 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Save token + role
     localStorage.setItem("token", data.token);
-    localStorage.setItem("role", data.role);
+    const roleValue = data.user?.role || data.role || '';
+    localStorage.setItem('role', roleValue);
 
     // Show success alert
     showAlert("Login successful!", "success");
 
     // Redirect after short delay
     setTimeout(() => {
-      if (data.role === "ADMIN") {
+      const r = roleValue;
+      if (r === "ADMIN") {
         window.location.href = "admin-panel.html";
-      } else if (data.role === "EMPLOYER") {
+      } else if (r === "EMPLOYER") {
         window.location.href = "employer-profile.html";
       } else {
         window.location.href = "jobseeker-profile.html";

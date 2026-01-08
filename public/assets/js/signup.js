@@ -1,4 +1,6 @@
 // signup.js
+import { routes } from './routes.js';
+
 document.addEventListener("DOMContentLoaded", () => {
   // ---- Element references (fail-safe) ----
   const form = document.getElementById("signup-form");
@@ -138,34 +140,30 @@ form.addEventListener("submit", async (e) => {
     role: roleInput.value
   };
 
-  try {
-    // Call backend signup API
-    const res = await fetch("http://localhost:5050/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    try {
+      // Call backend signup API via centralized routes helper
+      const result = await routes.auth.signup(payload);
 
-    const data = await res.json();
+      if (!result.ok) {
+        const msg = (result.data && result.data.message) || 'Signup failed';
+        alert(msg);
+        return;
+      }
 
-    if (!res.ok) {
-      alert(data.message || "Signup failed");
-      return;
+      const data = result.data;
+      // Store token
+      if (data.token) localStorage.setItem('token', data.token);
+
+      // Redirect based on role
+      if (payload.role === 'jobseeker') {
+        window.location.href = '../signup-jobseeker.html';
+      } else if (payload.role === 'employer') {
+        window.location.href = '../signup-employer.html';
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      alert('Server error during signup');
     }
-
-    //  Store token immediately
-    localStorage.setItem("token", data.token);
-
-    //  Redirect based on role
-    if (payload.role === "jobseeker") {
-      window.location.href = "../signup-jobseeker.html";
-    } else if (payload.role === "employer") {
-      window.location.href = "../signup-employer.html";
-    }
-  } catch (err) {
-    console.error("Signup error:", err);
-    alert("Server error during signup");
-  }
 });
 });
 
