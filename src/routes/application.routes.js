@@ -6,7 +6,7 @@ const requireRole = require('../middlewares/role.middleware');
 const { applyJob, getApplicationsForJob, updateApplicationStatus, deleteApplication } = require('../controllers/application.controller');
 
 // Job seeker applies
-router.post('/', auth, requireRole('JOB_SEEKER'), applyJob);
+router.post('/', auth, requireRole('JOBSEEKER'), applyJob);
 
 // Employer views applications for a job
 router.get('/:jobId', auth, requireRole('EMPLOYER'), getApplicationsForJob);

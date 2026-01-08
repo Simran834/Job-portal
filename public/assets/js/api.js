@@ -21,4 +21,25 @@ export const api = {
     const data = await res.json();
     return { ok: res.ok, data};
   }
+  ,
+  put: async (url, payload, token) => {
+    const res = await fetch(`${API_BASE}${url}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    return { ok: res.ok, data };
+  },
+  delete: async (url, token) => {
+    const res = await fetch(`${API_BASE}${url}`, {
+      method: "DELETE",
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    const data = await res.json();
+    return { ok: res.ok, data };
+  }
 };

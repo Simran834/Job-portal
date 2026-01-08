@@ -140,7 +140,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     // Call backend signup API
-    const res = await fetch("http://localhost:5050/auth/signup", {
+    const res = await fetch("http://localhost:5050/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -158,9 +158,9 @@ form.addEventListener("submit", async (e) => {
 
     //  Redirect based on role
     if (payload.role === "jobseeker") {
-      window.location.href = "signup-jobseeker.html";
+      window.location.href = "../signup-jobseeker.html";
     } else if (payload.role === "employer") {
-      window.location.href = "signup-employer.html";
+      window.location.href = "../signup-employer.html";
     }
   } catch (err) {
     console.error("Signup error:", err);
