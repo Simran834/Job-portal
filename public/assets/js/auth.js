@@ -1,5 +1,5 @@
-import { api } from "./api.js";
-import { validateEmail, validatePassword, validateRole } from "./validators.js";
+const api = require("./api.js");
+const { validateEmail, validatePassword, validateRole } = require("./validators.js");
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("login-form");

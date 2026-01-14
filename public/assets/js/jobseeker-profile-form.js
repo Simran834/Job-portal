@@ -1,4 +1,4 @@
-import { api } from "./api.js";
+const api = require("./api.js");
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("jobseeker-form");
