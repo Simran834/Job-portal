@@ -1,5 +1,5 @@
 // signup.js
-import { routes } from './routes.js';
+const routes = require("./routes.js");
 
 document.addEventListener("DOMContentLoaded", () => {
   // ---- Element references (fail-safe) ----

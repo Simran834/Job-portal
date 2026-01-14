@@ -1,4 +1,4 @@
-import { api } from './api.js';
+const api = require("./api.js");
 
 // Centralized frontend -> backend route helpers
 export const routes = {
