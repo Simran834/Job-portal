@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — JobPortal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0b3d91, #00e0ff);
+      color: #fff;
+      margin: 0; padding: 0;
+    }
+    .about-container {
+      max-width: 1100px; margin: 5rem auto; padding: 2rem;
+    }
+    section {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    h1, h2 {
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+    h1 { font-size: 2.8rem; text-align: center; }
+    h2 { font-size: 2rem; color: #f8e473; }
+    p { font-size: 1.2rem; line-height: 1.6; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .feature-card:hover { transform: translateY(-4px); }
+    .feature-card h3 { color: #00e0ff; margin-bottom: 0.8rem; }
+    .team {
+      display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;
+    }
+    .team-member {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 220px;
+      text-align: center;
+    }
+    .team-member img {
+      width: 100px; height: 100px; border-radius: 50%; margin-bottom: 1rem;
+      border: 3px solid #00e0ff;
+    }
+    .contact {
+      text-align: center;
+    }
+    .contact button {
+      background: linear-gradient(45deg, #ff6b6b, #f8e473);
+      border: none; padding: 1rem 2rem; border-radius: 12px;
+      font-weight: 700; cursor: pointer; color: #000;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .contact button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="about-container">
+    <h1>About JobPortal</h1>
+
+    <section>
+      <h2>Our Mission</h2>
+      <p>To empower jobseekers and employers by providing a seamless, modern platform for career growth and talent acquisition.</p>
+    </section>
+
+    <section>
+      <h2>Our Vision</h2>
+      <p>We envision a world where opportunities are accessible to everyone, and hiring is transparent, efficient, and rewarding.</p>
+    </section>
+
+    <section>
+      <h2>Key Features</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h3>Smart Matching</h3>
+          <p>AI-powered recommendations that connect the right talent with the right job.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Elegant Dashboard</h3>
+          <p>Intuitive design for jobseekers and employers to manage applications effortlessly.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Secure Authentication</h3>
+          <p>Internationally approved standards for safe and reliable onboarding.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Global Reach</h3>
+          <p>Opportunities across industries and locations, accessible anytime, anywhere.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Meet Our Team</h2>
+      <div class="team">
+        <div class="team-member">
+          <img src="assets/images/team1.jpg" alt="Team Member">
+          <h3>Asbin</h3>
+          <p>Lead Developer</p>
+        </div>
+        <div class="team-member">
+          <img src="assets/images/team2.jpg" alt="Team Member">
+          <h3>Priya</h3>
+          <p>UI/UX Designer</p>
+        </div>
+        <div class="team-member">
+          <img src="assets/images/team3.jpg" alt="Team Member">
+          <h3>Arjun</h3>
+          <p>Backend Engineer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2>Get in Touch</h2>
+      <p>Have questions or feedback? We’d love to hear from you.</p>
+      <button onclick="window.location.href='contact.html'">Contact Us</button>
+    </section>
+  </div>
+</body>
+</html>
+

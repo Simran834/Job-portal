@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 async function auth(req, res, next) {
   try {
-    const header = req.headers.authorization;
+    const header = req.headers["authorization"];
 
     if (!header || !header.startsWith("Bearer ")) {
       return res.status(401).json({ message: "Unauthorized: No token provided" });
@@ -11,21 +11,22 @@ async function auth(req, res, next) {
 
     const token = header.split(" ")[1];
 
-    // ✅ Verify directly with jsonwebtoken and your secret
+    //  Verify directly with jsonwebtoken and your secret
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    
 
     if (!decoded) {
       return res.status(401).json({ message: "Unauthorized: Invalid or expired token" });
     }
 
-    // ✅ Look up user in DB
+    // Look up user in DB
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: {
         id: true,
         email: true,
-        role: true,
-        name: true,
+        role: true
       },
     });
 

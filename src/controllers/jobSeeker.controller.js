@@ -3,7 +3,7 @@ const prisma = require("../config/prismaClient");
 // CREATE profile (first time)
 exports.createProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const user_id = req.user.id;
     const {
       seeker_name,
       phone,
@@ -15,7 +15,7 @@ exports.createProfile = async (req, res) => {
       is_open_to_work
     } = req.body;
 
-    const profile = await prisma.jobSeeker.create({
+    const profile = await prisma.job_seeker.create({
       data: {
         seeker_name,
         phone,
@@ -25,7 +25,7 @@ exports.createProfile = async (req, res) => {
         current_salary: current_salary ? parseFloat(current_salary) : null,
         expected_salary: expected_salary ? parseFloat(expected_salary) : null,
         is_open_to_work: !!is_open_to_work,
-        userId
+        user_id
       }
     });
 
@@ -39,7 +39,7 @@ exports.createProfile = async (req, res) => {
 // UPDATE profile (modify existing)
 exports.updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const user_id = req.user.id;
     const {
       seeker_name,
       phone,
@@ -51,8 +51,8 @@ exports.updateProfile = async (req, res) => {
       is_open_to_work
     } = req.body;
 
-    const updated = await prisma.jobSeeker.update({
-      where: { userId },
+    const updated = await prisma.job_seeker.update({
+      where: { user_id },
       data: {
         seeker_name,
         phone,
@@ -75,9 +75,9 @@ exports.updateProfile = async (req, res) => {
 // GET profile
 exports.getProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const profile = await prisma.jobSeeker.findUnique({
-      where: { userId },
+    const user_id = req.user.id;
+    const profile = await prisma.job_seeker.findUnique({
+      where: { user_id },
       include: { user: { select: { email: true } } }
     });
 
@@ -92,9 +92,9 @@ exports.getProfile = async (req, res) => {
 // DELETE profile
 exports.deleteProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    await prisma.jobSeeker.delete({ where: { userId } });
-    await prisma.user.delete({ where: { id: userId } });
+    const user_id = req.user.id;
+    await prisma.job_seeker.delete({ where: { user_id } });
+    await prisma.user.delete({ where: { id: user_id } });
 
     return res.json({ message: "Jobseeker account and profile deleted successfully" });
   } catch (err) {
@@ -107,7 +107,7 @@ exports.deleteProfile = async (req, res) => {
 // SAVE profile (create if none exists, update if it does)
 exports.saveProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const user_id = req.user.id;
     const {
       seeker_name,
       phone,
@@ -119,8 +119,8 @@ exports.saveProfile = async (req, res) => {
       is_open_to_work
     } = req.body;
 
-    const profile = await prisma.jobSeeker.upsert({
-      where: { userId },
+    const profile = await prisma.job_seeker.upsert({
+      where: { user_id },
       update: {
         seeker_name,
         phone,
@@ -140,7 +140,7 @@ exports.saveProfile = async (req, res) => {
         current_salary: current_salary ? parseFloat(current_salary) : null,
         expected_salary: expected_salary ? parseFloat(expected_salary) : null,
         is_open_to_work: !!is_open_to_work,
-        userId
+        user_id
       }
     });
 

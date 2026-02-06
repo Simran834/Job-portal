@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Skill</title>
+</head>
+<body>
+  <form id="edit-skill-form">
+    <label>Skill Name</label>
+    <input type="text" id="name" required>
+    <label>Proficiency</label>
+    <select id="proficiency" required>
+      <option value="BEGINNER">Beginner</option>
+      <option value="INTERMEDIATE">Intermediate</option>
+      <option value="ADVANCED">Advanced</option>
+      <option value="EXPERT">Expert</option>
+    </select>
+    <button type="submit">Update Skill</button>
+  </form>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      const skillId = new URLSearchParams(window.location.search).get("id");
+
+      // Load skill
+      const res = await fetch("http://localhost:5050/api/skills", { headers: { Authorization: `Bearer ${token}` }});
+      const { skills } = await res.json();
+      const skill = skills.find(s => s.skill_id == skillId);
+      document.getElementById("name").value = skill.name;
+      document.getElementById("proficiency").value = skill.proficiency;
+
+      // Update
+      document.getElementById("edit-skill-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const skillData = {
+          name: document.getElementById("name").value.trim(),
+          proficiency: document.getElementById("proficiency").value
+        };
+        const res = await fetch(`http://localhost:5050/api/skills/${skillId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify(skillData)
+        });
+        if (res.ok) {
+          alert("Skill updated!");
+          window.location.href = "jobseeker-profile.html";
+        } else {
+          alert("Error updating skill");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

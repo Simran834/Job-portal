@@ -17,6 +17,8 @@ const passwordResetRoutes = require('./passwordReset.routes');
 const userRoutes = require('./user.routes');
 const adminRoutes = require('./admin.routes');
 
+
+router.use("/api/admin", adminRoutes);
 router.use('/auth', authRoutes);
 router.use('/jobseeker', jobseekerRoutes);
 router.use('/employer', employerRoutes);

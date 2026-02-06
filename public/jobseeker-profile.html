@@ -2,92 +2,1026 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Jobseeker Profile</title>
-  <link rel="stylesheet" href="assets/css/jobseeker-profile.css">
+  <title>Jobseeker</title>
+  <link rel="stylesheet" href="assets/css/profile.css">
 </head>
 <body>
-  <div class="profile-container">
-    <!-- Header -->
-    <div class="profile-header">
-      <img src="assets/images/default-avatar.png" alt="Profile Picture" class="profile-avatar">
-      <h1 id="seeker_name">Full Name</h1>
-      <p id="current_position">Current Position</p>
-    </div>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h3>JOBSEEKER</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">My Profile</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Applied Jobs</a></li>
+        <li><a href="#">Notifications</a></li>
+        <li><a href="#" id="logout-btn">Logout</a></li>
+      </ul>
+    </aside>
 
-    <!-- Details -->
-    <div class="profile-details">
-      <div class="detail">
-        <h3>Phone</h3>
-        <p id="phone">+977-98xxxxxxx</p>
+    <!-- Main content -->
+    <main class="main-content">
+      <h2>My Profile</h2>
+
+      <!-- Success/Error Messages -->
+      <div class="success-message" id="successMsg"></div>
+      <div class="error-message" id="errorMsg"></div>
+
+      <!-- Profile Details -->
+      <section class="panel">
+        <h3>Personal Information</h3>
+        <div class="action-buttons">
+          <button class="add-btn" onclick="openProfileModal('add')">Add Details</button>
+          <button class="update-btn" onclick="openProfileModal('update')">Update Details</button>
+          <button class="delete-btn" onclick="deleteProfile()">Delete Details</button>
+        </div>
+        <div id="profile-details"></div>
+      </section>
+
+      <!-- Education -->
+      <section class="panel">
+        <h3>Education</h3>
+        <div class="action-buttons">
+          <button class="add-btn" onclick="openEducationModal('add')">Add</button>
+          <button class="update-btn" onclick="openEducationModal('update')">Update</button>
+          <button class="delete-btn" onclick="deleteEducation()">Delete</button>
+        </div>
+        <ul id="education-list"></ul>
+      </section>
+
+      <!-- Work Experience -->
+      <section class="panel">
+        <h3>Work Experience</h3>
+        <div class="action-buttons">
+          <button class="add-btn" onclick="openExperienceModal('add')">Add</button>
+          <button class="update-btn" onclick="openExperienceModal('update')">Update</button>
+          <button class="delete-btn" onclick="deleteExperience()">Delete</button>
+        </div>
+        <ul id="experience-list"></ul>
+      </section>
+
+      <!-- Skills -->
+      <section class="panel">
+        <h3>Skills</h3>
+        <div class="action-buttons">
+          <button class="add-btn" onclick="openSkillModal('add')">Add</button>
+          <button class="update-btn" onclick="openSkillModal('update')">Update</button>
+          <button class="delete-btn" onclick="deleteSkill()">Delete</button>
+        </div>
+        <ul id="skills-list"></ul>
+      </section>
+
+      <!-- Social Links -->
+      <section class="panel">
+        <h3>Social Links</h3>
+        <div class="action-buttons">
+          <button class="add-btn" onclick="openSocialLinkModal('add')">Add</button>
+          <button class="update-btn" onclick="openSocialLinkModal('update')">Update</button>
+          <button class="delete-btn" onclick="deleteSocialLink()">Delete</button>
+        </div>
+        <ul id="sociallink-list"></ul>
+      </section>
+
+      <!-- Applied Jobs -->
+      <section class="panel">
+        <h3>Applied Jobs</h3>
+        <ul id="applied-jobs"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="profileModalTitle">Add Profile Details</h2>
+        <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
       </div>
-
-      <div class="detail">
-        <h3>Address</h3>
-        <p id="address">Kathmandu, Nepal</p>
-      </div>
-
-      <div class="detail">
-        <h3>Bio</h3>
-        <p id="bio">Dynamic professional bio will load here...</p>
-      </div>
-
-      <div class="detail">
-        <h3>Current Salary</h3>
-        <p id="current_salary">—</p>
-      </div>
-
-      <div class="detail">
-        <h3>Expected Salary</h3>
-        <p id="expected_salary">—</p>
-      </div>
-
-      <div class="detail">
-        <h3>Open to Work</h3>
-        <p id="is_open_to_work">—</p>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="profile-footer">
-      <a href="index.html" class="btn">Back to Home</a>
-      <a href="signup-jobseeker.html" class="btn secondary">Edit Profile</a>
+      <form id="profileForm" onsubmit="saveProfile(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="profileName" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="profilePhone">
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" id="profileAddress">
+        </div>
+        <div class="form-group">
+          <label>Bio</label>
+          <textarea id="profileBio"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Current Position</label>
+          <input type="text" id="profilePosition">
+        </div>
+        <div class="form-group">
+          <label>Current Salary</label>
+          <input type="number" id="profileCurrentSalary">
+        </div>
+        <div class="form-group">
+          <label>Expected Salary</label>
+          <input type="number" id="profileExpectedSalary">
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="profileOpenToWork">
+            Open to Work
+          </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('profileModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Script to load data -->
-  <script type="module">
-  async function loadProfile() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Please login first");
-      window.location.href = "login.html";
-      return;
+  <!-- Education Modal -->
+  <div class="modal" id="educationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="educationModalTitle">Add Education</h2>
+        <button class="close-btn" onclick="closeModal('educationModal')">&times;</button>
+      </div>
+      <form id="educationForm" onsubmit="saveEducation(event)">
+        <div class="form-group">
+          <label>Institution</label>
+          <input type="text" id="eduInstitution" required>
+        </div>
+        <div class="form-group">
+          <label>Degree</label>
+          <input type="text" id="eduDegree" required>
+        </div>
+        <div class="form-group">
+          <label>Field of Study</label>
+          <input type="text" id="eduField" required>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" id="eduStartDate" required>
+        </div>
+        <div class="form-group">
+          <label>End Date (Optional)</label>
+          <input type="date" id="eduEndDate">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="eduDescription"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('educationModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Experience Modal -->
+  <div class="modal" id="experienceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="experienceModalTitle">Add Work Experience</h2>
+        <button class="close-btn" onclick="closeModal('experienceModal')">&times;</button>
+      </div>
+      <form id="experienceForm" onsubmit="saveExperience(event)">
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" id="expCompany" required>
+        </div>
+        <div class="form-group">
+          <label>Job Title</label>
+          <input type="text" id="expTitle" required>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" id="expStartDate" required>
+        </div>
+        <div class="form-group">
+          <label>End Date (Leave blank if current)</label>
+          <input type="date" id="expEndDate">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="expDescription"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('experienceModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skills Modal -->
+  <div class="modal" id="skillModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="skillModalTitle">Add Skill</h2>
+        <button class="close-btn" onclick="closeModal('skillModal')">&times;</button>
+      </div>
+      <form id="skillForm" onsubmit="saveSkill(event)">
+        <div class="form-group">
+          <label>Skill Name</label>
+          <input type="text" id="skillName" required>
+        </div>
+        <div class="form-group">
+          <label>Proficiency Level</label>
+          <select id="skillProficiency">
+            <option value="">Select Level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+            <option value="Expert">Expert</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('skillModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Social Links Modal -->
+  <div class="modal" id="socialLinkModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="socialLinkModalTitle">Add Social Link</h2>
+        <button class="close-btn" onclick="closeModal('socialLinkModal')">&times;</button>
+      </div>
+      <form id="socialLinkForm" onsubmit="saveSocialLink(event)">
+        <div class="form-group">
+          <label>Platform (LinkedIn, GitHub, Twitter, etc.)</label>
+          <input type="text" id="socialPlatform" required>
+        </div>
+        <div class="form-group">
+          <label>Profile URL</label>
+          <input type="url" id="socialUrl" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('socialLinkModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/apiService.js"></script>
+  <script>
+    const API_BASE = "http://localhost:5050/api";
+    let selectedEducationId = null;
+    let selectedExperienceId = null;
+    let selectedSkillId = null;
+    let selectedSocialLinkId = null;
+    let currentMode = 'add';
+
+    // Helper functions
+    function showMessage(message, type = 'success') {
+      const successMsg = document.getElementById('successMsg');
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (type === 'success') {
+        successMsg.textContent = message;
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 3000);
+      } else {
+        errorMsg.textContent = message;
+        errorMsg.style.display = 'block';
+        successMsg.style.display = 'none';
+        setTimeout(() => {
+          errorMsg.style.display = 'none';
+        }, 3000);
+      }
     }
 
-    const res = await fetch("http://localhost:5050/api/jobseeker/profile", {
-      headers: { "Authorization": `Bearer ${token}` }
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('show');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('show');
+    }
+
+    // Profile Functions
+    function openProfileModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('profileModal');
+      const title = document.getElementById('profileModalTitle');
+
+      if (mode === 'add') {
+        title.textContent = 'Add Profile Details';
+        document.getElementById('profileForm').reset();
+      } else if (mode === 'update') {
+        title.textContent = 'Update Profile Details';
+        loadProfileDataToForm();
+      }
+      openModal('profileModal');
+    }
+
+    async function loadProfileDataToForm() {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/jobseeker/get`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to fetch profile');
+        const data = await res.json();
+        const profile = data.profile;
+
+        if (profile) {
+          document.getElementById('profileName').value = profile.seeker_name || '';
+          document.getElementById('profilePhone').value = profile.phone || '';
+          document.getElementById('profileAddress').value = profile.address || '';
+          document.getElementById('profileBio').value = profile.bio || '';
+          document.getElementById('profilePosition').value = profile.current_position || '';
+          document.getElementById('profileCurrentSalary').value = profile.current_salary || '';
+          document.getElementById('profileExpectedSalary').value = profile.expected_salary || '';
+          document.getElementById('profileOpenToWork').checked = profile.is_open_to_work || false;
+        }
+      } catch (err) {
+        console.error('Error loading profile:', err);
+        showMessage('Error loading profile details', 'error');
+      }
+    }
+
+    async function saveProfile(event) {
+      event.preventDefault();
+      try {
+        const token = localStorage.getItem('token');
+        const profileData = {
+          seeker_name: document.getElementById('profileName').value,
+          phone: document.getElementById('profilePhone').value,
+          address: document.getElementById('profileAddress').value,
+          bio: document.getElementById('profileBio').value,
+          current_position: document.getElementById('profilePosition').value,
+          current_salary: document.getElementById('profileCurrentSalary').value,
+          expected_salary: document.getElementById('profileExpectedSalary').value,
+          is_open_to_work: document.getElementById('profileOpenToWork').checked
+        };
+
+        console.log('Saving profile data:', profileData);
+        const res = await fetch(`${API_BASE}/jobseeker/update`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(profileData)
+        });
+
+        if (!res.ok) {
+          const error = await res.text();
+          console.error('API error:', error);
+          throw new Error('Failed to save profile');
+        }
+
+        const result = await res.json();
+        console.log('Profile saved response:', result);
+
+        showMessage('Profile saved successfully!');
+        closeModal('profileModal');
+        
+        // Reload profile data immediately
+        await loadProfile();
+      } catch (err) {
+        console.error('Error saving profile:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    async function deleteProfile() {
+      if (!confirm('Are you sure you want to delete your profile details?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/jobseeker/get`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to fetch profile');
+
+        // Clear all fields by sending empty update
+        const res2 = await fetch(`${API_BASE}/jobseeker/update`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            seeker_name: '',
+            phone: '',
+            address: '',
+            bio: '',
+            current_position: '',
+            current_salary: '',
+            expected_salary: '',
+            is_open_to_work: false
+          })
+        });
+
+        if (!res2.ok) throw new Error('Failed to delete profile');
+
+        showMessage('Profile details cleared!');
+        loadProfile();
+      } catch (err) {
+        console.error('Error deleting profile:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // Education Functions
+    function openEducationModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('educationModal');
+      const title = document.getElementById('educationModalTitle');
+
+      if (mode === 'add') {
+        title.textContent = 'Add Education';
+        document.getElementById('educationForm').reset();
+      } else if (mode === 'update') {
+        title.textContent = 'Update Education';
+        if (!selectedEducationId) {
+          showMessage('Please select an education entry to update', 'error');
+          return;
+        }
+      }
+      openModal('educationModal');
+    }
+
+    async function saveEducation(event) {
+      event.preventDefault();
+      try {
+        const token = localStorage.getItem('token');
+        const educationData = {
+          institution: document.getElementById('eduInstitution').value,
+          degree: document.getElementById('eduDegree').value,
+          field_of_study: document.getElementById('eduField').value,
+          start_date: document.getElementById('eduStartDate').value,
+          end_date: document.getElementById('eduEndDate').value || null,
+          description: document.getElementById('eduDescription').value
+        };
+
+        const endpoint = currentMode === 'add' ? '/education' : `/education/${selectedEducationId}`;
+        const method = currentMode === 'add' ? 'POST' : 'PUT';
+
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(educationData)
+        });
+
+        if (!res.ok) throw new Error('Failed to save education');
+
+        showMessage(
+          currentMode === 'add' ? 'Education added successfully!' : 'Education updated successfully!'
+        );
+        closeModal('educationModal');
+        selectedEducationId = null;
+        await loadEducation();
+      } catch (err) {
+        console.error('Error saving education:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    async function deleteEducation() {
+      if (!selectedEducationId) {
+        showMessage('Please select an education entry to delete', 'error');
+        return;
+      }
+
+      if (!confirm('Are you sure you want to delete this education entry?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/education/${selectedEducationId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('Failed to delete education');
+
+        showMessage('Education entry deleted successfully!');
+        selectedEducationId = null;
+        loadEducation();
+      } catch (err) {
+        console.error('Error deleting education:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // Experience Functions
+    function openExperienceModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('experienceModal');
+      const title = document.getElementById('experienceModalTitle');
+
+      if (mode === 'add') {
+        title.textContent = 'Add Work Experience';
+        document.getElementById('experienceForm').reset();
+      } else if (mode === 'update') {
+        title.textContent = 'Update Work Experience';
+        if (!selectedExperienceId) {
+          showMessage('Please select a work experience entry to update', 'error');
+          return;
+        }
+      }
+      openModal('experienceModal');
+    }
+
+    async function saveExperience(event) {
+      event.preventDefault();
+      try {
+        const token = localStorage.getItem('token');
+        const experienceData = {
+          company_name: document.getElementById('expCompany').value,
+          job_title: document.getElementById('expTitle').value,
+          start_date: document.getElementById('expStartDate').value,
+          end_date: document.getElementById('expEndDate').value || null,
+          description: document.getElementById('expDescription').value
+        };
+
+        const endpoint = currentMode === 'add' ? '/experience' : `/experience/${selectedExperienceId}`;
+        const method = currentMode === 'add' ? 'POST' : 'PUT';
+
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(experienceData)
+        });
+
+        if (!res.ok) throw new Error('Failed to save experience');
+
+        showMessage(
+          currentMode === 'add' ? 'Experience added successfully!' : 'Experience updated successfully!'
+        );
+        closeModal('experienceModal');
+        selectedExperienceId = null;
+        await loadExperience();
+      } catch (err) {
+        console.error('Error saving experience:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    async function deleteExperience() {
+      if (!selectedExperienceId) {
+        showMessage('Please select a work experience entry to delete', 'error');
+        return;
+      }
+
+      if (!confirm('Are you sure you want to delete this experience entry?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/experience/${selectedExperienceId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('Failed to delete experience');
+
+        showMessage('Experience entry deleted successfully!');
+        selectedExperienceId = null;
+        loadExperience();
+      } catch (err) {
+        console.error('Error deleting experience:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // Skills Functions
+    function openSkillModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('skillModal');
+      const title = document.getElementById('skillModalTitle');
+
+      if (mode === 'add') {
+        title.textContent = 'Add Skill';
+        document.getElementById('skillForm').reset();
+      } else if (mode === 'update') {
+        title.textContent = 'Update Skill';
+        if (!selectedSkillId) {
+          showMessage('Please select a skill to update', 'error');
+          return;
+        }
+      }
+      openModal('skillModal');
+    }
+
+    async function saveSkill(event) {
+      event.preventDefault();
+      try {
+        const token = localStorage.getItem('token');
+        const skillData = {
+          name: document.getElementById('skillName').value,
+          proficiency: document.getElementById('skillProficiency').value
+        };
+
+        const endpoint = currentMode === 'add' ? '/skill' : `/skill/${selectedSkillId}`;
+        const method = currentMode === 'add' ? 'POST' : 'PUT';
+
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(skillData)
+        });
+
+        if (!res.ok) throw new Error('Failed to save skill');
+
+        showMessage(currentMode === 'add' ? 'Skill added successfully!' : 'Skill updated successfully!');
+        closeModal('skillModal');
+        selectedSkillId = null;
+        await loadSkills();
+      } catch (err) {
+        console.error('Error saving skill:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    async function deleteSkill() {
+      if (!selectedSkillId) {
+        showMessage('Please select a skill to delete', 'error');
+        return;
+      }
+
+      if (!confirm('Are you sure you want to delete this skill?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/skill/${selectedSkillId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('Failed to delete skill');
+
+        showMessage('Skill deleted successfully!');
+        selectedSkillId = null;
+        loadSkills();
+      } catch (err) {
+        console.error('Error deleting skill:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // Social Links Functions
+    function openSocialLinkModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('socialLinkModal');
+      const title = document.getElementById('socialLinkModalTitle');
+
+      if (mode === 'add') {
+        title.textContent = 'Add Social Link';
+        document.getElementById('socialLinkForm').reset();
+      } else if (mode === 'update') {
+        title.textContent = 'Update Social Link';
+        if (!selectedSocialLinkId) {
+          showMessage('Please select a social link to update', 'error');
+          return;
+        }
+      }
+      openModal('socialLinkModal');
+    }
+
+    async function saveSocialLink(event) {
+      event.preventDefault();
+      try {
+        const token = localStorage.getItem('token');
+        const socialLinkData = {
+          platform: document.getElementById('socialPlatform').value,
+          url: document.getElementById('socialUrl').value
+        };
+
+        const endpoint = currentMode === 'add' ? '/sociallink' : `/sociallink/${selectedSocialLinkId}`;
+        const method = currentMode === 'add' ? 'POST' : 'PUT';
+
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(socialLinkData)
+        });
+
+        if (!res.ok) throw new Error('Failed to save social link');
+
+        showMessage(
+          currentMode === 'add' ? 'Social link added successfully!' : 'Social link updated successfully!'
+        );
+        closeModal('socialLinkModal');
+        selectedSocialLinkId = null;
+        await loadSocialLinks();
+      } catch (err) {
+        console.error('Error saving social link:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    async function deleteSocialLink() {
+      if (!selectedSocialLinkId) {
+        showMessage('Please select a social link to delete', 'error');
+        return;
+      }
+
+      if (!confirm('Are you sure you want to delete this social link?')) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/sociallink/${selectedSocialLinkId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('Failed to delete social link');
+
+        showMessage('Social link deleted successfully!');
+        selectedSocialLinkId = null;
+        loadSocialLinks();
+      } catch (err) {
+        console.error('Error deleting social link:', err);
+        showMessage(err.message, 'error');
+      }
+    }
+
+    // Load Functions
+    async function loadProfile() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+
+        const res = await fetch(`${API_BASE}/jobseeker/get`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) {
+          console.error('Failed to fetch profile, status:', res.status);
+          throw new Error('Failed to fetch profile');
+        }
+
+        const data = await res.json();
+        console.log('Profile data received:', data);
+        
+        const profile = data.profile;
+
+        if (!profile || !profile.seeker_name) {
+          document.getElementById('profile-details').innerHTML = '<p style="color: #999;">No profile details yet. Click "Add" to add information.</p>';
+          return;
+        }
+
+        document.getElementById('profile-details').innerHTML = `
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 5px;">
+            <p><strong>Name:</strong> ${profile.seeker_name || 'Not provided'}</p>
+            <p><strong>Email:</strong> ${profile.user?.email || 'Not available'}</p>
+            <p><strong>Phone:</strong> ${profile.phone || 'Not provided'}</p>
+            <p><strong>Address:</strong> ${profile.address || 'Not provided'}</p>
+            <p><strong>Bio:</strong> ${profile.bio || 'Not provided'}</p>
+            <p><strong>Current Position:</strong> ${profile.current_position || 'Not provided'}</p>
+            <p><strong>Current Salary:</strong> ${profile.current_salary ? '$' + profile.current_salary : 'Not provided'}</p>
+            <p><strong>Expected Salary:</strong> ${profile.expected_salary ? '$' + profile.expected_salary : 'Not provided'}</p>
+            <p><strong>Open to Work:</strong> ${profile.is_open_to_work ? 'Yes' : 'No'}</p>
+          </div>
+        `;
+        console.log('Profile displayed successfully');
+      } catch (err) {
+        console.error('Error loading profile:', err);
+        document.getElementById('profile-details').innerHTML = '<p style="color: red;">Error loading profile. Please try refreshing the page.</p>';
+      }
+    }
+
+    async function loadEducation() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch(`${API_BASE}/education/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const eduList = document.getElementById('education-list');
+        eduList.innerHTML = '';
+
+        if (!data.educations || data.educations.length === 0) {
+          eduList.innerHTML = '<li style="color: #999;">No education entries yet.</li>';
+          return;
+        }
+
+        data.educations.forEach(edu => {
+          const li = document.createElement('li');
+          li.className = `selectable-item ${selectedEducationId === edu.id ? 'selected' : ''}`;
+          li.onclick = () => {
+            document.querySelectorAll('#education-list .selectable-item').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+            selectedEducationId = edu.id;
+          };
+          li.innerHTML = `
+            <strong>${edu.degree} in ${edu.field_of_study}</strong><br>
+            <em>${edu.institution}</em><br>
+            <small>${new Date(edu.start_date).getFullYear()} - ${edu.end_date ? new Date(edu.end_date).getFullYear() : 'Present'}</small>
+            ${edu.description ? `<br><small>${edu.description}</small>` : ''}
+          `;
+          eduList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading education:', err);
+      }
+    }
+
+    async function loadExperience() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch(`${API_BASE}/experience/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const expList = document.getElementById('experience-list');
+        expList.innerHTML = '';
+
+        if (!data.experiences || data.experiences.length === 0) {
+          expList.innerHTML = '<li style="color: #999;">No work experience entries yet.</li>';
+          return;
+        }
+
+        data.experiences.forEach(exp => {
+          const li = document.createElement('li');
+          li.className = `selectable-item ${selectedExperienceId === exp.id ? 'selected' : ''}`;
+          li.onclick = () => {
+            document.querySelectorAll('#experience-list .selectable-item').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+            selectedExperienceId = exp.id;
+          };
+          li.innerHTML = `
+            <strong>${exp.job_title}</strong><br>
+            <em>${exp.company_name}</em><br>
+            <small>${new Date(exp.start_date).getFullYear()} - ${exp.end_date ? new Date(exp.end_date).getFullYear() : 'Present'}</small>
+            ${exp.description ? `<br><small>${exp.description}</small>` : ''}
+          `;
+          expList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading experience:', err);
+      }
+    }
+
+    async function loadSkills() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch(`${API_BASE}/skill/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const skillList = document.getElementById('skills-list');
+        skillList.innerHTML = '';
+
+        if (!data.skills || data.skills.length === 0) {
+          skillList.innerHTML = '<li style="color: #999;">No skills added yet.</li>';
+          return;
+        }
+
+        data.skills.forEach(skill => {
+          const li = document.createElement('li');
+          li.className = `selectable-item ${selectedSkillId === skill.id ? 'selected' : ''}`;
+          li.onclick = () => {
+            document.querySelectorAll('#skills-list .selectable-item').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+            selectedSkillId = skill.id;
+          };
+          li.innerHTML = `
+            <strong>${skill.name}</strong>
+            ${skill.proficiency ? `<br><small>Level: ${skill.proficiency}</small>` : ''}
+          `;
+          skillList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading skills:', err);
+      }
+    }
+
+    async function loadSocialLinks() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch(`${API_BASE}/sociallink/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const socialList = document.getElementById('sociallink-list');
+        socialList.innerHTML = '';
+
+        if (!data.social_links || data.social_links.length === 0) {
+          socialList.innerHTML = '<li style="color: #999;">No social links added yet.</li>';
+          return;
+        }
+
+        data.social_links.forEach(link => {
+          const li = document.createElement('li');
+          li.className = `selectable-item ${selectedSocialLinkId === link.id ? 'selected' : ''}`;
+          li.onclick = () => {
+            document.querySelectorAll('#sociallink-list .selectable-item').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+            selectedSocialLinkId = link.id;
+          };
+          li.innerHTML = `
+            <strong>${link.platform}</strong><br>
+            <a href="${link.url}" target="_blank" style="color: #007bff;">${link.url}</a>
+          `;
+          socialList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading social links:', err);
+      }
+    }
+
+    async function loadAppliedJobs() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch(`${API_BASE}/jobs/applied`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch applied jobs');
+        const data = await res.json();
+
+        const container = document.getElementById('applied-jobs');
+        container.innerHTML = '';
+
+        if (!data.applications || data.applications.length === 0) {
+          container.innerHTML = '<li style="color: #999;">You haven\'t applied to any jobs yet.</li>';
+          return;
+        }
+
+        data.applications.forEach(app => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div style="border-left: 4px solid #007bff; padding-left: 15px; padding: 10px;">
+              <strong>${app.job?.title || 'Job'}</strong><br>
+              <em>${app.job?.company || 'Company not available'}</em><br>
+              <small>Applied: ${new Date(app.applied_at).toLocaleDateString()}</small><br>
+              <span style="display: inline-block; margin-top: 5px; padding: 3px 10px; background: #e7f3ff; color: #007bff; border-radius: 3px; font-size: 12px;">
+                ${app.status || 'Pending'}
+              </span>
+            </div>
+          `;
+          container.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error loading applied jobs:', err);
+      }
+    }
+
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.clear();
+      window.location.href = '/login.html';
     });
 
-    const data = await res.json();
+    // Load all data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProfile();
+      loadEducation();
+      loadExperience();
+      loadSkills();
+      loadSocialLinks();
+      loadAppliedJobs();
+    });
 
-    if (!res.ok || !data.profile) {
-      alert(data.message || "No profile found");
-      return;
-    }
-
-    // Render profile details
-    document.getElementById("seeker_name").textContent = data.profile.seeker_name || "—";
-    document.getElementById("phone").textContent = data.profile.phone || "—";
-    document.getElementById("address").textContent = data.profile.address || "—";
-    document.getElementById("bio").textContent = data.profile.bio || "—";
-    document.getElementById("current_position").textContent = data.profile.current_position || "—";
-    document.getElementById("current_salary").textContent = data.profile.current_salary || "—";
-    document.getElementById("expected_salary").textContent = data.profile.expected_salary || "—";
-    document.getElementById("is_open_to_work").textContent = data.profile.is_open_to_work ? "✅ Yes" : "❌ No";
-  }
-
-  loadProfile();
-</script>
-
+    // Close modals when clicking outside
+    window.addEventListener('click', (event) => {
+      const modals = document.querySelectorAll('.modal.show');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          closeModal(modal.id);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,9 +1,8 @@
 const prisma = require('../config/prismaClient');
 
-// CREATE employer profile
+// Create or update employer profile
 const createProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
     const {
       company_name,
       website,
@@ -11,120 +10,80 @@ const createProfile = async (req, res) => {
       address,
       company_logo,
       registration_certificate,
-      description,
-      verified
+      description
     } = req.body;
 
-    // Check if employer profile already exists
-    const existing = await prisma.employer.findUnique({
-      where: { user_id: userId },
-    });
-
-    if (existing) {
-      return res.status(400).json({ message: 'Employer profile already exists' });
-    }
-
-    const profile = await prisma.employer.create({
+    const employer = await prisma.employer.update({
+      where: { user_id: req.user.id },
       data: {
-        user_id: userId,
         company_name,
         website,
         phone,
         address,
         company_logo,
         registration_certificate,
-        description,
-        verified: verified ?? false, // default false if not provided
-      },
+        description
+      }
     });
 
-    return res.json({
-      message: 'Employer profile created successfully',
-      profile,
-    });
+    return res.json({ message: "Profile created/updated successfully", employer });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error("Create profile error:", err);
+    return res.status(500).json({ message: "Error creating profile" });
   }
 };
 
-// READ employer profile
+// Get employer profile
 const getProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    const profile = await prisma.employer.findUnique({
-      where: { user_id: userId },
+    const employer = await prisma.employer.findUnique({
+      where: { user_id: req.user.id }
     });
 
-    if (!profile) {
-      return res.status(404).json({ message: 'Employer profile not found' });
+    if (!employer) {
+      return res.status(404).json({ message: "Profile not found" });
     }
 
-    return res.json({ profile });
+    return res.json(employer);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error("Get profile error:", err);
+    return res.status(500).json({ message: "Error fetching profile" });
   }
 };
 
-// UPDATE employer profile
+// Update employer profile
 const updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const {
-      company_name,
-      website,
-      phone,
-      address,
-      company_logo,
-      registration_certificate,
-      description,
-      verified
-    } = req.body;
-
-    const updated = await prisma.employer.update({
-      where: { user_id: userId },
-      data: {
-        company_name,
-        website,
-        phone,
-        address,
-        company_logo,
-        registration_certificate,
-        description,
-        verified,
-      },
+    const employer = await prisma.employer.update({
+      where: { user_id: req.user.id },
+      data: req.body
     });
 
-    return res.json({
-      message: 'Profile updated successfully',
-      profile: updated,
-    });
+    return res.json({ message: "Profile updated successfully", employer });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error("Update profile error:", err);
+    return res.status(500).json({ message: "Error updating profile" });
   }
 };
 
-// DELETE employer profile
+// Delete employer profile
 const deleteProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
-
     await prisma.employer.delete({
-      where: { user_id: userId },
+      where: { user_id: req.user.id }
     });
 
-    await prisma.user.delete({
-      where: { id: userId },
-    });
-
-    return res.json({ message: 'Employer account and profile deleted successfully' });
+    return res.json({ message: "Profile deleted successfully" });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error("Delete profile error:", err);
+    return res.status(500).json({ message: "Error deleting profile" });
   }
 };
 
-module.exports = { createProfile, getProfile, updateProfile, deleteProfile };
+// Export all controllers
+module.exports = {
+  createProfile,
+  getProfile,
+  updateProfile,
+  deleteProfile
+};

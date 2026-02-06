@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const { auth } = require('../middlewares/auth.middleware');
-const requireRole = require('../middlewares/role.middleware');
-const jobseekerController = require('../controllers/jobseeker.controller.js');
+const { requireRole } = require("../middlewares/role.middleware");
+const jobseekerController = require('../controllers/jobseeker.controller');
 
 // Jobseeker profile routes (all protected)
 router.post('/create', auth, requireRole('JOBSEEKER'), jobseekerController.createProfile);

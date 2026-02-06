@@ -16,9 +16,9 @@ router.post('/', auth, createSocialLink);
 router.get('/', auth, getSocialLinks);
 
 // Update social link
-router.put('/:linkId', auth, updateSocialLink);
+router.put('/:link_id', auth, updateSocialLink);
 
 // Delete social link
-router.delete('/:linkId', auth, deleteSocialLink);
+router.delete('/:link_id', auth, deleteSocialLink);
 
 module.exports = router;

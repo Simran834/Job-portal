@@ -13,8 +13,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
 }
+
 
 //        ENUMS
 enum UserRole {
@@ -22,6 +22,7 @@ enum UserRole {
   JOBSEEKER
   EMPLOYER 
 }
+
 
 enum JobType {
   FULL_TIME
@@ -93,6 +94,15 @@ enum ActivityAction {
   DOWNLOADED
   SHORTLISTED
 }
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
 
 //         MODELS 
 model User {

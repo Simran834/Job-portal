@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('assets/images/admin.jpg') no-repeat center center fixed;
+  background: url('./images/bg.jpg') no-repeat center center fixed;
   background: #f4f6f9;
   color: #333;
   display: flex;

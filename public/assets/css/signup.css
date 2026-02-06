@@ -12,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: url("../images/sign.jpg") no-repeat center center fixed; /* ✅ fixed path */
+  background: url("../images/bg.jpg") no-repeat center center fixed; /* ✅ fixed path */
   background-size: cover;
   font-family: 'Segoe UI', sans-serif;
 
@@ -228,21 +228,52 @@ body {
   background: #f0f0f0;
   color: #333;
 }
+.nav-home {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 .home-btn {
   display: inline-block;
-  margin-bottom: 1rem;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  background: #0b3d91;
+  padding: 10px 20px;
+  background: #007bff;
   color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .home-btn:hover {
-  background: #092d6e;
-  transform: translateY(-2px);
+  background: #0056b3;
+}
+
+.success-box {
+  border: 2px solid #4CAF50; /* green border */
+  background-color: #f0fff0; /* light green background */
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.success-box p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.success-box button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.success-box button:hover {
+  background-color: #45a049;
 }

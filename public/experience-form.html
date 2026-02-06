@@ -3,19 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Experience</title>
-  <link rel="stylesheet" href="assets/css/experience.css">
+  <style>
+    /* General container */
+    .form-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 25px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    /* Heading */
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Labels */
+    .form-container label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    /* Inputs and textarea */
+    .form-container input[type="text"],
+    .form-container input[type="date"],
+    .form-container textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-container textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Checkbox */
+    .form-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    /* Error messages */
+    .error-message {
+      color: #d9534f;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* Submit button */
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Extra links */
+    .extra-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <div class="form-container">
     <h2>Add Work Experience</h2>
-    <form id="experience-form" action="/api/jobseeker-experience" method="POST">
-      
-      <label for="company_name">Company Name</label>
-      <input type="text" id="company_name" name="company_name" required>
+    <form id="experience-form">
+      <label for="job_title">Job Title</label>
+      <input type="text" id="job_title" name="job_title" required>
       <div class="error-message"></div>
 
-      <label for="role">Role / Position</label>
-      <input type="text" id="role" name="role" required>
+      <label for="company_name">Company Name</label>
+      <input type="text" id="company_name" name="company_name" required>
       <div class="error-message"></div>
 
       <label for="start_date">Start Date</label>
@@ -26,8 +114,13 @@
       <input type="date" id="end_date" name="end_date">
       <div class="error-message"></div>
 
+      <label for="is_current">
+        <input type="checkbox" id="is_current" name="is_current"> Currently Working
+      </label>
+      <div class="error-message"></div>
+
       <label for="description">Description</label>
-      <textarea id="description" name="description" rows="4" placeholder="Describe your responsibilities and achievements..." required></textarea>
+      <textarea id="description" name="description"></textarea>
       <div class="error-message"></div>
 
       <button type="submit">Save Experience</button>
@@ -39,22 +132,75 @@
   </div>
 
   <script>
-    document.getElementById("experience-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const exp = {
-        company_name: document.getElementById("company_name").value.trim(),
-        role: document.getElementById("role").value.trim(),
-        start_date: document.getElementById("start_date").value,
-        end_date: document.getElementById("end_date").value,
-        description: document.getElementById("description").value.trim()
-      };
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Not logged in");
+        window.location.href = "login.html";
+        return;
+      }
 
-      // Save to localStorage for now (later replace with backend API)
-      let experiences = JSON.parse(localStorage.getItem("experiences")) || [];
-      experiences.push(exp);
-      localStorage.setItem("experiences", JSON.stringify(experiences));
+      document.getElementById("experience-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      window.location.href = "jobseeker-profile.html";
+        // Collect and validate form data
+        const job_title = document.getElementById("job_title").value.trim();
+        const company_name = document.getElementById("company_name").value.trim();
+        const start_date = document.getElementById("start_date").value;
+        const end_date = document.getElementById("end_date").value;
+        const is_current = document.getElementById("is_current").checked;
+        const description = document.getElementById("description").value.trim();
+
+        if (!job_title || !company_name || !start_date) {
+          alert("Job title, company name, and start date are required.");
+          return;
+        }
+
+        if (isNaN(Date.parse(start_date))) {
+          alert("Start date must be a valid date.");
+          return;
+        }
+
+        if (end_date && isNaN(Date.parse(end_date))) {
+          alert("End date must be a valid date.");
+          return;
+        }
+
+        const expData = {
+          job_title,
+          company_name,
+          start_date,
+          end_date: end_date || null,
+          is_current,
+          description
+        };
+
+        try {
+          const res = await fetch("http://localhost:5050/api/experience", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(expData)
+          });
+
+          if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(errMsg || "Failed to add experience");
+          }
+
+          const result = await res.json();
+          alert("Experience added successfully!");
+          console.log("Added experience:", result);
+
+          // Redirect back to profile page
+          window.location.href = "jobseeker-profile.html";
+        } catch (err) {
+          console.error("Error adding experience:", err);
+          alert("Could not add experience. Please try again.");
+        }
+      });
     });
   </script>
 </body>

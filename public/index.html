@@ -1,269 +1,418 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Job Portal — Home</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-  min-height: 100%;              /* allow content to grow */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #fff;
-  background: url('assets/images/bg.jpg') no-repeat center center fixed;
-  background-size: cover;
-  overflow-y: auto;              /* enable vertical scrolling */
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Portal — Home</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        min-height: 100%; /* allow content to grow */
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        background: url("assets/images/bg.jpg") no-repeat center center fixed; 
+        background-size: cover;
+        overflow-y: auto; /* enable vertical scrolling */
+      }
 
-    /* Navbar */
-    .navbar {
-      position: fixed; top: 0; left: 0; width: 100%;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(10, 25, 60, 0.65);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-    }
-    .logo {
-  display: flex; align-items: center; gap: 0.6rem;
-  font-size: 2.4rem; /* increased size */
-  font-weight: 800;
-  color: #00e0ff;   /* changed from yellow to a visible cyan */
-}
-    .home-icon { cursor: pointer; font-size: 1.6rem; }
-    .nav-links { list-style: none; display: flex; gap: 1rem; }
-    .nav-links a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.2rem;       /* increased text size */
-  padding: 0.8rem 1.4rem;  /* bigger buttons */
-  border-radius: 10px;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-    .nav-links a:hover {
-      background: rgba(255,255,255,0.18);
-      transform: translateY(-2px);
-    }
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(10, 25, 60, 0.65);
+        backdrop-filter: blur(6px);
+        z-index: 1000;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 2.4rem; /* increased size */
+        font-weight: 800;
+        color: #00e0ff; /* changed from yellow to a visible cyan */
+      }
+      .home-icon {
+        cursor: pointer;
+        font-size: 1.6rem;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.2rem; /* increased text size */
+        padding: 0.8rem 1.4rem; /* bigger buttons */
+        border-radius: 10px;
+        transition:
+          background 0.3s ease,
+          transform 0.2s ease;
+      }
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-2px);
+      }
 
-    /* Hero */
-    .hero {
-  height: 60vh; /* taller hero section */
-}
-.categories {
-  margin-top: 3rem;
-}
-.vacancy-display {
-  margin-top: 3rem;
-}
-    .hero {
-      height: 60vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; margin-top: 64px;
-    }
-    .hero h1 { font-size: 3rem; margin-bottom: 0.8rem; }
-    .hero p { font-size: 1.2rem; }
+      /* Hero */
+      .hero {
+        height: 60vh; /* taller hero section */
+      }
+      .categories {
+        margin-top: 3rem;
+      }
+      .vacancy-display {
+        margin-top: 3rem;
+      }
+      .hero {
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-top: 64px;
+      }
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 0.8rem;
+      }
+      .hero p {
+        font-size: 1.2rem;
+      }
 
-    /* Categories */
-    .container { padding: 2rem; }
-    .categories { padding: 1.5rem; }
-    .categories h2 {
-  font-size: 2.2rem; /* bigger */
-  margin-bottom: 1rem;
-    color: #fff;
-}
-    .grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* exactly 4 per row */
-  gap: 2rem; /* more spacing between boxes */
-}
-    .category-btn {
-  background: rgba(255, 255, 255, 0.6); /* transparent white */
-  color: #800080; /* purple text */
-  font-weight: 700;
-  font-size: 1.4rem;     /* bigger text */
-  padding: 3rem;         /* larger box */
-  height: 180px;         /* fixed height for consistency */
-  border-radius: 20px;   /* smoother corners */
-  border: none;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-    .category-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
-    }
+      /* Categories */
+      .container {
+        padding: 2rem;
+      }
+      .categories {
+        padding: 1.5rem;
+      }
+      .categories h2 {
+        font-size: 2.2rem; /* bigger */
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* exactly 4 per row */
+        gap: 2rem; /* more spacing between boxes */
+      }
+      .category-btn {
+        background: rgba(255, 255, 255, 0.6); /* transparent white */
+        color: #800080; /* purple text */
+        font-weight: 700;
+        font-size: 1.4rem; /* bigger text */
+        padding: 3rem; /* larger box */
+        height: 180px; /* fixed height for consistency */
+        border-radius: 20px; /* smoother corners */
+        border: none;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .category-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      }
 
-    /* Vacancy display */
-    .vacancy-display {
-      margin-top: 2rem;
-      background: rgba(255,255,255,0.08);
-      padding: 1.5rem;
-      border-radius: 16px;
-      backdrop-filter: blur(4px);
-    }
-    .vacancy-display h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #0b3d91; /* dark bluish */
-}
-    .category-card {
-      background: #ffffff;
-      color: #1f2937;
-      border-radius: 14px;
-      padding: 1.2rem;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
-    }
-    .category-title { font-weight: 700; font-size: 1.4rem; color: #0f172a; }
-    .vacancy { margin-top: 0.8rem; }
-    .vacancy-title { font-weight: 700; color: #1f2937; }
-    .vacancy-meta { font-size: 0.95rem; color: #4b5563; }
-    .actions { margin-top: 0.8rem; display: flex; gap: 1rem; }
-    .apply-btn, .view-btn {
-      border: none; cursor: pointer; font-weight: 700;
-      padding: 0.8rem 1.4rem; border-radius: 10px; color: #000;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .apply-btn { background: linear-gradient(45deg, #ff6b6b, #f8e473); }
-    .view-btn  { background: linear-gradient(45deg, #a8ff78, #78ffd6); }
-    .apply-btn:hover, .view-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    }
+      /* Vacancy display */
+      .vacancy-display {
+        margin-top: 2rem;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 1.5rem;
+        border-radius: 16px;
+        backdrop-filter: blur(4px);
+      }
+      .vacancy-display h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #0b3d91; /* dark bluish */
+      }
+      .category-card {
+        background: #ffffff;
+        color: #1f2937;
+        border-radius: 14px;
+        padding: 1.2rem;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+      }
+      .category-title {
+        font-weight: 700;
+        font-size: 1.4rem;
+        color: #0f172a;
+      }
+      .vacancy {
+        margin-top: 0.8rem;
+      }
+      .vacancy-title {
+        font-weight: 700;
+        color: #1f2937;
+      }
+      .vacancy-meta {
+        font-size: 0.95rem;
+        color: #4b5563;
+      }
+      .actions {
+        margin-top: 0.8rem;
+        display: flex;
+        gap: 1rem;
+      }
+      .apply-btn,
+      .view-btn {
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        padding: 0.8rem 1.4rem;
+        border-radius: 10px;
+        color: #000;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .apply-btn {
+        background: linear-gradient(45deg, #ff6b6b, #f8e473);
+      }
+      .view-btn {
+        background: linear-gradient(45deg, #a8ff78, #78ffd6);
+      }
+      .apply-btn:hover,
+      .view-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
 
-    /* Footer */
-    .footer {
-      margin-top: auto; text-align: center; padding: 1rem;
-      background: rgba(10, 25, 60, 0.65);
-    }
-    @media (max-width: 1024px) {
-  .grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 768px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-}
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">
-      <span class="home-icon" onclick="window.location.href='index.html'">🏠</span>
-      JobPortal
-    </div>
-    <ul class="nav-links">
-  <li><a href="index.html">Home</a></li>   <!-- new Home button -->
-  <li><a href="signup.html">Signup</a></li>
-  <li><a href="login.html">Login</a></li>
-  <li><a href="jobs/list.html">Jobs</a></li>
-</ul>
-  </nav>
+      /* Footer */
+      .footer {
+        margin-top: auto;
+        text-align: center;
+        padding: 1rem;
+        background: rgba(10, 25, 60, 0.65);
+      }
+      @media (max-width: 1024px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .search-bar input {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+      }
+      .search-bar button {
+        background: linear-gradient(45deg, #00e0ff, #0b3d91);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #fff;
+        font-weight: 700;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .search-bar button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <span class="home-icon" onclick="window.location.href = 'index.html'"
+          >🏠</span
+        >
+        JobPortal
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <!-- new Home button -->
+        <li><a href="signup.html">Signup</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="job-listings.html">Jobs</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="profile.html">Account</a></li>
+      </ul>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search jobs or categories..."
+        />
+        <button id="searchBtn">🔍</button>
+      </div>
+    </nav>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-content">
-      <h1>Welcome to JobPortal</h1>
-    <p>Your gateway to finding jobs and hiring talent.</p>
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-content">
+        <h1>Welcome to JobPortal</h1>
+        <p>Your gateway to finding jobs and hiring talent.</p>
+      </div>
+    </header>
 
-    </div>
-  </header>
+    <!-- Categories -->
+    <main class="container">
+      <section class="categories">
+        <h2>Choose a Category</h2>
+        <div id="categoryGrid" class="grid"></div>
+      </section>
 
-  <!-- Categories -->
-  <main class="container">
-    <section class="categories">
-      <h2>Choose a Category</h2>
-      <div id="categoryGrid" class="grid"></div>
-    </section>
+      <!-- Vacancy display -->
+      <section
+        id="vacancySection"
+        class="vacancy-display"
+        style="display: none"
+      >
+        <h2>Vacancy Details</h2>
+        <div id="vacancyCard"></div>
+      </section>
+    </main>
 
-    <!-- Vacancy display -->
-    <section id="vacancySection" class="vacancy-display" style="display:none;">
-      <h2>Vacancy Details</h2>
-      <div id="vacancyCard"></div>
-    </section>
-  </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 JobPortal. All rights reserved.</p>
+    </footer>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2026 JobPortal. All rights reserved.</p>
-  </footer>
-
-  <!-- Script -->
     <script>
-    const CATEGORIES = [
-      { id: 1, name: "IT", vacancy: { title: "Software Engineer", company: "TechNova", location: "Kathmandu", salary: "NRs 120,000", jobId: 201 } },
-      { id: 2, name: "HR", vacancy: { title: "HR Generalist", company: "PeopleFirst", location: "Lalitpur", salary: "NRs 85,000", jobId: 202 } },
-      { id: 3, name: "Teaching", vacancy: { title: "Math Teacher", company: "EduWorld", location: "Kathmandu", salary: "NRs 60,000", jobId: 203 } },
-      { id: 4, name: "Hospitality", vacancy: { title: "Hotel Manager", company: "GrandStay", location: "Pokhara", salary: "NRs 95,000", jobId: 204 } },
-      { id: 5, name: "Banking", vacancy: { title: "Loan Officer", company: "Nepal Bank", location: "Kathmandu", salary: "NRs 100,000", jobId: 205 } },
-      { id: 6, name: "Insurance", vacancy: { title: "Insurance Advisor", company: "SecureLife", location: "Kathmandu", salary: "NRs 90,000", jobId: 206 } },
-      { id: 7, name: "General Management", vacancy: { title: "Operations Manager", company: "BizOps", location: "Lalitpur", salary: "NRs 110,000", jobId: 207 } },
-      { id: 8, name: "Consulting Groups", vacancy: { title: "Business Consultant", company: "ConsultX", location: "Kathmandu", salary: "NRs 130,000", jobId: 208 } },
-      { id: 9, name: "Aviation", vacancy: { title: "Cabin Crew", company: "Nepal Airlines", location: "Kathmandu", salary: "NRs 70,000", jobId: 209 } },
-      { id: 10, name: "Tourism", vacancy: { title: "Tour Guide", company: "ExploreNepal", location: "Pokhara", salary: "NRs 55,000", jobId: 210 } },
-      { id: 11, name: "Content & Media", vacancy: { title: "Content Strategist", company: "StoryArc", location: "Remote", salary: "NRs 92,000", jobId: 211 } },
-      { id: 12, name: "Sales & Marketing", vacancy: { title: "Digital Marketer", company: "GrowthHub", location: "Kathmandu", salary: "NRs 95,000", jobId: 212 } }
-    ];
+      // ✅ Categories aligned with Prisma enums
+      const CATEGORIES = [
+        { id: "IT_SOFTWARE", name: "IT Software" },
+        { id: "HEALTH_MEDICAL", name: "Health & Medical" },
+        { id: "BANKING_FINANCE", name: "Banking & Finance" },
+        { id: "GENERAL_MANAGEMENT", name: "General Management" },
+        { id: "CONSULTING_AGENCY", name: "Consulting Agency" },
+        { id: "TEACHING_EDUCATION", name: "Teaching & Education" },
+        { id: "SALES_MARKETING", name: "Sales & Marketing" },
+        { id: "CUSTOMER_SUPPORT", name: "Customer Support" },
+        { id: "ENGINEERING", name: "Engineering" },
+        { id: "OPERATIONS_LOGISTICS", name: "Operations & Logistics" },
+      ];
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const grid = document.getElementById("categoryGrid");
-      const vacancySection = document.getElementById("vacancySection");
-      const vacancyCard = document.getElementById("vacancyCard");
+      document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("categoryGrid");
+        const vacancySection = document.getElementById("vacancySection");
+        const vacancyCard = document.getElementById("vacancyCard");
 
-      // Render category buttons
-      grid.innerHTML = CATEGORIES.map(cat => `
-        <button class="category-btn" data-id="${cat.id}">${cat.name}</button>
-      `).join("");
+        // Render category buttons
+        grid.innerHTML = CATEGORIES.map(
+          (cat) => `
+      <button class="category-btn" data-id="${cat.id}">${cat.name}</button>
+    `,
+        ).join("");
 
-      // Handle category click
-      grid.addEventListener("click", (e) => {
-        const btn = e.target.closest(".category-btn");
-        if (!btn) return;
+        // Handle category click
+        grid.addEventListener("click", async (e) => {
+          const btn = e.target.closest(".category-btn");
+          if (!btn) return;
 
-        const catId = parseInt(btn.getAttribute("data-id"));
-        const selected = CATEGORIES.find(c => c.id === catId);
-        if (!selected || !selected.vacancy) return;
+          const category = btn.getAttribute("data-id");
 
-        const v = selected.vacancy;
-        vacancyCard.innerHTML = `
+          try {
+            const res = await fetch(
+              `http://localhost:5050/api/jobs/category/${category}`,
+            );
+            if (!res.ok) throw new Error("Failed to fetch jobs");
+
+            const { jobs } = await res.json();
+
+            if (!jobs || jobs.length === 0) {
+              vacancyCard.innerHTML = `
+            <div class="category-card">
+              <div class="category-title">${category.replace("_", " ")}</div>
+              <p>No jobs available in this category.</p>
+            </div>`;
+            } else {
+              vacancyCard.innerHTML = jobs
+                .map(
+                  (job) => `
+            <div class="category-card">
+              <div class="category-title">${job.title}</div>
+              <p class="vacancy-meta">${job.location} | ${job.job_type} | Deadline: ${
+                job.application_deadline
+                  ? new Date(job.application_deadline).toLocaleDateString()
+                  : "N/A"
+              }</p>
+              <p>${job.description}</p>
+              <div class="actions">
+                <button class="view-btn" data-id="${job.job_id}">View</button>
+                <button class="apply-btn" data-id="${job.job_id}">Apply</button>
+              </div>
+            </div>
+          `,
+                )
+                .join("");
+
+              // Attach button handlers
+              document.querySelectorAll(".view-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                  const jobId = btn.getAttribute("data-id");
+                  // ✅ Redirect to job-details.html with jobId in query string
+                  window.location.href = `job-details.html?id=${jobId}`;
+                });
+              });
+
+              document.querySelectorAll(".apply-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                  const jobId = btn.getAttribute("data-id");
+                  const token = localStorage.getItem("token");
+
+                  if (!token) {
+                    // ✅ Require signup if not logged in
+                    alert("You must sign up to apply for jobs.");
+                    window.location.href = "signup.html";
+                  } else {
+                    // ✅ Later: call apply API
+                    alert("Applying for Job ID: " + jobId);
+                  }
+                });
+              });
+            }
+
+            vacancySection.style.display = "block";
+          } catch (err) {
+            console.error("Error fetching jobs:", err);
+            vacancyCard.innerHTML = `
           <div class="category-card">
-            <div class="category-title">${selected.name}</div>
-            <div class="vacancy">
-              <div class="vacancy-title">${v.title} — ${v.company}</div>
-              <div class="vacancy-meta">Location: ${v.location} • Salary: ${v.salary}</div>
-            </div>
-            <div class="actions">
-              <button class="apply-btn" data-job-id="${v.jobId}">Apply</button>
-              <button class="view-btn" data-job-id="${v.jobId}">View</button>
-            </div>
-          </div>
-        `;
-        vacancySection.style.display = "block";
-      });
-
-      // Handle Apply/View actions
-      vacancyCard.addEventListener("click", (e) => {
-        const applyBtn = e.target.closest(".apply-btn");
-        const viewBtn = e.target.closest(".view-btn");
-        const jobId = e.target.getAttribute("data-job-id");
-
-        if (applyBtn) {
-          const isLoggedIn = Boolean(localStorage.getItem("authToken"));
-          if (!isLoggedIn) {
-            window.location.href = "signup.html";
-          } else {
-            window.location.href = `jobs/detail.html?jobId=${jobId}`;
+            <div class="category-title">${category.replace("_", " ")}</div>
+            <p>Error loading jobs.</p>
+          </div>`;
+            vacancySection.style.display = "block";
           }
-        }
-
-        if (viewBtn) {
-          window.location.href = `jobs/detail.html?jobId=${jobId}`;
-        }
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

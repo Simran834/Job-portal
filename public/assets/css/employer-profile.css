@@ -1,70 +1,167 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('../images/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
-  background: #f9f9f9;
-}
-
-.employer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo-container img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.post-job-container {
-  font-size: 32px;
-}
-
-.post-job-btn {
-  text-decoration: none;
-  font-size: 32px;
-  font-weight: bold;
-  color: #007bff;
-  border: 2px solid #007bff;
-  border-radius: 50%;
-  padding: 4px 12px;
-  transition: background 0.3s, color 0.3s;
-}
-
-.post-job-btn:hover {
-  background: #007bff;
+  padding: 0;
   color: #fff;
+  display: flex;
+  min-height: 100vh;
 }
 
-.employer-main {
-  padding: 24px;
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: rgba(10, 25, 60, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.company-details {
-  background: #fff;
-  padding: 16px;
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background 0.3s ease;
 }
 
-.posted-jobs {
-  background: #fff;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.sidebar a:hover {
+  background: rgba(255,255,255,0.15);
 }
 
-.posted-jobs ul {
+/* Dashboard grid */
+.profile-section {
+  flex: 1;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.box {
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease;
+}
+
+.box:hover {
+  transform: translateY(-4px);
+}
+
+.box h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #f8e473;
+}
+
+/* Employer info */
+.employer-info {
+  text-align: center;
+}
+
+.employer-info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #00e0ff;
+  margin-bottom: 1rem;
+}
+
+.employer-info h3 {
+  margin: 0.5rem 0;
+  font-size: 1.6rem;
+  color: #00e0ff;
+}
+
+/* Lists */
+.vacancy-list ul,
+.applications ul,
+.notifications ul,
+.activity ul {
   list-style: none;
   padding: 0;
 }
 
-.posted-jobs li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+.vacancy-list li,
+.applications li,
+.notifications li,
+.activity li {
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 0.6rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+}
+
+/* Post vacancy button */
+.post-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(45deg, #00e0ff, #0b3d91);
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+}
+
+.post-btn span {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Post a Vacancy button positioned top-right */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.vacancy-btn {
+  background: linear-gradient(45deg, #00e0ff, #0b3d91);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.vacancy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  background: linear-gradient(45deg, #0b3d91, #00e0ff);
+}
+
+.vacancy-btn:active {
+  transform: scale(0.97);
+}
+.vacancy-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vacancy-list li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
 }

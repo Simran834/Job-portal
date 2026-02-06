@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Profile Redirect</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const role = localStorage.getItem("userRole");
+        const token = localStorage.getItem("token");
+
+        // if (!token || !role) {
+        //   // Not logged in → back to login
+        //   window.location.href = "login.html";
+        //   return;
+        // }
+
+        if (role === "jobseeker") {
+          window.location.href = "/jobseeker-dashboard.html";
+        } else if (role === "employer") {
+          window.location.href = "/employer-dashboard.html";
+        } else if (role === "ADMIN") {
+          window.location.href = "/admin-panel.html"; // your admin panel file
+        } else {
+          alert("Unsupported role. Please login again.");
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to your profile...</p>
+  </body>
+</html>

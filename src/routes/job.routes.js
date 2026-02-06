@@ -2,14 +2,33 @@ const express = require('express');
 const router = express.Router();
 
 const { auth } = require('../middlewares/auth.middleware');
-const requireRole = require('../middlewares/role.middleware');
-const { createJob, getJobs, getJobById, updateJob, deleteJob } = require('../controllers/job.controller');
+const { requireRole } = require('../middlewares/role.middleware');
+const jobController = require('../controllers/job.controller');
 
 
-router.post('/', auth, requireRole('EMPLOYER'), createJob);
-router.get('/', getJobs);
-router.get('/:jobId', getJobById);
-router.put('/:jobId', auth, requireRole('EMPLOYER'), updateJob);
-router.delete('/:jobId', auth, requireRole('EMPLOYER'), deleteJob);
+// Employer posts a job
+router.post('/', auth, requireRole('EMPLOYER'), jobController.createJob);
+
+// Employer fetches their jobs
+router.get('/employer', auth, requireRole('EMPLOYER'), jobController.getEmployerJobs);
+
+// Public: fetch all jobs
+router.get('/', jobController.getAllJobs);
+
+// Public: fetch jobs by category
+router.get('/category/:category', jobController.getJobsByCategory);
+
+router.get("/:id", jobController.getJobById);
+// Jobseeker applies for a job
+router.post('/:id/apply', auth, requireRole('JOBSEEKER'), jobController.applyJob);
+
+// Employer applications tab
+router.get('/applications', auth, requireRole('EMPLOYER'), jobController.getEmployerApplications);
+
+// Jobseeker applied jobs tab
+router.get('/applied', auth, requireRole('JOBSEEKER'), jobController.getJobseekerApplications);
+
+
+
 
 module.exports = router;

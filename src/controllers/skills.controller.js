@@ -1,18 +1,33 @@
 const prisma = require('../config/prismaClient');
 
 // CREATE Skill
-const createSkill = async (req, res) => {
+const addSkill = async (req, res) => {
   try {
-    const seekerId = req.user.job_seeker?.seeker_id;
-    if (!seekerId) {
+    const seeker = await prisma.job_seeker.findUnique({
+      where: { user_id: req.user.id }
+    });
+
+    if (!seeker) {
       return res.status(403).json({ message: 'Forbidden: Only job seekers can add skills' });
     }
 
-    const { name, proficiency } = req.body;
+    let { name, proficiency } = req.body;
+
+    // ✅ Validation
+    if (!name || !proficiency) {
+      return res.status(400).json({ message: "Missing required fields: name, proficiency" });
+    }
+
+    // Normalize proficiency to match enum (BEGINNER, INTERMEDIATE, ADVANCED, EXPERT)
+    proficiency = proficiency.toUpperCase();
+    const validProficiencies = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
+    if (!validProficiencies.includes(proficiency)) {
+      return res.status(400).json({ message: `Invalid proficiency. Allowed values: ${validProficiencies.join(", ")}` });
+    }
 
     const skill = await prisma.skill.create({
       data: {
-        seeker_id: seekerId,
+        seeker_id: seeker.seeker_id,
         name,
         proficiency
       }
@@ -25,16 +40,19 @@ const createSkill = async (req, res) => {
   }
 };
 
-// READ Skills
+// GET Skills
 const getSkills = async (req, res) => {
   try {
-    const seekerId = req.user.job_seeker?.seeker_id;
-    if (!seekerId) {
+    const seeker = await prisma.job_seeker.findUnique({
+      where: { user_id: req.user.id }
+    });
+
+    if (!seeker) {
       return res.status(403).json({ message: 'Forbidden: Only job seekers can view skills' });
     }
 
     const skills = await prisma.skill.findMany({
-      where: { seeker_id: seekerId }
+      where: { seeker_id: seeker.seeker_id }
     });
 
     return res.json({ skills });
@@ -48,11 +66,22 @@ const getSkills = async (req, res) => {
 const updateSkill = async (req, res) => {
   try {
     const { skillId } = req.params;
-    const data = req.body;
+    let { name, proficiency } = req.body;
+
+    if (proficiency) {
+      proficiency = proficiency.toUpperCase();
+      const validProficiencies = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
+      if (!validProficiencies.includes(proficiency)) {
+        return res.status(400).json({ message: `Invalid proficiency. Allowed values: ${validProficiencies.join(", ")}` });
+      }
+    }
 
     const updated = await prisma.skill.update({
       where: { skill_id: parseInt(skillId) },
-      data
+      data: {
+        name,
+        proficiency
+      }
     });
 
     return res.json({ message: 'Skill updated successfully', skill: updated });
@@ -79,7 +108,7 @@ const deleteSkill = async (req, res) => {
 };
 
 module.exports = {
-  createSkill,
+  addSkill,
   getSkills,
   updateSkill,
   deleteSkill

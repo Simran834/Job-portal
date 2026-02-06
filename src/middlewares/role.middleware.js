@@ -1,11 +1,11 @@
-// check role
-function requireRole(...allowedRoles) {
+function requireRole(role) {
   return (req, res, next) => {
-    if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Forbidden: Access denied' });
+    if (req.user && req.user.role === role) {
+      next();
+    } else {
+      return res.status(403).json({ message: "Forbidden: insufficient role" });
     }
-    next();
   };
 }
 
-module.exports = requireRole;
+module.exports = { requireRole };

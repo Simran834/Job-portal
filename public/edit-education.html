@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Education</title>
+  <style>
+    /* General container */
+    .form-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 25px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    /* Heading */
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Labels */
+    .form-container label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    /* Inputs and textarea */
+    .form-container input[type="text"],
+    .form-container input[type="date"],
+    .form-container textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-container textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Checkbox */
+    .form-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    /* Error messages */
+    .error-message {
+      color: #d9534f;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* Submit button */
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Extra links */
+    .extra-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Edit Education</h2>
+    <form id="edit-education-form">
+      <label for="institution">Institution</label>
+      <input type="text" id="institution" name="institution" required>
+      <div class="error-message"></div>
+
+      <label for="degree">Degree</label>
+      <input type="text" id="degree" name="degree" required>
+      <div class="error-message"></div>
+
+      <label for="field_of_study">Field of Study</label>
+      <input type="text" id="field_of_study" name="field_of_study" required>
+      <div class="error-message"></div>
+
+      <label for="start_date">Start Date</label>
+      <input type="date" id="start_date" name="start_date" required>
+      <div class="error-message"></div>
+
+      <label for="end_date">End Date</label>
+      <input type="date" id="end_date" name="end_date">
+      <div class="error-message"></div>
+
+      <label for="is_current">
+        <input type="checkbox" id="is_current" name="is_current"> Currently Studying
+      </label>
+      <div class="error-message"></div>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description"></textarea>
+      <div class="error-message"></div>
+
+      <button type="submit">Update Education</button>
+    </form>
+
+    <div class="extra-links">
+      <a href="jobseeker-profile.html">Back to Profile</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Not logged in");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Get educationId from query string
+      const urlParams = new URLSearchParams(window.location.search);
+      const educationId = urlParams.get("id");
+
+      if (!educationId) {
+        alert("No education ID provided.");
+        window.location.href = "jobseeker-profile.html";
+        return;
+      }
+
+      // Load existing education data
+      try {
+        const res = await fetch(`http://localhost:5050/api/education`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const { educations } = await res.json();
+        const edu = educations.find(e => e.education_id == educationId);
+
+        if (!edu) {
+          alert("Education record not found.");
+          window.location.href = "jobseeker-profile.html";
+          return;
+        }
+
+        // Populate form fields
+        document.getElementById("institution").value = edu.institution;
+        document.getElementById("degree").value = edu.degree;
+        document.getElementById("field_of_study").value = edu.field_of_study;
+        document.getElementById("start_date").value = edu.start_date ? edu.start_date.split("T")[0] : "";
+        document.getElementById("end_date").value = edu.end_date ? edu.end_date.split("T")[0] : "";
+        document.getElementById("is_current").checked = edu.is_current;
+        document.getElementById("description").value = edu.description || "";
+      } catch (err) {
+        console.error("Error loading education:", err);
+        alert("Could not load education record.");
+      }
+
+      // Handle form submission
+      document.getElementById("edit-education-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const eduData = {
+          institution: document.getElementById("institution").value.trim(),
+          degree: document.getElementById("degree").value.trim(),
+          field_of_study: document.getElementById("field_of_study").value.trim(),
+          start_date: document.getElementById("start_date").value,
+          end_date: document.getElementById("end_date").value || null,
+          is_current: document.getElementById("is_current").checked,
+          description: document.getElementById("description").value.trim()
+        };
+
+        try {
+          const res = await fetch(`http://localhost:5050/api/education/${educationId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(eduData)
+          });
+
+          if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(errMsg || "Failed to update education");
+          }
+
+          alert("Education updated successfully!");
+          window.location.href = "jobseeker-profile.html";
+        } catch (err) {
+          console.error("Error updating education:", err);
+          alert("Could not update education. Please try again.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@
 <body>
   <div class="form-container">
     <h2>Add Education</h2>
-    <form id="education-form" action="/api/jobseeker-education" method="POST">
+    <form id="education-form">
       
       <label for="institution">Institution</label>
       <input type="text" id="institution" name="institution" required>
@@ -22,12 +22,20 @@
       <input type="text" id="field_of_study" name="field_of_study" required>
       <div class="error-message"></div>
 
-      <label for="start_year">Start Year</label>
-      <input type="number" id="start_year" name="start_year" min="1900" max="2100" required>
+      <label for="start_date">Start Date</label>
+      <input type="date" id="start_date" name="start_date" required>
       <div class="error-message"></div>
 
-      <label for="end_year">End Year</label>
-      <input type="number" id="end_year" name="end_year" min="1900" max="2100">
+      <label for="end_date">End Date</label>
+      <input type="date" id="end_date" name="end_date">
+      <div class="error-message"></div>
+
+      <label for="is_current">Currently Studying</label>
+      <input type="checkbox" id="is_current" name="is_current">
+      <div class="error-message"></div>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description"></textarea>
       <div class="error-message"></div>
 
       <button type="submit">Save Education</button>
@@ -39,21 +47,67 @@
   </div>
 
   <script>
-    document.getElementById("education-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const edu = {
-        institution: document.getElementById("institution").value.trim(),
-        degree: document.getElementById("degree").value.trim(),
-        field_of_study: document.getElementById("field_of_study").value.trim(),
-        start_year: document.getElementById("start_year").value,
-        end_year: document.getElementById("end_year").value
-      };
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Not logged in");
+        window.location.href = "login.html";
+        return;
+      }
 
-      let educations = JSON.parse(localStorage.getItem("educations")) || [];
-      educations.push(edu);
-      localStorage.setItem("educations", JSON.stringify(educations));
+      document.getElementById("education-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      window.location.href = "jobseeker-profile.html";
+        // Collect and validate form data
+        const institution = document.getElementById("institution").value.trim();
+        const degree = document.getElementById("degree").value.trim();
+        const field = document.getElementById("field_of_study").value.trim();
+        const start = document.getElementById("start_date").value;
+        const end = document.getElementById("end_date").value;
+        const isCurrent = document.getElementById("is_current").checked;
+        const description = document.getElementById("description").value.trim();
+
+        if (!institution || !degree || !field || !start) {
+          alert("Institution, degree, field of study, and start date are required.");
+          return;
+        }
+
+        const eduData = {
+          institution,
+          degree,
+          field_of_study: field,
+          start_date: start,
+          end_date: end || null,
+          is_current: isCurrent,
+          description
+        };
+
+        try {
+          const res = await fetch("http://localhost:5050/api/education", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(eduData)
+          });
+
+          if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(errMsg || "Failed to add education");
+          }
+
+          const result = await res.json();
+          alert("Education added successfully!");
+          console.log("Added education:", result);
+
+          // Redirect back to profile page
+          window.location.href = "jobseeker-profile.html";
+        } catch (err) {
+          console.error("Error adding education:", err);
+          alert("Could not add education. Please try again.");
+        }
+      });
     });
   </script>
 </body>

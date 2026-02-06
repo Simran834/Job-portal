@@ -7,13 +7,14 @@
     "dev": "nodemon main.js",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:generate": "npx prisma generate",
+    "prisma:seed": "node prisma/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Simran Dhital",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.19.1",
+    "@prisma/adapter-pg": "^7.3.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.2.2",
@@ -22,8 +23,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "node": "^22.18.0",
-    "pg": "^8.16.3",
-    "prisma": "^6.15.0"
+    "pg": "^8.18.0"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,8 @@
   "homepage": "https://github.com/Simran834/Job-portal#readme",
   "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "@prisma/client": "^7.3.0",
+    "nodemon": "^3.1.11",
+    "prisma": "^7.3.0"
   }
 }

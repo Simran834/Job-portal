@@ -1,0 +1,93 @@
+/* General page styling */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+/* Container */
+.vacancy-container {
+  background: #fff;
+  margin-top: 50px;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  max-width: 90%;
+}
+
+/* Heading */
+.vacancy-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Form labels */
+.vacancy-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #34495e;
+}
+
+/* Inputs and selects */
+.vacancy-container input,
+.vacancy-container textarea,
+.vacancy-container select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccd1d9;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus effect */
+.vacancy-container input:focus,
+.vacancy-container textarea:focus,
+.vacancy-container select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+  outline: none;
+}
+
+/* Textarea */
+.vacancy-container textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit button */
+.vacancy-container button {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.vacancy-container button:hover {
+  background: #45a049;
+}
+
+/* Success/Error message */
+#vacancyMessage {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}

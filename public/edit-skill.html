@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Skill</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f9; }
+    .form-container {
+      max-width: 500px; margin: 50px auto; padding: 25px;
+      background: #fff; border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .form-container h2 { text-align: center; margin-bottom: 20px; }
+    .form-container label { display: block; margin-top: 15px; font-weight: bold; }
+    .form-container input, .form-container select {
+      width: 100%; padding: 10px; margin-top: 6px;
+      border: 1px solid #ccc; border-radius: 4px;
+    }
+    .form-container button {
+      width: 100%; padding: 12px; margin-top: 20px;
+      background-color: #28a745; border: none; border-radius: 4px;
+      color: #fff; cursor: pointer;
+    }
+    .form-container button:hover { background-color: #218838; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Edit Skill</h2>
+    <form id="edit-skill-form">
+      <label for="name">Skill Name</label>
+      <input type="text" id="name" required>
+
+      <label for="proficiency">Proficiency</label>
+      <select id="proficiency" required>
+        <option value="BEGINNER">Beginner</option>
+        <option value="INTERMEDIATE">Intermediate</option>
+        <option value="ADVANCED">Advanced</option>
+        <option value="EXPERT">Expert</option>
+      </select>
+
+      <button type="submit">Update Skill</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      const skillId = new URLSearchParams(window.location.search).get("id");
+
+      // Load skill details
+      const res = await fetch("http://localhost:5050/api/skill", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const { skills } = await res.json();
+      const skill = skills.find(s => s.skill_id == skillId);
+
+      if (skill) {
+        document.getElementById("name").value = skill.name;
+        document.getElementById("proficiency").value = skill.proficiency;
+      }
+
+      // Update skill
+      document.getElementById("edit-skill-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const skillData = {
+          name: document.getElementById("name").value.trim(),
+          proficiency: document.getElementById("proficiency").value
+        };
+        const res = await fetch(`http://localhost:5050/api/skill/${skillId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify(skillData)
+        });
+        if (res.ok) {
+          alert("Skill updated!");
+          window.location.href = "jobseeker-profile.html";
+        } else {
+          alert("Error updating skill");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

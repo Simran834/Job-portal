@@ -1,16 +1,14 @@
-const { Router } = require("express");
-const requireRole = require("../middlewares/role.middleware");
+const express = require("express");
+const router = express.Router();
+
+// Import middlewares with correct folder name
 const { auth } = require("../middlewares/auth.middleware");
-// const { getAllUsers, deleteUserById } = require("../controllers/admin.controller");
-const { getUsers, deleteUser } = require("../controllers/user.controller"); // assuming
+const { requireRole } = require("../middlewares/role.middleware");
 
-const router = Router();
+// ✅ Controller import (make sure admin.controller.js exports { getDashboardStats })
+const { getDashboardStats } = require("../controllers/admin.controller");
 
-// Apply admin authentication middleware to all routes in this router
-router.use(auth, requireRole('ADMIN'));
-// Route to get all users
-router.get("/users", getUsers);
-// Route to delete a user by ID
-router.delete("/users/:id", deleteUser);
+// Admin dashboard route (only accessible by ADMIN role)
+router.get("/dashboard", auth, requireRole("ADMIN"), getDashboardStats);
 
 module.exports = router;

@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ✅ Call saveProfile endpoint
-    const { ok, data } = await api.post("/api/jobseeker/create", payload, token);
+    const { ok, data } = await api.post("/jobseeker/create", payload, token);
 
     if (!ok) {
       alert(data.message || "Error saving profile");

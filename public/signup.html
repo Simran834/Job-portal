@@ -7,33 +7,43 @@
 </head>
 <body>
   <div class="signup-container">
-  <h2>Signup</h2>
-  <form id="signup-form">
-    <label for="name">Username</label>
-    <input type="text" id="name" name="name" required>
-    <!-- error will appear here -->
+    <h2>Signup</h2>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-    <!-- error will appear here -->
+    <!-- Signup Form -->
+    <form id="signupForm">
+      <label for="name">Username</label>
+      <input type="text" id="name" name="name" required />
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-    <!-- error will appear here -->
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
 
-    <label for="role">Role</label>
-    <select id="role" name="role" required>
-      <option value="">-- Select Role --</option>
-      <option value="jobseeker">Jobseeker</option>
-      <option value="employer">Employer</option>
-    </select>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
 
-    <button type="submit">Continue</button>
-  </form>
+      <label for="role">Role</label>
+      <select id="role" name="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="jobseeker">Jobseeker</option>
+        <option value="employer">Employer</option>
+      </select>
+
+      <button type="submit">Continue</button>
+    </form>
+
+    <!-- Success message box (hidden by default) -->
+    <div id="successBox" class="success-box" style="display: none;">
+      <p id="successMessage">Signed up successfully, please login.</p>
+      <button id="loginBtn">Login</button>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-home">
+      <a href="index.html" class="home-btn">Home</a>
+    </div>
   </div>
 
-  <!-- ✅ Link to signup.js -->
-  <script type="module" src="assets/js/signup.js"></script>
-
+  <!-- Include API Service and Signup Script -->
+  <script src="assets/js/apiService.js"></script>
+  <script src="assets/js/signup.js"></script>
 </body>
 </html>

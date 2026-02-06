@@ -1,167 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Employer Profile</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-    }
-
-    .employer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .logo-container img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .post-job-container {
-      font-size: 32px;
-    }
-
-    .post-job-btn {
-      text-decoration: none;
-      font-size: 32px;
-      font-weight: bold;
-      color: #007bff;
-      border: 2px solid #007bff;
-      border-radius: 50%;
-      padding: 4px 12px;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .post-job-btn:hover {
-      background: #007bff;
-      color: #fff;
-    }
-
-    .employer-main {
-      padding: 24px;
-    }
-
-    .company-details {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .posted-jobs {
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .posted-jobs ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .posted-jobs li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-  </style>
-</head>
-<body>
-  <header class="employer-header">
-    <!-- + button (top left) -->
-    <div class="post-job-container">
-      <a href="job-posting.html" class="post-job-btn">+</a>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Employer Dashboard</title>
+    <!-- CSS file -->
+    <link rel="stylesheet" href="./assets/css/employer-profile.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="#">🏠 Home</a>
+      <a href="#">👤 My Profile</a>
+      <a href="#">📄 Applications</a>
+      <a href="#">📢 Vacancies Posted</a>
+      <a href="#">⚙️ Settings</a>
+      <a href="#">📞 Contact Details</a>
+      <a href="#">🔔 Notifications</a>
+      <a href="#" id="logout-btn">🚪 Logout</a>
     </div>
 
-    <!-- Company logo (top right) -->
-    <div class="logo-container">
-      <img id="company-logo" src="assets/images/default-logo.png" alt="Company Logo">
+    <!-- Topbar with Post Vacancy button -->
+    <div class="topbar">
+      <button id="postVacancyBtn" class="vacancy-btn">➕ Post a Vacancy</button>
     </div>
-  </header>
 
-  <main class="employer-main">
-    <!-- Company details -->
-    <section class="company-details">
-      <h2 id="company-name">Company Name</h2>
-      <p id="company-description">Company description goes here...</p>
-      <p><strong>Website:</strong> <span id="company-website">—</span></p>
-      <p><strong>Phone:</strong> <span id="company-phone">—</span></p>
-      <p><strong>Address:</strong> <span id="company-address">—</span></p>
-      <p><strong>Verified:</strong> <span id="company-verified">❌</span></p>
-    </section>
+    <!-- Main Profile Section -->
+    <div class="profile-section">
+      <!-- Employer Info -->
+      <div class="box employer-info">
+        <img id="companyLogo" src="" alt="Company Logo" />
+        <h3 id="companyName">Company Name</h3>
+        <p>
+          <strong>Website:</strong> <span id="companyWebsite">Website</span>
+        </p>
+        <p><strong>Phone:</strong> <span id="companyPhone">Phone</span></p>
+        <p>
+          <strong>Address:</strong> <span id="companyAddress">Address</span>
+        </p>
+        <p>
+          <strong>Description:</strong>
+          <span id="companyDescription">Description</span>
+        </p>
+      </div>
 
-    <!-- Posted vacancies -->
-    <section class="posted-jobs">
-      <h3>Posted Vacancies</h3>
-      <ul id="jobs-list">
-        <!-- Jobs will be dynamically injected here -->
-      </ul>
-    </section>
-  </main>
+      <!-- Vacancies Posted -->
+      <div class="box vacancy-list">
+        <h2>Vacancies Posted</h2>
+        <ul id="vacancyList">
+          <!-- Jobs will be injected here -->
+        </ul>
+      </div>
 
-  <script>
-    async function loadEmployerProfile() {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Please login first");
-        window.location.href = "login.html";
-        return;
-      }
+      <!-- Applications -->
+      <div class="box applications">
+        <h2>Applications</h2>
+        <ul id="applicationList">
+          <!-- Application items will be injected here -->
+        </ul>
+      </div>
 
-      try {
-        const res = await fetch("http://localhost:5050/employer/profile", {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
-        const data = await res.json();
+      <!-- Notifications -->
+      <div class="box notifications">
+        <h2>Notifications</h2>
+        <ul id="notificationList">
+          <!-- Notifications will be injected here -->
+        </ul>
+      </div>
 
-        if (!res.ok || !data.profile) {
-          alert(data.message || "No employer profile found");
-          return;
-        }
+      <!-- Recent Activity -->
+      <div class="box activity">
+        <h2>Recent Activity</h2>
+        <ul id="activityList">
+          <!-- Activity logs will be injected here -->
+        </ul>
+      </div>
+    </div>
 
-        const profile = data.profile;
-
-        // Populate company details
-        document.getElementById("company-name").textContent = profile.company_name;
-        document.getElementById("company-description").textContent = profile.description;
-        document.getElementById("company-website").textContent = profile.website || "—";
-        document.getElementById("company-phone").textContent = profile.phone;
-        document.getElementById("company-address").textContent = profile.address;
-        document.getElementById("company-verified").textContent = profile.verified ? "✅" : "❌";
-
-        if (profile.company_logo) {
-          document.getElementById("company-logo").src = profile.company_logo;
-        }
-
-        // Populate jobs list
-        const jobsList = document.getElementById("jobs-list");
-        jobsList.innerHTML = "";
-        if (profile.jobs && profile.jobs.length > 0) {
-          profile.jobs.forEach(job => {
-            const li = document.createElement("li");
-            li.textContent = `${job.title} — ${job.location}`;
-            jobsList.appendChild(li);
-          });
-        } else {
-          jobsList.innerHTML = "<li>No vacancies posted yet.</li>";
-        }
-      } catch (err) {
-        console.error("Error loading employer profile:", err);
-        alert("Server error while loading profile");
-      }
-    }
-
-    loadEmployerProfile();
-  </script>
-</body>
+    <!-- ✅ Link external JS file -->
+    <script src="./assets/js/employer-profile.js"></script>
+  </body>
 </html>

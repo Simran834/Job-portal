@@ -29,89 +29,63 @@
       </div>
     </section>
 
-   <section id="users" class="panel-section">
-  <h2>User Management</h2>
-  <table class="styled-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Role</th>
-        <th>Email / Username</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John Doe</td>
-        <td>Jobseeker</td>
-        <td>john@example.com</td>
-        <td>Active</td>
-        <td><button class="btn-warning">Toggle</button></td>
-      </tr>
-      <tr>
-        <td>Acme Corp</td>
-        <td>Employer</td>
-        <td>hr@acmecorp.com</td>
-        <td>Verified</td>
-        <td><button class="btn-success">Verify</button></td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+    <!-- Users -->
+    <section id="users" class="panel-section">
+      <h2>User Management</h2>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Email / Username</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </section>
 
+    <!-- Jobs -->
     <section id="jobs" class="panel-section">
-  <h2>Job Management</h2>
-  <table class="styled-table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Employer</th>
-        <th>Employer Email</th>
-        <th>Location</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Frontend Developer</td>
-        <td>Acme Corp</td>
-        <td>hr@acmecorp.com</td>
-        <td>Kathmandu</td>
-        <td>Pending</td>
-        <td>
-          <button class="btn-success">Approve</button>
-          <button class="btn-danger">Reject</button>
-          <button class="btn-secondary">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-<section id="applications" class="panel-section">
-  <h2>Application Management</h2>
-  <table class="styled-table">
-    <thead>
-      <tr>
-        <th>Applicant</th>
-        <th>Applicant Email</th>
-        <th>Job Title</th>
-        <th>Employer</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John Doe</td>
-        <td>john@example.com</td>
-        <td>Frontend Developer</td>
-        <td>Acme Corp</td>
-        <td>Pending</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+      <h2>Job Management</h2>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Employer</th>
+            <th>Employer Email</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="jobsTableBody">
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Applications -->
+    <section id="applications" class="panel-section">
+      <h2>Application Management</h2>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th>Applicant Email</th>
+            <th>Job Title</th>
+            <th>Employer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="applicationsTableBody">
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </section>
 
     <!-- Settings -->
     <section id="settings" class="panel-section">
@@ -121,15 +95,93 @@
   </main>
 
   <script>
-    // Example: Load stats from localStorage (later replace with backend API)
-    document.getElementById("stat-jobseekers").textContent =
-      JSON.parse(localStorage.getItem("jobseekerProfile")) ? 1 : 0;
-    document.getElementById("stat-employers").textContent =
-      JSON.parse(localStorage.getItem("employerProfile")) ? 1 : 0;
-    document.getElementById("stat-jobs").textContent =
-      (JSON.parse(localStorage.getItem("job_postings")) || []).length;
-    document.getElementById("stat-applications").textContent =
-      (JSON.parse(localStorage.getItem("applications")) || []).length;
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("adminToken");
+      if (!token) {
+        alert("No admin token found. Please log in again.");
+        window.location.href = "/login.html";
+        return;
+      }
+
+      try {
+        // Fetch dashboard stats
+        const statsRes = await fetch("/api/admin/dashboard", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const stats = await statsRes.json();
+
+        document.getElementById("stat-jobseekers").textContent = stats.jobseekersCount;
+        document.getElementById("stat-employers").textContent = stats.employersCount;
+        document.getElementById("stat-jobs").textContent = stats.jobsCount;
+        document.getElementById("stat-applications").textContent = stats.applicationsCount;
+
+        // Fetch users
+        const usersRes = await fetch("/api/admin/users", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const users = await usersRes.json();
+        const usersTableBody = document.getElementById("usersTableBody");
+        usersTableBody.innerHTML = users.map(u => `
+          <tr>
+            <td>${u.name || u.companyName || "N/A"}</td>
+            <td>${u.role}</td>
+            <td>${u.email}</td>
+            <td>${u.status || "Active"}</td>
+            <td><button class="btn-warning">Toggle</button></td>
+          </tr>
+        `).join("");
+
+        // Fetch jobs
+        const jobsRes = await fetch("/api/admin/jobs", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const jobs = await jobsRes.json();
+        const jobsTableBody = document.getElementById("jobsTableBody");
+        jobsTableBody.innerHTML = jobs.map(j => `
+          <tr>
+            <td>${j.title}</td>
+            <td>${j.employerName}</td>
+            <td>${j.employerEmail}</td>
+            <td>${j.location}</td>
+            <td>${j.status}</td>
+            <td>
+              <button class="btn-success">Approve</button>
+              <button class="btn-danger">Reject</button>
+              <button class="btn-secondary">Delete</button>
+            </td>
+          </tr>
+        `).join("");
+
+        // Fetch applications
+        const appsRes = await fetch("/api/admin/applications", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const applications = await appsRes.json();
+        const applicationsTableBody = document.getElementById("applicationsTableBody");
+        applicationsTableBody.innerHTML = applications.map(a => `
+          <tr>
+            <td>${a.applicantName}</td>
+            <td>${a.applicantEmail}</td>
+            <td>${a.jobTitle}</td>
+            <td>${a.employerName}</td>
+            <td>${a.status}</td>
+          </tr>
+        `).join("");
+
+      } catch (err) {
+        console.error("Error loading admin data:", err);
+        alert("Failed to load admin data. Please try again.");
+      }
+    });
+    try {
+  const statsRes = await fetch("/api/admin/dashboard", {
+    headers: { "Authorization": `Bearer ${token}` }
+  });
+  const stats = await statsRes.json();
+} catch (err) {
+  alert("Failed to load admin data. Please try again.");
+}
+
   </script>
 </body>
 </html>

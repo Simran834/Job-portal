@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Experience</title>
+  <style>
+    .form-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 25px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: Arial, sans-serif;
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .form-container label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+    .form-container input[type="text"],
+    .form-container input[type="date"],
+    .form-container textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .form-container textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .form-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+    .extra-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Edit Work Experience</h2>
+    <form id="edit-experience-form">
+      <label for="job_title">Job Title</label>
+      <input type="text" id="job_title" name="job_title" required>
+
+      <label for="company_name">Company Name</label>
+      <input type="text" id="company_name" name="company_name" required>
+
+      <label for="start_date">Start Date</label>
+      <input type="date" id="start_date" name="start_date" required>
+
+      <label for="end_date">End Date</label>
+      <input type="date" id="end_date" name="end_date">
+
+      <label for="is_current">
+        <input type="checkbox" id="is_current" name="is_current"> Currently Working
+      </label>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description"></textarea>
+
+      <button type="submit">Update Experience</button>
+    </form>
+
+    <div class="extra-links">
+      <a href="jobseeker-profile.html">Back to Profile</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Not logged in");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const experienceId = urlParams.get("id");
+
+      if (!experienceId) {
+        alert("No experience ID provided.");
+        window.location.href = "jobseeker-profile.html";
+        return;
+      }
+
+      // Load existing experience
+      try {
+        const res = await fetch("http://localhost:5050/api/experience", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const { experiences } = await res.json();
+        const exp = experiences.find(e => e.experience_id == experienceId);
+
+        if (!exp) {
+          alert("Experience record not found.");
+          window.location.href = "jobseeker-profile.html";
+          return;
+        }
+
+        // Populate form fields
+        document.getElementById("job_title").value = exp.job_title;
+        document.getElementById("company_name").value = exp.company_name;
+        document.getElementById("start_date").value = exp.start_date ? exp.start_date.split("T")[0] : "";
+        document.getElementById("end_date").value = exp.end_date ? exp.end_date.split("T")[0] : "";
+        document.getElementById("is_current").checked = exp.is_current;
+        document.getElementById("description").value = exp.description || "";
+      } catch (err) {
+        console.error("Error loading experience:", err);
+        alert("Could not load experience record.");
+      }
+
+      // Handle update
+      document.getElementById("edit-experience-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const expData = {
+          job_title: document.getElementById("job_title").value.trim(),
+          company_name: document.getElementById("company_name").value.trim(),
+          start_date: document.getElementById("start_date").value,
+          end_date: document.getElementById("end_date").value || null,
+          is_current: document.getElementById("is_current").checked,
+          description: document.getElementById("description").value.trim()
+        };
+
+        try {
+          const res = await fetch(`http://localhost:5050/api/experience/${experienceId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(expData)
+          });
+
+          if (!res.ok) {
+            const errMsg = await res.text();
+            throw new Error(errMsg || "Failed to update experience");
+          }
+
+          alert("Experience updated successfully!");
+          window.location.href = "jobseeker-profile.html";
+        } catch (err) {
+          console.error("Error updating experience:", err);
+          alert("Could not update experience. Please try again.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

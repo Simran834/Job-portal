@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 
 const { auth } = require('../middlewares/auth.middleware');
-const requireRole = require('../middlewares/role.middleware');
+const { requireRole } = require('../middlewares/role.middleware');
 const {
-  createSkill,
+  addSkill,
   getSkills,
   updateSkill,
   deleteSkill
-} = require('../controllers/skill.controller');
+} = require('../controllers/skills.controller');
 
-// Add skill
-router.post('/', auth, requireRole('JOBSEEKER'), createSkill);
+// Add a new skill
+router.post('/', auth, requireRole('JOBSEEKER'), addSkill);
 
-// Get all skills
+// Get all skills for the logged-in jobseeker
 router.get('/', auth, requireRole('JOBSEEKER'), getSkills);
 
-// Update skill
+// Update a specific skill
 router.put('/:skillId', auth, requireRole('JOBSEEKER'), updateSkill);
 
-// Delete skill
+// Delete a specific skill
 router.delete('/:skillId', auth, requireRole('JOBSEEKER'), deleteSkill);
 
 module.exports = router;

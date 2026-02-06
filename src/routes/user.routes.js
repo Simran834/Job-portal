@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const requireRole = require("../middlewares/role.middleware");
+const { requireRole } = require("../middlewares/role.middleware");
 const { auth } = require("../middlewares/auth.middleware");
 const userController = require("../controllers/user.controller");
 

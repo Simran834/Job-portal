@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Post Vacancy</title>
+    <link rel="stylesheet" href="assets/css/vacancy.css" />
+  </head>
+  <body>
+    <div class="vacancy-container">
+      <h2>Post a New Job</h2>
+      <form id="vacancyForm">
+        <label for="title">Job Title</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required />
+
+        <label for="salary_min">Minimum Salary</label>
+        <input type="number" id="salary_min" name="salary_min" />
+
+        <label for="salary_max">Maximum Salary</label>
+        <input type="number" id="salary_max" name="salary_max" />
+
+        <label for="job_type">Job Type</label>
+        <select id="job_type" name="job_type">
+          <option value="FULL_TIME">FULL_TIME</option>
+          <option value="PART_TIME">PART_TIME</option>
+          <option value="INTERNSHIP">INTERNSHIP</option>
+          <option value="TEMPORARY">TEMPORARY</option>
+        </select>
+
+        <label for="experience_level">Experience Level</label>
+        <select id="experience_level" name="experience_level">
+          <option value="ENTRY_LEVEL">ENTRY_LEVEL</option>
+          <option value="MID_LEVEL">MID_LEVEL</option>
+          <option value="SENIOR_LEVEL">SENIOR_LEVEL</option>
+          <option value="DIRECTOR">DIRECTOR</option>
+          <option value="EXECUTIVE">EXECUTIVE</option>
+        </select>
+
+        <label for="work_mode">Work Mode</label>
+        <select id="work_mode" name="work_mode">
+          <option value="ON_SITE">ON_SITE</option>
+          <option value="REMOTE">REMOTE</option>
+          <option value="HYBRID">HYBRID</option>
+        </select>
+
+        <label for="JobCategory">Job Category</label>
+        <select id="JobCategory" name="JobCategory">
+          <option value="IT_SOFTWARE">IT_SOFTWARE</option>
+          <option value="HEALTH_MEDICAL">HEALTH_MEDICAL</option>
+          <option value="BANKING_FINANCE">BANKING_FINANCE</option>
+          <option value="GENERAL_MANAGEMENT">GENERAL_MANAGEMENT</option>
+          <option value="CONSULTING_AGENCY">CONSULTING_AGENCY</option>
+          <option value="TEACHING_EDUCATION">TEACHING_EDUCATION</option>
+          <option value="SALES_MARKETING">SALES_MARKETING</option>
+          <option value="CUSTOMER_SUPPORT">CUSTOMER_SUPPORT</option>
+          <option value="ENGINEERING">ENGINEERING</option>
+          <option value="OPERATIONS_LOGISTICS">OPERATIONS_LOGISTICS</option>
+        </select>
+
+        <label for="application_deadline">Application Deadline</label>
+        <input type="date" id="application_deadline" name="application_deadline" />
+
+        <button type="submit">Post Job</button>
+      </form>
+
+      <div id="vacancyMessage"></div>
+    </div>
+
+    <script src="assets/js/vacancy.js"></script>
+  </body>
+</html>

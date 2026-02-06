@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { auth } = require('../middlewares/auth.middleware');
-const requireRole = require('../middlewares/role.middleware');
+const { requireRole } = require('../middlewares/role.middleware');
 const { applyJob, getApplicationsForJob, updateApplicationStatus, deleteApplication } = require('../controllers/application.controller');
 
 // Job seeker applies

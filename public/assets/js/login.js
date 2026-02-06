@@ -1,40 +1,30 @@
-// login.js
+// login.js - Integrated with API Service
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("login-form");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
+  const roleSelect = document.getElementById("role");
+  const submitBtn = form?.querySelector('button[type="submit"]');
 
   if (!form) {
     console.error("login-form not found. Ensure <form id='login-form'> exists.");
     return;
   }
 
-  // ---- Utilities for error display ----
-  function getErrorEl(input) {
-    const id = `${input.id}-error`;
-    let el = document.getElementById(id);
-    if (!el) {
-      el = document.createElement("small");
-      el.id = id;
-      el.style.color = "red";
-      el.style.display = "block";
-      el.style.marginTop = "4px";
-      input.insertAdjacentElement("afterend", el);
-    }
-    return el;
-  }
-
+  // Error handling
   function setError(input, message) {
-    const errorEl = getErrorEl(input);
-    errorEl.textContent = message || "";
-    input.setAttribute("aria-invalid", message ? "true" : "false");
+    const errorEl = input.nextElementSibling;
+    if (errorEl && errorEl.classList.contains("error-message")) {
+      errorEl.textContent = message || "";
+      input.setAttribute("aria-invalid", message ? "true" : "false");
+    }
   }
 
   function clearError(input) {
     setError(input, "");
   }
 
-  // ---- Field validators ----
+  // Validators
   function validateEmail() {
     const value = emailInput.value.trim();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,59 +46,74 @@ document.addEventListener("DOMContentLoaded", () => {
       setError(passwordInput, "Password is required.");
       return false;
     }
+    if (value.length < 6) {
+      setError(passwordInput, "Password must be at least 6 characters.");
+      return false;
+    }
     clearError(passwordInput);
     return true;
   }
 
-  // ---- Real-time validation ----
-  emailInput.addEventListener("blur", validateEmail);
-  passwordInput.addEventListener("blur", validatePassword);
+  function validateRole() {
+    const value = roleSelect.value;
+    if (!value) {
+      setError(roleSelect, "Please select a role.");
+      return false;
+    }
+    clearError(roleSelect);
+    return true;
+  }
 
-  // ---- Submit handling ----
+  // Real-time validation
+  emailInput?.addEventListener("blur", validateEmail);
+  passwordInput?.addEventListener("blur", validatePassword);
+  roleSelect?.addEventListener("change", validateRole);
+
+  // Submit handler
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
-
-    if (!isEmailValid || !isPasswordValid) {
+    if (!validateEmail() || !validatePassword() || !validateRole()) {
       return;
     }
 
-    const payload = {
-      email: emailInput.value.trim(),
-      password: passwordInput.value
-    };
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const role = roleSelect.value;
 
     try {
-      const res = await fetch("http://localhost:5050/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Logging in...";
 
-      const data = await res.json();
+      // Use apiService for login
+      const data = await apiService.login(email, password, role);
 
-      if (!res.ok) {
-        alert(data.message || "Login failed");
-        return;
-      }
+      if (data.token && data.user) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.user.role);
+        localStorage.setItem("userEmail", data.user.email);
+        localStorage.setItem("userId", data.user.id);
 
-      // ✅ Store token and role
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userRole", data.user.role);
-
-      // ✅ Redirect based on role
-      if (data.user.role === "jobseeker") {
-        window.location.href = "jobseeker-profile.html";
-      } else if (data.user.role === "employer") {
-        window.location.href = "employer-profile.html";
+        // Redirect based on role
+        const role = data.user.role.toLowerCase();
+        if (role === "admin") {
+          window.location.href = "/admin-panel.html";
+        } else if (role === "employer") {
+          window.location.href = "/employer-profile.html";
+        } else {
+          window.location.href = "/jobseeker-profile.html";
+        }
       } else {
-        alert("Unsupported role");
+        alert(data.message || "Login failed");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Login";
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("Server error during login");
+      alert(err.message || "Login failed. Please try again.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Login";
     }
   });
 });
+   

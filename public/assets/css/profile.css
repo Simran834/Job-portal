@@ -1,0 +1,135 @@
+/* General layout */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: url('../images/bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Dashboard wrapper */
+.dashboard {
+  display: flex;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: rgba(10, 25, 60, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.sidebar h3 {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #00e0ff;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 0.8rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  display: block;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.main-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #f8e473;
+}
+
+/* Panels */
+.panel {
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease;
+}
+
+.panel:hover {
+  transform: translateY(-4px);
+}
+
+.panel h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #00e0ff;
+}
+
+/* Lists inside panels */
+.panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.panel ul li {
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 0.6rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+}
+
+/* Action buttons */
+.edu-actions, .exp-actions, .skill-actions {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  background: linear-gradient(45deg, #00e0ff, #0b3d91);
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+}
+
+/* Edit profile button */
+#edit-profile-btn {
+  margin-top: 1rem;
+  background: linear-gradient(45deg, #f8e473, #ff9800);
+  color: #000;
+  font-weight: 700;
+}

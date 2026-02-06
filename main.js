@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const router = require('./src/routes/router.js');
+const router = require('./src/routes/router');
 const cors = require('cors');
 
 dotenv.config();
@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", router);
+app.use('/api', router);
+
 
 //serve static files from public folders
 app.use(express.static('public'));

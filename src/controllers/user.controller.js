@@ -96,10 +96,10 @@ const loginUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const loggedInUser = req.user;
-        const userId = parseInt(req.params.id);
+        const user_id = parseInt(req.params.id);
         const { name, email, role, is_verified } = req.body;        
         const updatedUser = await prisma.user.update({
-            where: { id: userId },
+            where: { id: user_id},
             data: { name, email, role, is_verified },
             select: {
                 id: true,
@@ -120,9 +120,9 @@ const updateUser = async (req, res) => {
 //delete user       
 const deleteUser = async (req, res) => {
     try {
-        const userId = parseInt(req.params.id);     
+        const user_id = parseInt(req.params.id);     
         const deletedUser = await prisma.user.delete({
-            where: { id: userId },
+            where: { id: user_id },
         });
         if(!deletedUser){
             return res.status(404).json({message: "user not found"});

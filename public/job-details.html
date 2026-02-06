@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Details</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f9;
+        color: #333;
+        padding: 2rem;
+      }
+
+      .job-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #0b3d91;
+      }
+
+      .job-meta {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1rem;
+      }
+
+      .job-description {
+        margin-top: 1rem;
+        line-height: 1.6;
+      }
+
+      .actions {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn {
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        padding: 0.8rem 1.4rem;
+        border-radius: 10px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .view-btn {
+        background: linear-gradient(45deg, #a8ff78, #78ffd6);
+        color: #000;
+      }
+
+      .apply-btn {
+        background: linear-gradient(45deg, #ff6b6b, #f8e473);
+        color: #000;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .error {
+        color: red;
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="job-container">
+      <h1 id="jobTitle">Loading...</h1>
+      <div class="job-meta" id="jobMeta"></div>
+      <p class="job-description" id="jobDescription"></p>
+
+      <div class="actions">
+        <button class="view-btn btn" id="backBtn">Back to Home</button>
+        <button class="apply-btn btn" id="applyBtn">Apply</button>
+      </div>
+
+      <div id="errorBox" class="error"></div>
+    </div>
+
+    <!-- Include scripts -->
+    <script src="assets/js/apiService.js"></script>
+    <script src="assets/js/helpers.js"></script>
+      const params = parseQueryString();
+      const jobId = params.id;
+
+      const jobTitle = document.getElementById("jobTitle");
+      const jobMeta = document.getElementById("jobMeta");
+      const jobDescription = document.getElementById("jobDescription");
+      const errorBox = document.getElementById("errorBox");
+      const applyBtn = document.getElementById("applyBtn");
+
+      // Load job details
+      async function loadJobDetails() {
+        if (!jobId) {
+          errorBox.innerText = "No job ID provided.";
+          return;
+        }
+
+        try {
+          const job = await apiService.getJobById(jobId);
+
+          jobTitle.innerText = job.title || "Job Title";
+          jobMeta.innerText = `
+            Location: ${job.location || "N/A"} | 
+            Type: ${job.job_type || "N/A"} | 
+            Level: ${job.experience_level || "N/A"} | 
+            Deadline: ${formatDate(job.application_deadline)}
+          `;
+          jobDescription.innerText = job.description || "No description available.";
+
+          // Update apply button text if already applied
+          checkApplicationStatus();
+        } catch (err) {
+          console.error("Error loading job:", err);
+          errorBox.innerText = "Error loading job details. " + err.message;
+        }
+      }
+
+      // Check if already applied
+      async function checkApplicationStatus() {
+        if (!apiService.isLoggedIn()) return;
+
+        try {
+          const applications = await apiService.getApplications({
+            job_id: jobId,
+          });
+          if (applications.length > 0) {
+            applyBtn.disabled = true;
+            applyBtn.textContent = "Already Applied";
+          }
+        } catch (err) {
+          console.error("Error checking application status:", err);
+        }
+      }
+
+      // Back button handler
+      document.getElementById("backBtn").addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+
+      // Apply button handler
+      applyBtn.addEventListener("click", async () => {
+        const user = getCurrentUser();
+
+        // Case 1: Not logged in
+        if (!user.token) {
+          alert("Please log in to apply for jobs.");
+          window.location.href = "/login.html";
+          return;
+        }
+
+        // Case 2: Not a jobseeker
+        if (user.role !== "JOBSEEKER") {
+          alert("Only jobseekers can apply for jobs.");
+          return;
+        }
+
+        // Case 3: Confirm application
+        if (!confirm("Are you sure you want to apply for this job?")) {
+          return;
+        }
+
+        // Case 4: Submit application
+        try {
+          applyBtn.disabled = true;
+          applyBtn.textContent = "Applying...";
+
+          const result = await apiService.applyForJob(jobId);
+
+          if (result.message) {
+            showSuccess(result.message);
+            applyBtn.textContent = "Applied successfully!";
+            applyBtn.disabled = true;
+
+            // Redirect after 2 seconds
+            setTimeout(() => {
+              window.location.href = "/application.html";
+            }, 2000);
+          }
+        } catch (err) {
+          console.error("Error applying:", err);
+          showError("Error applying for job: " + err.message);
+          applyBtn.disabled = false;
+          applyBtn.textContent = "Apply";
+        }
+      });
+
+      // Load job details on page load
+      loadJobDetails();
+    </script>
+  </body>
+</html>
