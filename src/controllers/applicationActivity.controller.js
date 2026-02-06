@@ -1,4 +1,4 @@
-const prisma = require('../config/prismaClient');
+const { prisma } = require('../config/prismaClient');
 
 // CREATE Activity (Employer marks an action on an application)
 const createActivity = async (req, res) => {

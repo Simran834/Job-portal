@@ -1,4 +1,4 @@
-const prisma = require('../config/prismaClient');
+const { prisma } = require('../config/prismaClient');
 
 // CREATE application (Job Seeker applies to a job)
 const applyJob = async (req, res) => {

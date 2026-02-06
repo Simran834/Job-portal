@@ -1,4 +1,4 @@
-const prisma = require('../config/prismaClient');
+const { prisma } = require('../config/prismaClient');
 
 // CREATE Experience
 const createExperience = async (req, res) => {

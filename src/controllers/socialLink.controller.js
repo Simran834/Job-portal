@@ -1,4 +1,4 @@
-const prisma = require('../config/prismaClient');
+const { prisma } = require('../config/prismaClient');
 
 // Create a new social link
 exports.createSocialLink = async (req, res) => {

@@ -1,4 +1,4 @@
-const prisma = require('../config/prismaClient');
+const { prisma } = require('../config/prismaClient');
 
 // Create or update employer profile
 const createProfile = async (req, res) => {

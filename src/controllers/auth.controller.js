@@ -1,5 +1,5 @@
-const prisma = require('../config/prismaClient');
-const bcrypt = require("bcrypt"); 
+const { prisma } = require('../config/prismaClient');
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require('../utils/password.util');
 const { generateToken } = require('../utils/jwt.util');
@@ -7,6 +7,7 @@ require ("dotenv").config();
 
 const signup = async (req, res) => {
   try {
+    console.log('🚀 Signup request received:', req.body);
     const { name, email, password, role } = req.body;
     
     // Normalize email to lowercase

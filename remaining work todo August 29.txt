@@ -1,9 +1,0 @@
-remaining work todo:: August 29
-
-1)manage the apiurl in postman collection
-2)createuser
-3)peform all the crud operation
-4)go through all the html version added
-5)bycrpt
-6)complete remaining API's
-
